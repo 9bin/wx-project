@@ -1,0 +1,75 @@
+<!--pages/integral_mall/integral_mall.wxml-->
+<wxs module="util" src="../../util.wxs"></wxs>
+<view class='page'>
+  <view class='top-banner flex-x-center flex-y-center flex-col'>
+    <image class='back-banner' src='/images/bannerx01.jpg' style='width:100%;height:400rpx;'></image>
+    <view class='gold'>{{gold}}</view>
+    <view class='tip'>当前积分</view>
+    <view class='fi fi-filter' bindtap='showScreenView'></view>
+  </view>
+  <view style='width:100%;overflow-x:hidden;padding-top: 10rpx;'>
+      <view class="flex-x-center" wx:if="{{show_no_data_tip}}"><image src='/images/img-no-data.png' style='width:396rpx;height:366rpx;'></image></view>
+        <view class='goods-list flex-row'>
+          <view class='flex-grow-0 li' wx:for="{{list}}" wx:for-index="index" wx:for-item="goods">
+            <navigator class='goods-item' openType="navigate" url='/pages/integral_mall/detail/detail?id={{goods.id}}'>
+              <image class='image' mode="aspectFill" src="{{goods.mainImg}}"></image>
+              <view class='flex-col' style='padding:20rpx;'>
+                <text class="text-more-2" style="height:2.8em;line-height:1.4;font-size:26rpx">{{goods.productName}}</text>
+                <view class='flex-col'>
+                  <view class='flex-row' style='padding: 10rpx 0;'>
+                    <view style='color:#eb0c36;font-size:24rpx;'>{{goods.mallPrice}}积分</view>
+                  </view>
+                  <view class="flex-row " style="color:#999;font-size:24rpx;">
+                      <view class="flex-grow-1">市场参考价：￥{{util.toFix(goods.marketPrice)}}</view>
+                  </view>
+                </view>
+              </view>
+            </navigator>
+          </view>
+        </view>
+      <include src="/commons/loading/loading.wxml"></include>
+    </view>
+</view>
+
+<!-- 筛选弹窗 start-->
+<view class="showScreenView " wx:if="{{showScreenView}}" catchtouchmove="preventTouchMove">
+ <form bindreset='screenReset' bindsubmit='screenSubmit'>
+  <view id="screenContainer" animation="{{animationData}}" class='screenContainer' bindtouchstart='catchtouchstart' bindtouchmove='move_view' bindtouchend='colse_view'>
+      <view class='btnGroup flex-row'>
+        <button form-type='reset' class='reset flex-x-center flex-y-center flex-grow-1' plain='true'>重置</button>
+        <button form-type='submit' class='submit flex-x-center flex-y-center flex-grow-1' plain='true'>确定</button>
+      </view>
+      <scroll-view scrollY="true" class='classfiyContainer'>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='screenTagShow'>
+            <view class='classfiy-name flex-grow-1'>筛选</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view catchtap='chickClassfiyTag' data-status='1' class='tag {{status == 1?"active":""}}'>仅看有货</view>
+              <view catchtap='chickClassfiyTag' data-status='2' class='tag {{status == 2?"active":""}}'>仅看可兑换</view>
+            </view>
+          </view>
+        </view>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center'>
+            <view class='classfiy-name flex-grow-1'>积分</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view class='tag {{priceTagIndex == index?"active":""}}' wx:for="{{priceWhere}}" catchtap='chickPriceTag' data-min='{{item.priceStart}}' data-max='{{item.priceEnd}}'>{{item.priceStart}}-{{item.priceEnd}}</view>
+            </view>
+            <view class='flex-row flex-y-center flex-x-between' style='margin-top:24rpx; '>
+              <input class='input' value='{{min}}' type='number' bindinput='bindMinInput' placeholder='最低积分' placeholder-style='color:#999'></input>
+              <view>-</view>
+              <input class='input' value='{{max}}' type='number' bindinput='bindMaxInput' placeholder='最高积分' placeholder-style='color:#999'></input>
+            </view>
+          </view>
+        </view>
+        
+      </scroll-view>
+    </view>
+  </form>
+  <view class='screenMask' bindtap='closeScreenView'></view>
+</view>
+<!-- 筛选弹窗 end-->

@@ -1,0 +1,80 @@
+<!--pages/order_refund_apply/order_refund_apply.wxml-->
+<include src="../../commons/extension/extension.wxml" />
+<view class='page'>
+  <view class='goods-list'>
+    <view class='goods-item flex-row'>
+      <view class='flex-grow-0' style="overflow: visible" bindtap='navGoodsDetail' data-id='{{goods.subProductId}}'>
+        <image class="goods-pic" mode="aspectFill" wx:if="{{goods.full_path+goods.productImg}}" src="{{goods.full_path+goods.productImg}}"></image>
+      </view>
+      <view class='flex-grow-1 flex-col'>
+        <view class='flex-gorw-1'>
+          <view class='goods-name' bindtap='navGoodsDetail' data-id='{{goods.subProductId}}' data-goods-type='{{item.orderType}}'>{{goods.productName}}</view>
+          <view class='attr-list mb-10'>{{goods.property}}</view>
+        </view>
+        <view class="flex-grow-0 flex-row">
+          <view class="flex-grow-1">{{goods.packPrice}}</view>
+          <view class="flex-grow-0 num flex-y-bottom">x{{goods.packQty || 1}}</view>
+        </view>
+      </view>
+    </view>
+    <view class='goods-item flex-row' wx:if="{{gifts&&gifts.length}}" wx:for="{{gifts}}">
+      <block wx:if="{{item.productId}}">
+        <view class='flex-grow-0' style="overflow: visible" bindtap='navGiftDetail' data-id='{{item.productId}}'>
+          <image class="goods-pic" mode="aspectFill" src="{{item.imgPath}}"></image>
+        </view>
+        <view class='flex-grow-1 flex-col'>
+          <view class='flex-gorw-1'>
+            <view class='goods-name' bindtap='navGoodsDetail' data-id='{{item.productId}}'>【赠品】{{item.giftName}}</view>
+          </view>
+          <view class="flex-grow-0 flex-row">
+            <view class="flex-grow-0 num flex-y-bottom">x{{item.giftCount || 1}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+  <view style='padding:32rpx 24rpx;color:#999;'>
+    请写下您的问题描述没我们将尽快安排专属客服为您解决处理！
+  </view>
+  <view class='item mb-20'>
+    <view class='title mb-20'>选择服务类型</view>
+    <view class='flex-row'>
+      <view class='btn-status {{returnType==0?"active":""}}' data-return-type='0' bindtap='typeChoose'>退货</view>
+      <view class='btn-status {{returnType==1?"active":""}}' data-return-type='1' bindtap='typeChoose'>换货</view>
+    </view>
+  </view>
+  <view class='item mb-20'>
+    <view class='title mb-20'>提交数量</view>
+    <view class="flex-row number-input-box">
+      <view bindtap="numberSub" class="flex-grow-0 flex-x-center flex-y-center number-btn number-sub {{form.number<=1?'disabled':''}}">-
+      </view>
+      <view class="flex-grow-0">
+        <input bindblur="numberBlur" class="flex-grow-1 number-input" type="number" value="{{form.number}}"></input>
+      </view>
+      <view bindtap="numberAdd" class="flex-grow-0 flex-x-center flex-y-center number-btn number-add">+
+      </view>
+    </view>
+  </view>
+  <view class='item mb-20'>
+    <view class='title mb-20'>问题描述</view>
+    <view class='area'>
+      <textarea placeholder='请描述您的问题' maxlength="200" bindinput='areaInput' value='{{desc}}'></textarea>
+      <view class='tips'><text style='color:#eb0c36'>{{desc.length}}</text>/200</view>
+    </view>
+  </view>
+  <view class='flex-col item'>
+    <view style='color:#666'>上传凭证</view>
+    <view class='imgGroups flex-row'>
+      <view class='img-item'  wx:for="{{imgList}}" wx:if="{{imgList.length}}">
+        <text class='fi fi-close-solid' data-index="{{index}}" bindtap='cancleChoose'></text>
+        <image src='{{item}}' style='border:1rpx solid #ccc;' data-index="{{index}}" bindtap='onGoodsImageClick'></image>
+      </view>
+      <view class='img-item' bindtap='chooseImg' wx:if="{{!imgList||imgList.length<5}}">
+        <image src='/images/icon-image-picker.png' mode="aspectFill" style='border:1rpx dashed #ccc;'></image>
+      </view>
+    </view>
+    <view style='color:#999;font-size:26rpx;'>为了更好的解决问题，请上传照片，最多5张，最少1张。每张不超过5M，支
+持JPG、BMP、PNG格式。</view>
+  </view>
+  <view class='bar-bottom' bindtap='submit'>提交</view>
+</view>

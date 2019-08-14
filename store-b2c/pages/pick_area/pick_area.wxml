@@ -1,0 +1,63 @@
+<!--pages/pick_area/pick_area.wxml-->
+<!-- <view class="area-picker {{area_picker_show?'active':''}}">
+  <view bindtap="hideAreaPicker" class="area-picker-bg">
+  </view>
+  <view class="area-picker-body">
+    <scroll-view>
+      <view class="area-picker-top">
+        <text bindtap="hideAreaPicker" class="area-picker-cancel">取消</text>
+        <text bindtap="areaPickerConfirm" class="area-picker-confirm">确认</text>
+      </view>
+      <view class="area-picker-row">
+        <picker-view indicator-style="height: 120rpx;font-zise:36rpx;" value="{{province_index}}" style="width: 100%; height: 500rpx;" wx:if="{{showProPick}}"  bindchange="bindProChange">
+          <picker-view-column>
+            <view wx:for="{{province}}" wx:key="index" class='flex-x-center flex-y-center'>{{item}}</view>
+          </picker-view-column>
+        </picker-view>
+        <picker-view indicator-style="height: 120rpx;font-zise:36rpx;" value="{{city_index}}" style="width: 100%; height: 500rpx;" wx:if="{{showCityPick}}" bindchange="bindCityChange">
+          <picker-view-column>
+            <view wx:for="{{cities}}" wx:key="index" class='flex-x-center flex-y-center'>{{item}}</view>
+          </picker-view-column>
+        </picker-view>
+        <picker-view indicator-style="height: 120rpx;font-zise:36rpx;" value="{{county_index}}" style="width: 100%; height: 500rpx;" wx:if="{{showCouPick}}" bindchange="bindCouChange">
+          <picker-view-column>
+            <view wx:for="{{county}}" wx:key="index" class='flex-x-center flex-y-center'>{{item}}</view>
+          </picker-view-column>
+        </picker-view>
+      </view>
+    </scroll-view>
+  </view>
+</view> -->
+
+<!-- <view class='top-nav flex-row'>
+  <view class='li felx-row flex-x-center flex-y-center flex-grow-1' data-area='province' bindtap='showPickView'>
+    <view class='flex-grow-1'>{{province_name}}</view>
+    <view class='flex-grow-0 fi fi-angle-down {{showProPick?"show":""}}'></view>
+  </view>
+  <view class='li felx-row flex-x-center flex-y-center flex-grow-1' data-area='city' bindtap='showPickView'>
+    <view class='flex-grow-1'>{{city_name}}</view>
+    <view class='flex-grow-0 fi fi-angle-down {{showProPick?"show":""}}'></view>
+  </view>
+  <view class='li felx-row flex-x-center flex-y-center flex-grow-1' data-area='county' bindtap='showPickView'>
+    <view class='flex-grow-1'>{{county_name}}</view>
+    <view class='flex-grow-0 fi fi-angle-down {{showProPick?"show":""}}'></view>
+  </view>
+</view> -->
+
+<view class='page'>
+  <scroll-view class='scroll' scrollY="{{true}}" bindscrolltolower="bindscrolltolower"> 
+    <radio-group class="radio-group" bindchange="radioChange">
+      <label class="radio flex-row flex-y-center" wx:for="{{list}}">
+        <radio class='flex-grow-0' value="{{index}}" checked="{{checked==item.id}}" color="#ff0036"/>
+        <view class='detail flex-grow-1 flex-col'>
+          <view class='flex-row'>
+            <view class='flex-grow-1' style='font-zise:28rpx;color: {{checked==item.id?"#ff0036": ""}}'>{{item.selfPickName}}</view>
+            <view class='flex-grow-0 flex-y-bottom' style='color:#999;font-zise:26rpx;'>{{item.distanceText}}</view>
+          </view>
+          <view style='color:#666;font-zise:24rpx;margin:12rpx 0 8rpx;'>{{item.fullAddress}}</view>
+          <view style='color:#666;font-zise:24rpx;'>{{item.selfPickPhone}}</view>
+        </view>
+      </label>
+    </radio-group>
+  </scroll-view>
+</view>

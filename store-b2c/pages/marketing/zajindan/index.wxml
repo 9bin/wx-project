@@ -1,0 +1,134 @@
+<!--pages/marketing/zajindan/index.wxml-->
+<include src="../../../commons/extension/extension.wxml"></include>
+<view class='page'>
+  <view class='top-img'>
+    <image src='/images/zjd-banner.jpg' mode='aspectFill'></image>
+  </view>
+  <view class='tip flex-row'>
+    <view class='desc flex-x-center flex-y-center'>您有{{joinLimitDay-joinAmount}}次抽奖机会</view>
+  </view>
+  <view class='lotto-center'>
+    <view class='flex-row eggGroups'>
+      <view class='egg-item flex-grow-1 flex-x-center flex-y-center' wx:for="{{3}}" >
+          <image class='egg-ribbons' wx:if="{{eggOpen==index}}" src="/images/egg-ribbons.png"></image>
+          <image class='egg-hammer {{eggChecked==index?Hammer:""}}' src='/images/egg-hammer.png'></image>
+          <image class='egg {{eggOpen==index?"on":""}} egg-on' src='/images/egg-on.png'></image>
+          <image class='egg {{eggOpen==index?"on":""}} egg-default' bindtap='lottery' data-index="{{index}}" src='/images/egg-default.png'></image>
+      </view>
+    </view>
+    <view class='winMemberList' wx:if="{{winShowType==1 && winMemberList && winMemberList.length}}">
+      <view class='win-header flex-row flex-y-center flex-x-center'>
+        <view class='img'>
+          <image src='/images/title-bg-02.png' style='width:100%;height:100%;'></image>
+        </view>
+        <view style='color:#fb9026;font-size:30rpx;z-index:10'>中奖名单</view>
+      </view>
+      <view class='win-container'>
+        <view class='swi-header flex-row'>
+          <view class='swi name'>用户名</view>
+          <view class='swi reword'>奖品</view>
+          <view class='swi date'>中奖时间</view>
+        </view>
+        <view class='swiper' wx:if="{{winMemberList.length<=5}}">
+          <block wx:for="{{winMemberList}}">
+            <view class='swi-item l{{index%2}} flex-row'>
+              <view class='swi name'>{{item.memberAccount}}</view>
+              <view class='swi reword' wx:if="{{item.prizeType==1}}">{{item.prizeQuantity}}积分</view>
+              <view class='swi reword' wx:elif="{{item.prizeType==2}}">{{item.couponBatchMap.processValue}}元优惠券</view>
+              <view class='swi reword' wx:elif="{{item.prizeType==3}}">{{item.giftProductMap.name}}</view>
+              <view class='swi date'>2018.02.05</view>
+            </view>
+          </block>
+        </view>
+        <swiper wx:else class='swiper' circular="true" display-multiple-items="5" interval="2000" vertical="{{true}}" autoplay="{{true}}">
+          <block wx:for="{{winMemberList}}">
+            <swiper-item>
+              <view class='swi-item l{{index%2}} flex-row'>
+                <view class='swi name'>{{item.memberAccount}}</view>
+                <view class='swi reword' wx:if="{{item.prizeType==1}}">{{item.prizeQuantity}}积分</view>
+                <view class='swi reword' wx:elif="{{item.prizeType==2}}">{{item.couponBatchMap.processValue}}元优惠券</view>
+                <view class='swi reword' wx:elif="{{item.prizeType==3}}">{{item.giftProductMap.name}}</view>
+                <view class='swi date'>2018.02.05</view>
+              </view>
+            </swiper-item>
+          </block>
+        </swiper>
+      </view>
+    </view>
+    <view class='rule flex-row flex-y-center'>
+      <view class='flex-row flex-y-center flex-grow-1' style='color:#fee300' bindtap='showRule'>
+        <view class='fi fi-is-warning' style='font-size:50rpx;'></view>
+        <view>规则说明</view>
+      </view>
+      <view style='color:#fff;'>已有
+        <text style='color:#fee300'>{{winMemberList.length}}</text>个人中奖</view>
+    </view>
+  </view>
+
+  <!-- 规则说明弹窗 -->
+  <view class="dAlert showRule {{showRule?'on':''}}">
+    <view class="alertContainer">
+      <view class="alert-main">
+        <view class="alertMainer">
+          <import src="../../../wxParse/wxParse.wxml"></import>
+          <view class='title'>抽奖规则</view>
+          <scroll-view scroll-y class='desc'>
+            <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+          </scroll-view>
+          <view class='close'>
+            <button class='button' plain bindtap='showRule'>我知道了</button>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="alertMask"></view>
+  </view>
+
+  <!-- 中奖结果 弹窗 -->
+  <view class="dAlert showResult {{showResult?'on':''}}">
+    <view class="alertContainer">
+      <view class="alert-main">
+        <view class="alertMainer">
+          <view class='resultContainer flex-col flex-x-center flex-y-center'>
+            <image class='prize-bg-alert' src="/images/prize-bg-alert.png" mode='aspectFill'></image>
+            <block wx:if="{{!winResult||!winResult.grade||winResult.grade<=0||!winResult.grade>4}}">
+              <image class='title-tip' src="/images/title-win-no.png" mode='aspectFill'></image>
+            </block>
+            <block wx:else>
+              <image class='title-tip' src="/images/title-win.png" mode='aspectFill'></image>
+            </block>
+            <view class='win-info flex-col flex-x-center flex-y-center'>
+              <block wx:if="{{!winResult||!winResult.grade||winResult.grade<=0||!winResult.grade>4}}">
+                <view style='color:#722e2d'>{{comfortingWord}}</view>
+              </block>
+              <block wx:else>
+                <block wx:if="{{winResult.awardType == 1}}">
+                  <image class='icon-img' src='/images/prize80x80x02.png'></image>
+                  <view style='color:#722e2d'>{{winResult.integralAmount}}积分</view>
+                </block>
+                <block wx:elif="{{winResult.awardType == 2}}">
+                  <image class='icon-img' src='/images/prize80x80x03.png'></image>
+                  <view style='color:#722e2d'>{{winResult.couponBatchMap.processValue}}元优惠券</view>
+                </block>
+                <block wx:elif="{{winResult.awardType == 3}}">
+                  <image class='icon-img' wx:if="{{winResult.giftProductMap.imgUrl}}" src='winResult.giftProductMap.imgUrl}}'></image>
+                  <view style='width: 160rpx;color:#722e2d;white-space: nowrap;overflow-x: hidden;text-overflow: ellipsis;'>{{winResult.giftProductMap.name}}</view>
+                </block>
+              </block>
+            </view>
+            <view class='win-btn flex-row flex-x-center flex-y-center' bindtap='prize'>
+              <image class='btn-img-bg' src="/images/btn-bg-01.png"></image>
+              <block wx:if="{{!winResult||!winResult.grade||winResult.grade<=0||!winResult.grade>4}}">
+                <view style='font-size:30rpx;color:#fff'>知道啦</view>
+              </block>
+              <block wx:else>
+                <view style='font-size:30rpx;color:#fff' data-award-type='{{winResult.awardType}}' data-id='{{winResult.id}}'>立即领奖</view>
+              </block>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="alertMask"></view>
+  </view>
+</view>

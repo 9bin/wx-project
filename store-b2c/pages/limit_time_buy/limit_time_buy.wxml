@@ -1,0 +1,96 @@
+<!--pages/limit_time_buy/limit_time_buy.wxml-->
+<view class='page {{__page_classes}}'>
+  <include src="/commons/navbar/navbar.wxml"></include>
+  <view class='body after-navber'>
+    <view class='top-bar'>
+      <!-- <view class='screen flex-x-center flex-y-center' bindtap='showScreenView'>
+        <view class='fi fi-filter'></view>
+      </view> -->
+      <scroll-view scroll-x scroll-left="{{top_bar_scroll}}">
+        <view class='start-time-list flex-row'>
+          <view class="flex-grow-0 flex-y-center start-time-item {{active_index==index?'active':''}} {{theme}}" data-index='{{index}}' wx:for="{{time_list}}" data-id='{{item.id}}' bindtap='topBarItemClick'>
+            <view class='flex-col'>
+              <view class='start-status mb-10'>{{item.actStartDate}}</view>
+              <view class="start-time">{{item.actStartTime}}</view>
+              <view wx:if="{{item.isBegin==1}}" class="start-status">抢购中</view>
+              <view wx:else class="start-status">即将开始</view>
+            </view>
+          </view>
+        </view>     
+      </scroll-view>
+      <view style='width:100%;height:20rpx;background:#f0f0f0'></view>
+    </view>
+
+    <!-- <view class="goods-loading" style="padding-top: 320rpx;text-align: center" wx:if="{{goods_list===null}}">
+      <image src="/images/loading2.svg" style="width: 120rpx;height: 120rpx"></image>
+    </view> -->
+    <view class='goods-list'>
+      <navigator class='item flex-row' hover-class='none' wx:for="{{goods_list}}" url='detail/detail?id={{item.id}}'>
+        
+          <view class="flex-grow-0" style="padding: 20rpx 0rpx 20rpx 20rpx;">
+            <image class="cover-pic" mode="aspectFill" src="{{item.mainImg}}"></image>
+          </view>
+          <view class='flex-grow-1' style="padding: 28rpx 20rpx">
+            <view class="goods-name">{{item.productName}}</view>
+            <view class='goods-desc flex-row'>{{item.shortDesc}}</view>
+            <view class="flex-row">
+              <view class="flex-grow-1 flex-col">
+                <view class="price">￥{{item.marketPrice}}</view>
+                <view class="miaosha-price">￥{{item.marketingInfo.flashSaleInfo.activityPrice}}</view>
+              </view>
+              <view class="flex-grow-0 flex-y-bottom">
+                  <button class='btn disable' wx:if="{{!item.marketingInfo.flashSaleInfo||item.marketingInfo.flashSaleInfo.status == 0}}" disabled="{{true}}">未开始</button>
+                  <button class="btn" wx:if="{{item.marketingInfo.flashSaleInfo.status == 1&&item.marketingInfo.flashSaleInfo.currentStock>0}}">去抢购</button>
+                  <button class="btn disable"  wx:if="{{item.marketingInfo.flashSaleInfo.currentStock<=0}}" disabled="{{true}}" >已抢光</button>
+              </view>
+            </view>
+          </view>
+
+      </navigator>
+    </view>
+  </view>
+  <include src="/commons/loading/loading.wxml"></include>
+</view>
+
+<!-- 筛选弹窗 start-->
+<view class="showScreenView " wx:if="{{showScreenView}}" catchtouchmove="preventTouchMove">
+ <form bindreset='screenReset' bindsubmit='screenSubmit'>
+  <view id="screenContainer" animation="{{animationData}}" class='screenContainer' bindtouchstart='catchtouchstart' bindtouchmove='move_view' bindtouchend='colse_view'>
+      <view class='btnGroup flex-row'>
+        <button form-type='reset' class='reset flex-x-center flex-y-center flex-grow-1' plain='true'>重置</button>
+        <button form-type='submit' class='submit flex-x-center flex-y-center flex-grow-1' plain='true'>确定</button>
+      </view>
+      <scroll-view scrollY="true" class='classfiyContainer'>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center'>
+            <view class='classfiy-name flex-grow-1'>价格</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view class='tag {{priceRange == item?"active":""}}' wx:for="{{['0-100','100-200','200-300']}}" catchtap='chickPriceTag' data-value='{{item}}'>{{item}}</view>
+            </view>
+            <view class='flex-row flex-y-center flex-x-between' style='margin-top:24rpx; '>
+              <input class='input' value='{{minInput}}' type='number' bindinput='bindMinInput' placeholder='最低价' placeholder-style='color:#999'></input>
+              <view>-</view>
+              <input class='input' value='{{maxInput}}' type='number' bindinput='bindMaxInput' placeholder='最高价' placeholder-style='color:#999'></input>
+            </view>
+          </view>
+        </view>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='screenTagShow'>
+            <view class='classfiy-name flex-grow-1'>分类</view>
+            <view style='color:#eb0c36'>{{tag}}</view>
+            <view class='fi fi-angle-right {{screenTagShow?"show":""}}'></view>
+          </view>
+          <view class='classfiy-tag {{screenTagShow?"show":"hide"}}'>
+            <view class='tagGroup flex-row'>
+              <view catchtap='chickClassfiyTag' data-value='{{item}}' class='tag {{tag == item?"active":""}}' wx:for="{{['生活电器','电脑办公','手机通讯','大家电','饮料酒水','家居家装','食品生鲜','个护家清','护肤美妆']}}">{{item}}</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </form>
+  <view class='screenMask' bindtap='closeScreenView'></view>
+</view>
+<!-- 筛选弹窗 end-->

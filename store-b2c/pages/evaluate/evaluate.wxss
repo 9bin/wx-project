@@ -1,0 +1,109 @@
+/* pages/evaluate/evaluate.wxss */
+page {
+  overflow-x: hidden;
+}
+
+.bar-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1rpx solid #e6e6e6;
+    z-index: 9999;
+}
+
+.anon {
+  height: 100rpx;
+  padding-left: 10rpx;
+  color: #eb0c36;
+}
+
+.anon .fi {
+  font-size: 80rpx;
+}
+
+.anon .fi.fi-radio {
+  color: #ccc !important;
+}
+
+.submit-btn {
+    background: #eb0c36;
+    color: #fff;
+    height: 100rpx;
+    width: 250rpx;
+}
+
+.page {
+  border-top: 1rpx solid #e3e3e3;
+  padding-bottom: 100rpx;
+}
+
+.goods-item {
+  background: #fff;
+  margin-bottom: 20rpx;
+}
+
+.goods-item .score-row {
+  padding: 32rpx 24rpx;
+}
+
+.goods-item .score-row .goods-pic {
+  width: 72rpx;
+  height: 72rpx;
+}
+
+.starList .fi-star {
+  font-size: 50rpx !important;
+  color: #eee;
+}
+
+.starList .fi-star.on {
+  color:#feb61a;
+}
+
+.content-row {
+  position: relative;
+  width: 100%;
+  height: 400rpx;
+  background: #f5f5f5;
+  padding: 24rpx;
+}
+
+.content-row .form-label {
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.content-row .textarea, .content-row .textarea textarea{
+  width: 100%;
+  height: 100%;
+}
+
+.imgGroups {
+  flex-wrap: wrap;
+  margin-top: 24rpx;
+}
+
+.img-item {
+  position: relative;
+  margin-left: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.img-item .fi {
+  color: #000;
+  position: absolute;
+  top: 0rpx;
+  right: 0rpx;
+  font-size: 50rpx;
+  opacity: 0.5;
+}
+
+.img-item image {
+  width: 150rpx;
+  height: 150rpx;
+}

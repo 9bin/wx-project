@@ -1,0 +1,372 @@
+<!--pages/home/home.wxml-->
+<view class='page'>
+  <!-- <include src="/commons/navbar/navbar.wxml"></include> -->
+  <view class='body pd-top-100'>
+    <view bindtap="test" class="purchase1" wx:if="{{buy_user}}">
+        <navigator class="goods-item" url="{{buy_url}}">
+            <image class="purchase2" src="{{buy_avatar_url}}"></image>
+            <view class="purchase3">{{buy_user}}{{buy_type}}{{buy_address}}, {{buy_time}}前</view>
+        </navigator>
+    </view>
+
+    <!-- 搜索 -->
+    <view class='header flex-row flex-y-center' style='background:{{color_style}}'>
+      <view class="search-block flex-grow-1">
+        <navigator url="/pages/search/search" hover-class='none' class='flex-row flex-y-center'>
+          <view class='fi fi-search'></view>
+          <view style='white-space: nowrap;overflow: hidden;margin-right:24rpx;text-overflow: ellipsis;'>{{searchKeyWord}}</view>
+        </navigator>
+      </view>
+      <view class="message-block flex-grow-0">
+        <navigator url="/pages/message/message" hover-class='none' class='flex-col flex-x-center'>
+          <view class='fi fi-message'></view>
+          <view style='font-size:18rpx;margin-top:-12rpx; text-align:center'>消息</view>
+        </navigator>
+      </view>
+    </view>
+
+    <block wx:for="{{module_list}}">
+      
+      <!-- banner -->
+      <block wx:if="{{item.name=='banner'}}">
+        <view class='swiper'>
+          <swiper autoplay="true" circular="true" class="banner" duration="2000" indicatorDots="true" indicator-active-color="{{color_style}}" interval="5000">
+            <swiper-item wx:for="{{pictures}}">
+              <navigator bindtap="navigatorClick" data-open_type="{{item.open_type}}" data-url="{{item.page_url}}" openType="{{item.open_type?item.open_type:'navigator'}}" url="{{item.imgJump}}">
+                <view class="slide-title">{{item.title}}</view>
+                <image class="slide-image" mode="aspectFill" src="{{item.imgUrl}}"></image>
+              </navigator>
+            </swiper-item>
+          </swiper>
+        </view>
+      </block>
+
+      <!-- 导航 -->
+      <block wx:elif="{{item.name == 'nav'}}">
+        <view class='nav'>
+          <view class="nav-icon-list flex-row" wx:if="{{nav_icon_list&&nav_icon_list.length>0}}">
+            <view class="flex-grow-0 nav-icon{{nav_count==1?'-1':''}}" wx:for="{{nav_icon_list}}">
+              <navigator bindtap="navigatorClick" data-open_type="{{item.open_type}}" data-url="{{item.url}}" openType="{{item.open_type}}" url="{{item.url}}">
+                <view class='image'>
+                  <!-- <i class="fi {{item.icon}}" style="{{item.background}}"></i> -->
+                  <image src='{{item.pic_url}}'></image>
+                </view>
+                <view>{{item.name}}</view>
+              </navigator>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 公告 -->
+      <block wx:elif="{{item.name == 'notice'}}">
+        <view class='notice'>
+          <view class='flex-row flex-y-center'>
+            <view class="flex-grow-0 flex-y-center">
+              <view class='bar-icon' style='border-color: {{color_style}};color:{{color_style}}'>公告</view>
+            </view>
+            <view class="flex-grow-1">
+              <view style="height:72rpx;width:79%;position:absolute;z-index:2"></view>
+              <swiper autoplay='true' interval="3000" circular='true' duration='500' vertical='true' style="height:32rpx;line-height:32rpx">
+                <swiper-item wx:for="{{notice}}" wx:for-item="notice">
+                  <view class='flex-grow-1 notice-title'>{{notice.title}}</view>
+                </swiper-item>
+              </swiper>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 限时抢购 -->
+      <block wx:elif="{{item.name == 'qianggou'}}">
+        <view class='flash-sale'>
+          <view class='flex-row flash-header flex-y-center' style="padding: 0 20rpx;height: 80rpx;margin-bottom: 4rpx">
+            <view class='flex-grow-1 flex-row flex-y-center'>
+              <view class='flex-grow-1 flex-row flex-y-center'>
+                <view class='fi fi-limit-time-buy' style='color:{{color_style}}'></view>
+                <view style="font-size: 30rpx;color: {{color_style}};margin-right: 16rpx">限时抢购</view>
+              </view>
+              <!-- <view style="margin-right: 24rpx">{{limit.name}}</view> -->
+              <view class='flex-row flex-y-centr flex-grow-0'>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{flashSaleEntity.times.h?flashSaleEntity.times.h:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{flashSaleEntity.times.m?flashSaleEntity.times.m:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{flashSaleEntity.times.s?flashSaleEntity.times.s:'--'}}</view>
+                </view>
+              </view>
+            </view>
+            <navigator class="flex-grow-0" style='margin-left:10rpx;' url="/pages/limit_time_buy/limit_time_buy">
+              <view class='fi fi-angle-circle-solid-right' style='color:{{color_style}}'></view>
+            </navigator>
+          </view>
+          <scroll-view scroll-x style="padding-bottom: 20rpx;width:750rpx;">
+            <view class='limit-goods-item flex-row'>
+              <navigator class='flex-col limit-goods' url="/pages/limit_time_buy/detail/detail?id={{limit_goods.id}}" wx:for="{{flashSaleEntity.productList}}" wx:for-item="limit_goods">
+                <image style='border: 1rpx solid #e3e3e3;' src='{{limit_goods.mainImg}}'></image>
+                <text class='miaosha-goods-name'>{{limit_goods.productName}}</text>
+                <view style="color: {{color_style}};text-overflow: ellipsis;overflow: hidden;white-space: nowrap;font-size:28rpx;">￥{{limit_goods.mallPrice}}</view>
+              </navigator>
+            </view>
+          </scroll-view>
+        </view>
+      </block>
+
+      <!-- 限时秒杀 -->
+      <block wx:elif="{{item.name == 'miaosha'}}">
+        <view class='miaosha'>
+          <view class='flex-row flash-header flex-y-center' style="padding: 0 20rpx;height: 80rpx;margin-bottom: 4rpx">
+            <view class='flex-grow-1 flex-row flex-y-center'>
+              <view class='flex-grow-1 flex-row flex-y-center'>
+                <view class='fi fi-clock' style='color:{{color_style}}'></view>
+                <view style="font-size: 30rpx;color: {{color_style}};margin-right: 16rpx">限时秒杀</view>
+              </view>
+              <view class='flex-row flex-y-centr flex-grow-0'>
+                <view style="margin-right: 24rpx;font-size: 28rpx">{{seckillEntity.name}}</view>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{seckillEntity.times.h?seckillEntity.times.h:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{seckillEntity.times.m?seckillEntity.times.m:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{seckillEntity.times.s?seckillEntity.times.s:'--'}}</view>
+                </view>
+              </view>
+            </view>
+            <navigator class="flex-grow-0" style='margin-left:10rpx;'url="/pages/miaosha/miaosha">
+              <view class='fi fi-angle-circle-solid-right' style='color:{{color_style}}'></view>
+            </navigator>
+          </view>
+          <scroll-view scroll-x style="padding-bottom: 20rpx;width:750rpx;">
+            <view class='limit-goods-item flex-row'>
+              <navigator class='flex-col limit-goods' url="/pages/miaosha/detail/detail?id={{miaosha_goods.id}}" wx:for="{{seckillEntity.productList}}" wx:for-item="miaosha_goods">
+                <image style='background:#f8f8f8' src='{{miaosha_goods.mainImg}}'></image>
+                <text class='miaosha-goods-name'>{{miaosha_goods.productName}}</text>
+                <view style="color: {{color_style}};text-overflow: ellipsis;overflow: hidden;white-space: nowrap;font-size:28rpx;">￥{{miaosha_goods.mallPrice}}</view>
+                <view style="color: #999;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;text-decoration: line-through;font-size: 22rpx">￥{{miaosha_goods.marketPrice}}</view>
+              </navigator>
+            </view>
+          </scroll-view>
+        </view>
+      </block>
+      
+      <!-- 预售商品 -->
+      <block wx:elif="{{item.name == 'yushou'}}">
+        <view class='yushou'>
+          <view class='flex-row flash-header flex-y-center' style="padding: 0 20rpx;height: 80rpx;margin-bottom: 4rpx">
+            <view class='flex-grow-1 flex-row flex-y-center'>
+              <view class='fi fi-appointment' style='color:{{color_style}}'></view>
+              <view style="font-size: 30rpx;color: {{color_style}};margin-right: 16rpx">预售商品</view>
+            </view>
+            <navigator class="flex-grow-0" style='margin-left:10rpx;'url="/pages/yushou/yushou">
+              <view class='fi fi-angle-circle-solid-right' style='color:{{color_style}}'></view>
+            </navigator>
+          </view>
+          <view class='yushou-goods flex-col'>
+            <navigator class='yushou-goods-item flex-row' wx:for="{{presellEntity.listData}}" wx:for-item="yushou" url='/pages/yushou/detail/detail?id={{yushou.subProductData.id}}'>
+              <view class='image'>
+                <image mode='aspectFill' src='{{yushou.subProductData.mainImg}}'></image>
+              </view>
+              <view class='flex-col flex-grow-1' style='padding:20rpx;'>
+                <view class='text-more-2' style='font-size: 26rpx; margin-bottom:20rpx;height:2.8em;line-height:1.4;'>{{yushou.subProductData.productName}}</view>
+                <view class='flex-col'>
+                  <view class='flex-row' style='font-size: 24rpx;color:#999;text-decoration: line-through;margin-bottom:10rpx;'>
+                    <text style='min-width:100rpx;'>价格</text>
+                    <text>￥{{yushou.subProductData.marketPrice}}</text>
+                  </view>
+                  <view class='flex-row' style='font-size: 24rpx;margin-bottom:10rpx;'>
+                    <text style='min-width:100rpx;color:#666'>预售价</text>
+                    <text>￥{{yushou.subProductData.mallPrice}}</text>
+                  </view>
+                  <view class='flex-row flex-y-center'>
+                    <text style='min-width:100rpx;font-size: 24rpx;'>定金</text>
+                    <text style='color:{{color_style}};font-size: 36rpx;'>￥{{yushou.deposit}}</text>
+                  </view>
+                </view>
+              </view>
+            </navigator>
+          </view>
+        </view>
+      </block>
+
+      <!-- banner广告 -->
+      <block wx:elif="{{item.name=='banner_ad'}}">
+        <view class='swiper'>
+          <swiper autoplay="true" circular="true" class="banner ad" duration="1000" indicatorDots="true" indicator-active-color="{{color_style}}" interval="4000">
+            <swiper-item wx:for="{{banner_ad}}">
+              <navigator bindtap="navigatorClick" data-open_type="{{item.open_type}}" data-url="{{item.page_url}}" openType="{{item.open_type?item.open_type:'navigator'}}" url="{{item.page_url}}">
+                <view class="slide-title">{{item.title}}</view>
+                <image class="slide-image" mode="aspectFill" src="{{item.pic_url}}"></image>
+              </navigator>
+            </swiper-item>
+          </swiper>
+        </view>
+      </block>
+
+      <!-- 全部分类 -->
+      <block wx:elif="{{item.name == 'cat'}}">
+        <view class='cat'>
+          <view style='width:100%;margin-bottom:10rpx;overflow-x:hidden;' wx:if="{{cat.productList.length>0}}" wx:for="{{indexProductList}}" wx:for-item="cat">
+            <view class='flex-row flex-y-center flex-x-center title-bar'>
+              <view class='title-line'></view>
+              <view class='title flex-y-center'>
+                <image wx:if="{{cat.cat_pic}}" mode="aspectFill" src="{{cat.cat_pic}}"></image>
+                <text>{{cat.name}}</text>
+              </view>
+              <view class='title-line'></view>
+            </view>
+            <view class='goods-list flex-row'>
+              <view class='flex-grow-0' wx:for="{{cat.productList}}" wx:for-index="index" wx:for-item="goods">
+                <navigator class='goods-item' url='/pages/goods/goods?id={{goods.id}}'>
+                  <image mode="aspectFill" src="{{goods.mainImg}}"></image>
+                  <view class='flex-col' style='padding:20rpx;'>
+                    <text class="text-more-2" style="height:2.8em;line-height:1.4;font-size:26rpx">{{goods.productName}}</text>
+                    <view class="flex-row flex-y-center" style="padding-top:10rpx">
+                        <view class="flex-grow-1" style="color:{{color_style}};font-weight:bold;font-size:36rpx;">￥{{goods.mallPrice}}</view>
+                        <view wx:if="{{goods.praisePercent}}" class="fs-sm" style="color:#999;font-size:24rpx;">{{goods.praisePercent}}好评</view>
+                    </view>
+                  </view>
+                </navigator>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 拆分的分类 -->
+      <block wx:elif="{{item.name == 'single_cat'}}">
+        <view class='cat' wx:if="{{item.cat_id==cat.id}}" wx:for="{{cat_list}}"wx:for-index="index" wx:for-item="cat">
+          <view style='width:100%;margin-bottom:10rpx;overflow-x:hidden;' wx:if="{{cat.goods_list.length>0}}">
+            <view class='flex-row flex-y-center flex-x-center title-bar'>
+              <view class='title-line'></view>
+              <view class='title flex-y-center'>
+                <image wx:if="{{cat.cat_pic}}" mode="aspectFill" src="{{cat.cat_pic}}"></image>
+                <text>{{cat.name}}</text>
+              </view>
+              <view class='title-line'></view>
+            </view>
+            <view class='goods-list flex-row'>
+              <view class='flex-grow-0' wx:for="{{cat.goods_list}}" wx:for-index="index" wx:for-item="goods">
+                <navigator class='goods-item' url='/pages/goods/goods?id={{goods.id}}'>
+                  <image mode="aspectFill" src="{{goods.mainImg}}"></image>
+                  <view class='flex-col' style='padding:20rpx;'>
+                    <text class="text-more-2" style="height:2.8em;line-height:1.4;font-size:26rpx">{{goods.productName}}</text>
+                    <view class="flex-row flex-y-center" style="padding-top:10rpx">
+                        <view class="flex-grow-1" style="color:{{color_style}};font-weight:bold;font-size:36rpx;">￥{{goods.mallPrice}}</view>
+                        <view class="fs-sm" style="color:#999;font-size:24rpx;">{{goods.praisePercent}}好评</view>
+                    </view>
+                  </view>
+                </navigator>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 视屏 -->
+      <block wx:elif="{{item.name=='video'}}">
+          <view bindtap="play" class="user-block" data-index="{{video.id}}" wx:if="{{item.video_id==video.id}}" wx:for="{{video_list}}" wx:for-item="video">
+              <view wx:if="{{play==video.id}}">
+                  <video autoplay="true" class="video" controls="true" loop="true" src="{{video.url}}" style="width:750rpx;height:400rpx;"></video>
+              </view>
+              <view style="position:relative;" wx:else>
+                  <image src="{{video.pic_url}}" style="width:750rpx;height:400rpx;"></image>
+                  <image class="video-play" src="/images/icon-play.png"></image>
+              </view>
+          </view>
+      </block>
+
+      <!-- 精品推荐 -->
+      <block wx:else>
+        <view class='block'>
+          <view class='block-header flex-y-center' style="padding: 0 20rpx;height: 80rpx;margin-bottom: 4rpx">
+            <view class='flex-grow-1 flex-row flex-y-center'>
+              <view class='fi fi-sales-volume' style='color:{{color_style}};font-size:50rpx;'></view>
+              <view style="font-size: 30rpx;color: {{color_style}};margin-right: 16rpx">精品推荐</view>
+            </view>
+          </view>
+          <view class='block-container'>
+            <view wx:if="{{block.length == 1}}" style="height: auto">
+              <navigator bindtap="navigatorClick" data-open_type="{{block[0].open_type}}" data-url="{{block[0].url}}" style="display:block;font-size: 0;width: 100%;height: auto;" url="{{block.data.pic_list[0].url}}">
+                  <image mode="widthFix" src="{{block[0].pic_url}}" style="width: 100%;"></image>
+              </navigator>
+            </view>
+            <view class='flex-row' wx:if="{{block.length == 2}}" style="height: 360rpx;">
+              <view class="flex-grow-1" style="height: 100%;">
+                  <navigator bindtap="navigatorClick" data-open_type="{{block[0].open_type}}" data-url="{{block[0].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[0].url}}">
+                      <image mode="aspectFill" src="{{block[0].pic_url}}" style="width: 100%;height: 100%;"></image>
+                  </navigator>
+              </view>
+              <view class="flex-grow-1" style="height: 100%;margin-left:20rpx;">
+                  <navigator bindtap="navigatorClick" data-open_type="{{block[1].open_type}}" data-url="{{block[1].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[1].url}}">
+                      <image mode="aspectFill" src="{{block[1].pic_url}}" style="width: 100%;height: 100%;"></image>
+                  </navigator>
+              </view>
+            </view>
+            <view class='flex-row' wx:if="{{block.length == 3}}" style="height: 360rpx;">
+              <view class="flex-grow-0" style="width: 300rpx;height: 100%;">
+                  <navigator bindtap="navigatorClick" data-open_type="{{block[0].open_type}}" data-url="{{block[0].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[0].url}}">
+                      <image mode="aspectFill" src="{{block[0].pic_url}}" style="width: 100%;height: 100%;"></image>
+                  </navigator>
+              </view>
+              <view class='flex-grow-1 flex-col' style="height: 100%; margin-left:20rpx;">
+                  <view class="flex-grow-1" style="height: 48%;">
+                      <navigator bindtap="navigatorClick" data-open_type="{{block[1].open_type}}" data-url="{{block[1].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[1].url}}">
+                          <image mode="aspectFill" src="{{block[1].pic_url}}" style="width: 100%;height: 100%;"></image>
+                      </navigator>
+                  </view>
+                  <view class="flex-grow-1" style="height: 48%;margin-top:4%">
+                      <navigator bindtap="navigatorClick" data-open_type="{{block[2].open_type}}" data-url="{{block[2].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[2].url}}">
+                          <image mode="aspectFill" src="{{block[2].pic_url}}" style="width: 100%;height: 100%;"></image>
+                      </navigator>
+                  </view>
+              </view>
+            </view>
+            <view class='flex-row' wx:if="{{block.length == 4}}" style="height: 360rpx;">
+              <view class="flex-grow-0" style="width: 300rpx;height: 100%;">
+                  <navigator bindtap="navigatorClick" data-open_type="{{block[0].open_type}}" data-url="{{block[0].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[0].url}}">
+                      <image mode="aspectFill" src="{{block[0].pic_url}}" style="width: 100%;height: 100%;"></image>
+                  </navigator>
+              </view>
+              <view class='flex-grow-1 flex-col' style="height: 100%; margin-left:20rpx;">
+                <view class="flex-grow-1" style="height: 48%;">
+                    <navigator bindtap="navigatorClick" data-open_type="{{block[1].open_type}}" data-url="{{block[1].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[1].url}}">
+                        <image mode="aspectFill" src="{{block[1].pic_url}}" style="width: 100%;height: 100%;"></image>
+                    </navigator>
+                </view>
+                <view class="flex-grow-1 flex-row" style="height: 48%;margin-top:4%">
+                      <view class="flex-grow-1" style="height: 100%;">
+                          <navigator bindtap="navigatorClick" data-open_type="{{block[2].open_type}}" data-url="{{block[2].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[2].url}}">
+                              <image mode="aspectFill" src="{{block[2].pic_url}}" style="width: 100%;height: 100%;"></image>
+                          </navigator>
+                      </view>
+                      <view class="flex-grow-1" style="height: 100%;margin-left:20rpx;">
+                          <navigator bindtap="navigatorClick" data-open_type="{{block[3].open_type}}" data-url="{{block[3].url}}" style="display:block;font-size: 0;width: 100%;height: 100%;" url="{{block[3].url}}">
+                              <image mode="aspectFill" src="{{block[3].pic_url}}" style="width: 100%;height: 100%;"></image>
+                          </navigator>
+                      </view>
+                  </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+    </block>
+  </view>
+  <include src="/commons/footer/footer"></include>
+</view>

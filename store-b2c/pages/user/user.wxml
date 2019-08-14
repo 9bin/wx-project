@@ -1,0 +1,223 @@
+<!--pages/user/user.wxml-->
+<view class='page'>
+  <view class='body'>
+    <view style='position:relative;'>
+      <view class="user-info flex-row">
+        <navigator class='fi fi-setting' url='/pages/setting/setting'></navigator>
+        <image class="user-info-bg" mode="aspectFill" src="{{user_center_bg}}"></image>
+        <view class="flex-grow-1 flex-y-center flex-row userinfo-name">
+          <view class="flex-grow-0">
+            <image class="avatar" src="{{user_info.full_path}}"></image>
+          </view>
+          <view class="flex-grow-1">
+            <text class="user-name">{{user_info.nickname}}</text>
+            <view bindtap="{{next_level||user_info&&user_info.level!=-1?'member':''}}" class="user-level flex-row">
+              <view class="level-name flex-row flex-y-center">
+                <view class='fi fi-vip'></view>
+                <view style="margin-left:8rpx;">{{user_info.levelName||'普通用户'}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="flex-grow-0 flex-y-center userinfo-addr">
+          <navigator class="my-address flex-y-center" url="/pages/integral_list/integral_list">
+            <text>{{user_info.gold}}积分</text>
+          </navigator>
+        </view>
+      </view>
+    </view>
+    <view style='margin-top: -100rpx;z-index: 10;padding: 0 24rpx;'>
+      <view class='unit mb-20'>
+        <navigator class="option-item" url="/pages/order/order?status=0">
+          <view class='option-content flex-row flex-y-center'>
+            <view class='flex-grow-1' style='font-size:30rpx;'>我的订单</view>
+            <view class='flex-grow-0' style='color:#999;font-size:26rpx;'>查看全部</view>
+            <view class='felx-grow-0 fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+          </view>
+        </navigator>
+        <view class="flex-row option-item">
+              <view class="flex-grow-1">
+                  <navigator class="nav-item" url="/pages/order/order?status=1">
+                      <view class='fi fi-wait-pay'></view>
+                      <view>待付款</view>
+                      <view class="num-icon" wx:if="{{user_info.obligationOrderCount&&user_info.obligationOrderCount>0}}">
+                          {{user_info.obligationOrderCount>=100?"···":user_info.obligationOrderCount}}
+                      </view>
+                  </navigator>
+              </view>
+              <view class="flex-grow-1">
+                  <navigator class="nav-item" url="/pages/order/order?status=2">
+                      <view class='fi fi-wait-send'></view>
+                      <view>待发货</view>
+                      <view class="num-icon" wx:if="{{user_info.waitDeliveryOrderCount&&user_info.waitDeliveryOrderCount>0}}">
+                          {{user_info.waitDeliveryOrderCount>=100?"···":user_info.waitDeliveryOrderCount}}
+                      </view>
+                  </navigator>
+              </view>
+              <view class="flex-grow-1">
+                  <navigator class="nav-item" url="/pages/order/order?status=3">
+                      <view class='fi fi-wait-receipt'></view>
+                      <view>待收货</view>
+                      <view class="num-icon" wx:if="{{user_info.waitReceiptOrderCount&&user_info.waitReceiptOrderCount>0}}">
+                          {{user_info.waitReceiptOrderCount>=100?"···":user_info.waitReceiptOrderCount}}
+                      </view>
+                  </navigator>
+              </view>
+              <view class="flex-grow-1">
+                  <navigator class="nav-item" url="/pages/evaluate_list/evaluate_list?">
+                      <view class='fi fi-wait-eval'></view>
+                      <view>待评价</view>
+                      <view class="num-icon" wx:if="{{user_info.waitEvaluateOrderCount&&user_info.waitEvaluateOrderCount>0}}">
+                          {{user_info.waitEvaluateOrderCount>=100?"···":user_info.waitEvaluateOrderCount}}
+                      </view>
+                  </navigator>
+              </view>
+              <view class="flex-grow-1">
+                  <navigator class="nav-item" url="/pages/order_refund/order_refund">
+                      <view class='fi fi-wait-refund'></view>
+                      <view>退款/售后</view>
+                  </navigator>
+              </view>
+          </view>
+      </view>
+      <!-- <view class='unit mb-20'>
+        <navigator class="option-item" url="/pages/integral_order/integral_order">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-order.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">积分订单</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+      </view> -->
+      <view class='unit mb-20'>
+        <navigator class="option-item" url="/pages/conllect/conllect">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-collect.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">收藏夹</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="option-item" url="/pages/footprint/footprint">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-footprint.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">我的足迹</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+      </view>
+      <view class='unit mb-20'>
+        <navigator class="option-item" url="/pages/coupon/coupon">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-coupon.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">优惠券</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="option-item" url="/pages/integral_list/integral_list">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-integral.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">积分明细</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="option-item" url="/pages/balance/balance">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-balance.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">账户余额</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+      </view>
+      <view class='unit mb-20'>
+        <navigator class="option-item" url="/pages/address/address">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-address.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">地址管理</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="option-item" url="/pages/invite/invite">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-invite.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">邀请管理</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="option-item" url="/pages/feedback/feedback">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-feedback.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">意见反馈</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+        <navigator class="option-item" url="/pages/help/help">
+            <view class="flex-row option-content">
+                <view class="flex-grow-1 flex-row">
+                    <view class="flex-grow-0 flex-y-center">
+                        <image class="option-icon" src="/images/fi-member-menu-help.png"></image>
+                    </view>
+                    <view class="flex-grow-1 flex-y-center">帮助中心</view>
+                </view>
+                <view class="flex-grow-0 flex-y-center">
+                    <view class='fi fi-angle-right' style='color:#999;font-size:36rpx;font-weight:bold'></view>
+                </view>
+            </view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,37 @@
+<!--pages/conllect/conllect.wxml-->
+<view class='page'>
+  <view class='no-data flex-x-center flex-y-center flex-col' wx:if="{{show_no_data_tip}}" style='margin-top:30rpx;'>
+    <view class='fi fi-data-null' style='font-size: 320rpx;color: #999;'></view>
+    <view style='font-size:32rpx;color:#999;margin-top:-40rpx;'>暂无收藏~</view>
+  </view>
+  <view class='good-list'>
+    <view class='item flex-row flex-y-center' wx:for="{{goods}}" >
+      <view class='good-is-exis flex-y-center' wx:if='{{item.isDel=="1" || item.onSale == "0" }}'>
+        <view class='text'>无货</view>
+      </view>
+      <navigator style='{{item.txtStyle}}' class='goods-item-2 flex-row flex-y-center' openType="navigate" url='/pages/goods/goods?id={{item.id}}' bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" hover-class='none'  data-index="{{index}}">
+        <image class='image flex-grow-0' mode="aspectFill" src="{{item.mainImg}}"></image>
+        <view class='flex-col' style='margin-left:24rpx;'>
+          <view class="text-more-2 mb-10" style="height:2.8em;line-height:1.4;font-size:30rpx">{{item.productName}}</view>
+          <view class='mb-10'>
+            <view style='color:#eb0c36;font-weight:bold;'>
+              <text style='font-size:24rpx;'>￥</text>
+              <text style='font-size:32rpx;'>{{item.mallPrice}}</text>
+            </view>
+          </view>
+          <view class="flex-row " style="color:#999;font-size:24rpx;">
+            <view>好评{{item.praisePercent || 0}}%</view>
+            <view style='margin-left:60rpx;'>销量{{item.buys}}</view>
+          </view>
+        </view>
+        <view class='add-cat gray' wx:if='{{item.isDel=="1" || item.onSale == "0" }}'><i class="fi fi-cart" style="font-size:60rpx;"></i></view>
+        <view catchtap='addCart' data-index='{{index}}' class='add-cat' wx:else><i class="fi fi-cart" style="font-size:60rpx;"></i></view>
+      </navigator>
+      <view class='dele-conllect flex-x-center flex-y-center flex-col' data-id='{{item.id}}' bindtap='collect'>
+        <view>移除</view>
+        <view>收藏夹</view>
+      </view>
+    </view>
+  </view>
+  <include src="../../commons/loading/loading.wxml"></include>
+</view>

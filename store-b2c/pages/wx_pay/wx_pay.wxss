@@ -1,0 +1,126 @@
+/* pages/wx_pay/wx_pay.wxss */
+page {
+  overflow-x: hidden;
+}
+.order-info {
+  background: #fff;
+  padding: 32rpx 24rpx;
+}
+
+.item {
+  padding: 32rpx 24rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+
+.btnGroups {
+  padding: 50rpx 0;
+}
+
+.btnGroups .btn {
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 10rpx;
+}
+
+.btnGroups .btn.left {
+  border: 1rpx solid #ccc;
+}
+
+.btnGroups .btn.right {
+  background: #ff0036;
+  color: #fff;
+  margin-left: 24rpx;
+}
+
+/* 余额支付弹窗 */
+.alertMainer {
+  margin-top: 20%;
+}
+
+.descContent {
+  background: #fff;
+  border-radius: 30rpx;
+}
+
+.descContent .title {
+  height: 90rpx;
+  font-size: 36rpx;
+  font-weight: 550;
+}
+
+.descContent .balance {
+  border-bottom: 1rpx solid #e6e6e6;
+  border-top: 1rpx solid #e6e6e6;
+  padding: 24rpx 0;
+  width: 480rpx;
+}
+
+.descContent .balance .fi-rmb {
+  font-size: 50rpx;
+  color: #eca61f;
+  margin-right: 5rpx;
+}
+
+.descContent .payInput {
+  padding: 24rpx 0;
+  position: relative;
+  font-size: 72rpx;
+  font-weight: 550;
+  width: 480rpx;
+}
+
+.descContent .payInput .iptBalencePay {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  padding-left: 72rpx;
+}
+
+.descContent .payInput .text {
+  position: absolute;
+  height: 80rpx;
+  line-height: 80rpx;
+  left: 0;
+}
+
+.descContent .inputContent {
+  position: relative;
+  margin-top: 40rpx;
+}
+
+.descContent .inputContent .iptGroups {
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+}
+
+.descContent .inputContent .iptGroups .iptbox {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  border-left: 1rpx solid #ccc;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.descContent .inputContent .iptGroups .iptbox:first-child {
+  border-left: none;
+}
+
+.descContent .inputContent .ipt {
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 0;
+}
+
+.descContent .forgetPwd {
+  width: 480rpx;
+  text-align: right;
+  color: #999;
+  font-size: 26rpx;
+  margin-top: 24rpx;
+}

@@ -1,0 +1,56 @@
+<!--pages/category/category.wxml-->
+<view class='page'>
+  <!-- <include src="/commons/navbar/navbar.wxml"></include> -->
+  <view class='body pd-top-100'>
+    <!-- 搜索 -->
+    <include src="/commons/search/search.wxml"></include>
+
+    <view class='flex-row' style="height: 100%;">
+      <view class="flex-grow-0" style="height:100%;background: #fff">
+        <scroll-view class="cat-list" scroll-y style='width: 204rpx;height:100%;'>
+          <view bindtap="catItemClick" class="cat-item {{current_index_active == index?'active':''}} flex-y-center flex-x-center" data-index="{{index}}" wx:for="{{cat_list}}">
+            <view class="cat-name">{{item.name}}</view>
+          </view>
+        </scroll-view>
+      </view>
+
+      <!-- 开启侧栏 -->
+      <view class='flex-grow-1'>
+        <view style="position: fixed;top: 100rpx;left: 200rpx;bottom: 0;right: 0;z-index:0;overflow: hidden">
+          <scroll-view class="cat-block-list" scroll-y="true" style="height: 100%;padding: 20rpx" scroll-top="{{sub_cat_list_scroll_top}}">
+            <view class="cat-container">
+              
+              <!-- <block wx:if="{{current_cat.advert_pic}}"> -->
+                <navigator class='advert' url="/pages/list/list?cat_id=3">
+                  <image class="cat-icon" src="/images/delete/ad522x200x01.jpg"></image>
+                </navigator>
+              <!-- </block> -->
+
+              <view class='cat-small-style'>
+                <block wx:if="{{current_cat.childNode.length>0}}">
+                  <view wx:for="{{current_cat.childNode}}" wx:for-item="cat_2">
+
+                    <!-- 三级分类样式 -->
+                    <block wx:if="{{cat_2.childNode.length>0}}">
+                      <view class='cat-2-name'>{{cat_2.name}}</view>
+                      <view class='cat-num-3 flex-row'>
+                        <view class='flex-grow-0' wx:for="{{cat_2.childNode}}" wx:for-item="cat_3">
+                          <navigator class="cat-item" url="/pages/list/list?cat_id={{cat_3.id}}">
+                            <image class="cat-icon" src="{{cat_3.classLogo}}"></image>
+                            <view class="cat-name">{{cat_3.name}}</view>
+                          </navigator>
+                        </view>
+                      </view>
+                    </block>
+                  </view>
+                </block>
+              </view>
+
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+
+    </view>
+  </view>
+</view>

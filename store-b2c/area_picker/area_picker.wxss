@@ -1,0 +1,89 @@
+/* area_picker/area_picker.wxss */
+.area-picker {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: 250ms opacity;
+    opacity: 0;
+    background: rgba(0,0,0,.3);
+}
+
+.area-picker.active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.area-picker .area-picker-bg {
+    flex-grow: 1;
+    position: relative;
+}
+.area-picker .area-picker-bg>scroll-view {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.area-picker .area-picker-body {
+    flex-grow: 0;
+    height: 700rpx;
+    background: #fff;
+    transform: translateY(100%);
+    transition: 250ms transform;
+    position: relative;
+}
+
+.area-picker.active .area-picker-body {
+    transform: translateY(0);
+}
+
+.area-picker .area-picker-body>scroll-view {
+    left: 24rpx;
+    top: 160rpx;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+}
+
+.area-picker .area-picker-top {
+  position: relative;
+  color: #888;
+  height: 100rpx;
+}
+
+.area-picker .area-picker-title {
+  text-align: center;
+  font-size: 30rpx;
+  width: 100%;
+}
+
+.area-picker .area-picker-cancel {
+    position: absolute;
+    right: 24rpx;
+    font-size: 36rpx;
+    font-weight: bold;
+}
+
+.area-picker .area-picker-region {
+    height: 60rpx;
+    border-bottom: 1rpx solid #e6e6e6;
+}
+
+.area-picker .area-picker-region>view {
+  width: 33.33%;
+  height: 60rpx;
+}
+
+.area-picker .area-picker-region>view>text {
+  font-size: 32rpx;
+  color: #ff3306;
+  height: 56rpx;
+  border-bottom: 4rpx solid #ff3306; 
+}

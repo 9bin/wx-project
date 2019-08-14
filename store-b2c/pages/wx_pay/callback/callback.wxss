@@ -1,0 +1,210 @@
+/* pages/wx_pay/callback/callback.wxss */
+page {
+  overflow-x: hidden;
+}
+.order-info {
+  background: #fff;
+  padding: 32rpx 24rpx;
+}
+
+.item {
+  padding: 32rpx 24rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+
+.btnGroups {
+  padding: 50rpx 0;
+}
+
+.btnGroups .btn {
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 10rpx;
+}
+
+.btnGroups .btn.left {
+  border: 1rpx solid #ccc;
+}
+
+.btnGroups .btn.right {
+  background: #ff0036;
+  color: #fff;
+  margin-left: 24rpx;
+}
+
+/* 刮刮乐抽奖 */
+.lotto-center {
+  position: relative;
+  width: 702rpx;
+  margin: 0 auto;
+  height: 324rpx;
+  overflow-y: hidden;
+}
+
+.lotto-center .bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.lotto-center .bg image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.lotto-center .bg .btn-checked {
+  font-size: 30rpx;
+  color: #ff0036;
+  border-radius: 10rpx;
+  background: #ffd201;
+  padding: 20rpx 40rpx;
+}
+
+.lotto-center .scratch_wp {
+  position: relative;
+  width: 702rpx;
+  height: 324rpx;
+  z-index: 0;
+}
+
+.lotto-center .scratch_wp .scratch-canvas {
+  width: 702rpx; 
+  height: 324rpx; 
+  background: transparent
+}
+
+.lotto-center .scratch_wp .scratch-bg-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 702rpx; 
+  height: 324rpx; 
+}
+
+.lotto-center .scratch_wp .scratch-bg-text .scratch-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 702rpx; 
+  height: 324rpx;
+  z-index: 0; 
+}
+
+
+
+.lotto-center .scratch_wp .scratch-bg-text .scratch-text {
+    font-size: 18pt;
+    color: #f05525;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    max-width: 410rpx;
+    padding: 0 24rpx;
+    z-index: 1;
+}
+
+/* 抽奖结果弹出窗 */
+.showRule .alertContainer {
+  top: 15%;
+  border-radius: 20rpx;
+  background: #fff;
+}
+.showRule .alertContainer .alert-main .alertMainer {
+  padding: 0;
+}
+.showRule .title {
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #333;
+}
+.showRule .desc {
+  height: 400rpx;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.showRule .close .button{
+  text-align: center;
+  font-size: 36rpx;
+  border: none;
+  background: #fff;
+  color: #eb0c36;
+}
+
+.showResult .alertContainer {
+  top: 20%;
+}
+
+.showResult .resultContainer {
+  width: 468rpx;
+  height: 395rpx;
+  margin: 0 auto;
+  position: relative;
+  z-index: 0;
+}
+
+.showResult .resultContainer .prize-bg-alert {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.showResult .resultContainer .title-tip {
+  position: absolute;
+  top: 10rpx;
+  width: 250rpx;
+  height: 40rpx;
+}
+
+.showResult .resultContainer .win-info {
+  width: 280rpx;
+  height: 200rpx;
+  overflow: hidden;
+  position: relative;
+  margin-top: 80rpx;
+
+}
+
+.showResult .resultContainer .win-info > view {
+  font-size: 26rpx;
+}
+
+.showResult .resultContainer .win-info .icon-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 10rpx;
+  border-radius: 10rpx;
+  background: #fff;
+}
+
+.showResult .resultContainer .win-btn {
+  position: relative;
+  margin-top: 10rpx;
+  width: 170rpx;
+  height: 57rpx;
+}
+
+.showResult .resultContainer .win-btn .btn-img-bg {
+  position: absolute;
+  top: 3rpx;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}

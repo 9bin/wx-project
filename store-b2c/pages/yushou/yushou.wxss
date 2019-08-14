@@ -1,0 +1,44 @@
+/* pages/yushou/yushou.wxss */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120rpx;
+  z-index: 999;
+  background: #f0f0f0;
+}
+.sort-bar {
+  background: #fff;
+  height: 100rpx;
+  
+}
+
+.sort-bar view {
+  color: #666;
+}
+
+.sort-bar .fi {
+  color: #999;
+}
+
+.sort-bar .active {
+  color: #eb0c36;
+}
+
+.goods-list {
+  padding-top: 120rpx;
+}
+
+.goods-item {
+    width: 100%;
+    position: relative;
+    padding: 24rpx;
+    background: #fff;
+    border-bottom: 1rpx solid #e6e6e6;
+}
+
+.goods-item .goods-pic {
+    width: 200rpx;
+    height: 200rpx;
+}

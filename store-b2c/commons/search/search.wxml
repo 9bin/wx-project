@@ -1,0 +1,15 @@
+<!-- 搜索 -->
+<view class='header flex-row flex-y-center' style='background:{{color_style}}'>
+  <view class="search-block flex-grow-1">
+    <navigator url="/pages/search/search" hover-class='none' class='flex-row flex-y-center'>
+      <view class='fi fi-search'></view>
+      <view >{{searchKeyWord}}</view>
+    </navigator>
+  </view>
+  <view class="message-block flex-grow-0">
+    <navigator url="/pages/message/message" hover-class='none' class='flex-col flex-x-center'>
+      <view class='fi fi-message'></view>
+      <view style='font-size:18rpx;margin-top:-12rpx; text-align:center'>消息</view>
+    </navigator>
+  </view>
+</view>

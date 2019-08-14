@@ -1,0 +1,59 @@
+<!--pages/wx_pay/wx_pay.wxml-->
+<view class='order-info flex-x-center flex-y-center flex-col mb-20'>
+  <view class='fi fi-is-success' style='font-size:160rpx;color:#39d196;'></view>
+  <view class='mb-20' style='margin-top:-15rpx;'>订单提交成功</view>
+  <view class='flex-row mb-10' style='font-size:28rpx;color:#666;'>
+    <text>订单号：{{orderCode}}</text>
+    <text style='margin-left:30rpx;'>应付金额：<text style='color:#eb0c36 !important'>￥{{sumAmout}}</text></text>
+  </view>
+  <view style='font-size:24rpx;color:#999;'>请您在{{autoTime}}内完成支付，否则订单会被自动取消</view>
+</view>
+<view class='pay-type'>
+  <view class='item'>选择支付方式</view>
+  <view class='item flex-row flex-y-center' bindtap='wxPay'>
+    <image class='flex-grow-0' src='/images/wxChat.png' style='width:80rpx;height:80rpx;margin-right:24rpx'></image>
+    <view class='flex-col flex-grow-1'>
+      <view>微信支付</view>
+      <view style='color:#999;font-size:24rpx;'>推荐安装微信5.0及以上版本的用户使用</view>
+    </view>
+    <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;font-weight:bold;color:#999'></view>
+  </view>
+  <view class='item flex-row flex-y-center' bindtap='showPwd'>
+    <image class='flex-grow-0' src='/images/balancePay.png' style='width:80rpx;height:80rpx;margin-right:24rpx'></image>
+    <view class='flex-col flex-grow-1'>
+      <view>余额支付</view>
+      <view style='color:#999;font-size:24rpx;'>请注意您的账户余额</view>
+    </view>
+    <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;font-weight:bold;color:#999'></view>
+  </view>
+</view>
+
+<!-- 余额支付密码输入弹窗 -->
+<view class="dAlert showPwd {{showPwd ? 'on':''}}">
+  <view class='alertContainer'>
+    <view class='alert-main'>
+      <view class='alertMainer'>
+        <view class='descContent'>
+          <view class='title flex-y-center flex-x-center'>余额支付</view>
+          <view class='flex-col flex-y-center' style='border-top:1rpx solid #e6e6e6;padding:24rpx'>
+            <view class='payInput flex-row flex-y-center'><input class='iptBalencePay' type='digit' value='{{sumAmout}}' disabled='{{true}}'></input><text class='text'>￥</text></view>
+            <view class='balance flex-row flex-y-center'>
+              <view class='fi fi-rmb'></view>
+              <view>余额（剩余￥{{__user_info.capital}}）</view>
+            </view>
+            <view class='inputContent'>
+              <view class='iptGroups flex-row'> 
+                <block wx:for="{{length}}" wx:key="item"> 
+                  <input class='iptbox' value="{{password.length>=index+1?password[index]:''}}" disabled password catchtap='Tap'></input> 
+                </block>
+              </view> 
+              <input name="password" value='{{password}}' type='number' password class='ipt' maxlength="{{length}}" focus="{{isFocus}}" bindinput="Focus"></input>  
+            </view>
+            <view class='forgetPwd'>忘记密码</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='alertMask' bindtap='closePwd'></view>
+</view>

@@ -1,0 +1,51 @@
+<!--pages/coupon/coupon.wxml-->
+<wxs module="filters" src="../../util.wxs"></wxs>
+<view class='page'>
+  <view class='flex-row tab-bar'>
+    <view class='flex-grow-1' bindtap='tapTab' data-status='0'>
+      <view class='navigator {{status==0?"active":""}}'>
+        <text>未使用</text>
+      </view>
+    </view>
+    <view class='flex-grow-1' bindtap='tapTab' data-status='1'>
+      <view class='navigator {{status==1?"active":""}}'>
+        <text>已使用</text>
+      </view>
+    </view>
+    <view class='flex-grow-1' bindtap='tapTab' data-status='2'>
+      <view class='navigator {{status==2?"active":""}}'>
+        <text>已过期</text>
+      </view>
+    </view>
+  </view>
+  <scroll-view class='show-popup {{status!=0?"gray":""}}' scrollY scroll-top="{{scrollTop}}" enable-back-to-top bindscrolltolower="tolower">
+    <view class='flex-col flex-x-center flex-y-center' style='color:#999' wx:if="{{show_no_data_tip}}">
+      <view class='fi fi-coupon-null' style='font-size:320rpx;'></view>
+      <view style='font-size:32rpx;margin-top:-40rpx;'>暂无优惠券哦~</view>
+    </view>
+    <view class='popup-list'>
+      <block wx:for="{{coupon_list}}">
+        <view class='item flex-row flex-y-center'>
+          <view class='item-left flex-col flex-y-center flex-x-center flex-grow-0'>
+            <view style='font-size:48rpx'>￥
+              <text style='font-size:80rpx'>{{filters.toFix(item.processValue)}}</text>
+            </view>
+            <view style='font-size:24rpx' wx:if="{{filters.toFix(item.reachStandardValue)>0}}">满{{item.reachStandardValue}}元可用</view>
+            <view style='font-size:24rpx' wx:if="{{filters.toFix(item.reachStandardValue)<=0}}">消费任意金额可用</view>
+          </view>
+          <view class='item-middle flex-col flex-grow-1'>
+            <view class='name'>
+              <text class='icon'>优惠券</text>{{item.name}}</view>
+            <view style='color:#999;font-size:24rpx;'>有效期:</view>
+            <view style='color:#999;font-size:24rpx;'>{{filters.sub(item.validityDateStart)}}-{{filters.sub(item.validityDateEnd)}}</view>
+          </view>
+          <view class='item-right'>
+            <image wx:if="{{status == 1}}" src='/images/img-coupon-status-icon-2.png'></image>
+            <image wx:elif="{{status == 2}}" src='/images/img-coupon-status-icon-4.png'></image>
+            <button bindtap='use' class='flex-y-center flex-x-center' plain='{{true}}' wx:else>立即使用</button>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>

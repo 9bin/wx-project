@@ -1,0 +1,28 @@
+
+<template name="wxSortPickerView">
+    <scroll-view class="wxSortPickerViewList" scroll-y="true" scroll-into-view="{{wxSortPickerViewtoView}}">
+        <block wx:for="{{separateBrandList}}" wx:for-item="item" wx:key="index">
+            <view id="{{index}}" class="wxSortPickerViewTag">{{index}}</view>
+            <template is="wxSortPickerViewItem" data="{{item}}"/>
+        </block>
+    </scroll-view>
+
+    <template is="wxSortPickerViewTemTags"/>
+</template>
+
+<template name="wxSortPickerViewItem">
+    <block wx:for="{{item}}" wx:for-item="child" wx:key="">
+        <view class="wxSortPickerViewItem" data-value="{{child.id}}" data-name='{{child.name}}'  bindtap = "chickClassfiyTag">
+            <view class='{{tag == child.id?"red":""}} flex-grow-1'>{{child.name}}</view>
+            <view wx:if="{{tag == child.id}}" class='flex-grow-0 fi fi-check red'></view>            
+        </view>
+    </block>
+</template>
+
+<template name="wxSortPickerViewTemTags">
+    <scroll-view class="wxSortPickerViewTemTags">
+        <block wx:for="{{['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#']}}" wx:for-item="item" wx:key="">
+            <view bindtap="wxSortPickerViewTemTagTap" data-tag="{{item}}" class="wxSortPickerViewTemTag">{{item}}</view>
+        </block>
+    </scroll-view>
+</template>

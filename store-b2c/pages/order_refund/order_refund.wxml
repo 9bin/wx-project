@@ -1,0 +1,235 @@
+<!--pages/order_refund/order_refund.wxml-->
+<view class='flex-row tab-bar'>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='0'>
+    <view class='navigator {{status==0?"active":""}}'>
+      <text>售后申请</text>
+    </view>
+  </view>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='1'>
+    <view class='navigator {{status==1?"active":""}}'>
+      <text>申请记录</text>
+    </view>
+  </view>
+</view>
+
+<scroll-view class='order-list' scrollY scroll-top="{{scrollTop}}" enable-back-to-top bindscrolltolower="tolower">
+  <view class='flex-col flex-x-center flex-y-center' style='color:#999' wx:if="{{show_no_data_tip}}">
+    <view class='fi fi-order-null' style='font-size:320rpx;'></view>
+    <view style='font-size:32rpx;margin-top:-40rpx;'>暂无相关订单</view>
+  </view>
+  <block wx:if="{{status==0}}">
+    <view class='order-item' wx:for="{{list}}">
+      <view>
+        <navigator class="flex-row order-info flex-y-center" url='/pages/order_detail/order_detail?id={{item.id}}'>
+          <view class='flex-grow-0' style='background:#eb0c36;font-size:24rpx;padding:0 5rpx;color:#fff;border-radius:5rpx;margin-right:10rpx;'>订</view>
+          <view class="flex-grow-1" style='font-size:28rpx;'>订单号:{{item.orderCode}}</view>
+          <view class="flex-grow-0" style='font-size:24rpx;'>{{item.createTime}}</view>
+        </navigator>
+        <view class='goods-list'>
+          <block wx:for="{{item.orderLineInfo}}" wx:for-item="goods">
+            <view class='goods-item flex-row'>
+              <view class='flex-grow-0' style="overflow: visible" bindtap='navGoodsDetail' data-id='{{goods.subProductId}}'>
+                <image class="goods-pic" mode="aspectFill" src="{{goods.full_path+goods.productImg}}"></image>
+              </view>
+              <view class='flex-grow-1 flex-col'>
+                <view class='flex-gorw-1'>
+                  <view class='goods-name' bindtap='navGoodsDetail' data-id='{{goods.subProductId}}'>{{goods.productName}}</view>
+                  <view class='attr-list mb-10'>{{goods.property}}</view>
+                </view>
+                <view class="flex-grow-1 flex-row">
+                  <view class="flex-grow-1" style='font-size:26rpx;'>数量：{{goods.packQty || 1}}</view>
+                </view>
+              </view>
+            </view>
+            <view class='btnGroups'>
+              <navigator class='btn check' hover-class='none' url='/pages/order_refund_apply/order_refund_apply?id={{goods.id}}'>申请售后</navigator>
+            </view>
+          </block>
+          <block wx:for="{{item.orderGiftList}}" wx:for-item="gift">
+            <view class='goods-item gift flex-row'>
+              <view class='flex-grow-0' style="overflow: visible" bindtap='navGiftDetail' data-id='{{gift.productId}}'>
+                <image class="goods-pic" mode="aspectFill" src="{{gift.imgPath}}"></image>
+              </view>
+              <view class='flex-grow-1 flex-col'>
+                <view class='flex-gorw-1'>
+                  <view class='goods-name' bindtap='navGiftDetail' data-id='{{gift.productId}}'>【{{gift.giftType==1?'赠品':'优惠券'}}】{{gift.giftName}}</view>
+                </view>
+                <view class="flex-grow-1 flex-row">
+                  <view class="flex-grow-1" style='font-size:26rpx;'>数量：{{gift.giftCount || 1}}</view>
+                </view>
+              </view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </block>
+  <block wx:if="{{status==1}}">
+    <view class='order-item' wx:for="{{list}}">
+      <view>
+        <navigator class="flex-row order-info flex-y-center" url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+          <view class="flex-grow-1" style='font-size:28rpx;'>服务单号：{{item.returnCode}}</view>
+          <view class="flex-grow-0" style='font-size:28rpx;color:#333 !important;'>{{item.returnType==0?"退货":"换货"}}</view>
+        </navigator>
+        <view class='goods-item flex-row'>
+          <view class='flex-grow-0' style="overflow: visible" bindtap='navGoodsDetail' data-id='{{item.productId}}'>
+            <image class="goods-pic" mode="aspectFill" wx:if="{{item.full_path+item.productImg}}" src="{{item.full_path+item.productImg}}"></image>
+          </view>
+          <view class='flex-grow-1 flex-col'>
+            <view class='flex-gorw-1'>
+              <view class='goods-name' bindtap='navGoodsDetail' data-id='{{item.productId}}' style='color: #888;'>{{item.productName}}</view>
+            </view>
+            <view class="flex-grow-1 flex-row">
+              <view class="flex-grow-1" style='color: #999;'>x{{item.rejectedCount || 1}}</view>
+            </view>
+          </view>
+        </view>
+        <block wx:if="{{item.status==1}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-wait-check'></text>
+              <text class='status-txt'>待审核</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>您的服务单已申请成功，等待商家审核</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+          <view class='btnGroups' style='padding-top: 32rpx !important;'>
+            <view class='btn cancle' data-id='{{item.id}}' data-index='{{index}}' bindtap='cancle'>取消申请</view>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==2}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-send-out'></text>
+              <text class='status-txt'>待寄出</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>商家审核已通过，待寄出商品</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+          <view class='btnGroups' style='padding-top: 32rpx !important;'>
+            <navigator class='btn check' url='/pages/order_refund_logistics/order_refund_logistics?id={{item.id}}&extype={{item.returnType}}'>填写物流</navigator>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==3}}">
+          <block wx:if="{{item.deliveryStatus==1}}">
+            <view class='order-status flex-row flex-y-center'>
+              <view class='flex-grow-0 flex-y-center'>
+                <text class='fi fi-order-sure'></text>
+                <text class='status-txt'>确认收货</text>
+                <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+              </view>
+              <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+                <view class='flex-grow-1 desc'>商家已寄出，请注意物流信息</view>
+                <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+              </navigator>
+            </view>
+            <view class='btnGroups' style='padding-top: 32rpx !important;'>
+              <view class='btn check' data-id='{{item.id}}' data-index='{{index}}' bindtap='sureReseiving'>确认收货</view>
+            </view>
+          </block>
+          <block wx:if="{{item.deliveryStatus==2}}">
+            <view class='order-status flex-row flex-y-center'>
+              <view class='flex-grow-0 flex-y-center'>
+                <text class='fi fi-wait-receipt'></text>
+                <text class='status-txt'>待寄回</text>
+                <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+              </view>
+              <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+                <view class='flex-grow-1 desc'>商品已寄出，待商家确认</view>
+                <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+              </navigator>
+            </view>
+          </block>
+        </block>
+        <block wx:elif="{{item.status==4&&item.cneeStatus==2}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-wait-receipt'></text>
+              <text class='status-txt'>待寄回</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>商家已收货，待商家重新发货</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==5}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-wait-refund'></text>
+              <text class='status-txt'>待退款</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>商品已寄出，待商家确认</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==6}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-wait-refund'></text>
+              <text class='status-txt'>已退款</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>已退款，请您注意查收</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+          <view class='btnGroups' style='padding-top: 32rpx !important;'>
+            <view class='btn check' data-id='{{item.id}}' data-index='{{index}}' bindtap='sureCollection'>确认收款</view>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==7}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-order-cancel'></text>
+              <text class='status-txt'>审核不通过</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>您的服务订单审核不通过</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==8}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-order-finish'></text>
+              <text class='status-txt'>已完成</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>服务单完成</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+        </block>
+        <block wx:elif="{{item.status==0}}">
+          <view class='order-status flex-row flex-y-center'>
+            <view class='flex-grow-0 flex-y-center'>
+              <text class='fi fi-is-error'></text>
+              <text class='status-txt'>已取消</text>
+              <text style='color: #e6e6e6;font-weight:lighter'>|</text>
+            </view>
+            <navigator class="flex-row flex-grow-1 flex-y-center" hover-class='none' url='/pages/order_refund_detail/order_refund_detail?id={{item.id}}'>
+              <view class='flex-grow-1 desc'>您的服务订单已取消</view>
+              <view class='flex-grow-0 fi fi-angle-right' style='font-size:40rpx;color:#cccccc;'></view>
+            </navigator>
+          </view>
+        </block>
+      </view>
+    </view>
+  </block>
+  <include src="../../commons/loading/loading.wxml" />
+</scroll-view>

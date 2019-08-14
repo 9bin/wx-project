@@ -1,0 +1,136 @@
+/* pages/coupon_list/coupon_list.wxss */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1rpx solid #eee;
+  background: #fff;
+}
+
+.top-bar .top-cat-item {
+  color: #666;
+  font-size: 32rpx;
+  height: 100rpx;
+}
+
+.top-bar .top-cat-item .active {
+  color: #ff0036 !important;
+  border-color: #ff0036 !important;
+}
+
+.top-bar .top-cat-item view {
+  border-bottom: 4rpx solid transparent;
+  height: 100rpx;
+  line-height: 100rpx;
+  width: fit-content;
+}
+
+.poupon-container {
+  position: absolute;
+  top: 124rpx;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 0;
+}
+
+.poupon-container .poupon-list {
+  width: 100%;
+  height: 100%;
+}
+
+.poupon-container .poupon-item {
+  height: 200rpx;
+  background: #fff;
+  position: relative;
+  margin-bottom: 24rpx;
+  overflow: hidden;
+}
+
+.poupon-container .poupon-item::before {
+  left: -10rpx;
+  display: block;
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 20rpx;
+  height: 100%;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAHVCAYAAADmaEthAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OTA5MzA1RDE2M0IzMTFFODg5NDVGMEMyQ0ZDNjUwRkEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OTA5MzA1RDI2M0IzMTFFODg5NDVGMEMyQ0ZDNjUwRkEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5MDkzMDVDRjYzQjMxMUU4ODk0NUYwQzJDRkM2NTBGQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5MDkzMDVEMDYzQjMxMUU4ODk0NUYwQzJDRkM2NTBGQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PlcEns0AAAK3SURBVHja7Ni/TlNRHMDxWw3MJUYmJwd9AidmYEFXeAwfQZ/Bpm/B5CSshIXATkicjIFCoqt1OP4OOTVNEy6ttucun5P8QkPp/eb2H/d8eimlZo61FrMbsx3zJuZlTL/c9zPma8xZzHHMl5jfjx4xh1umH/MhZpTmX7flMf22Y7dFD2Ku07+v63KMucNPY4ZpeWtYjtkazn9wmJa/Dmfjs+FPaXVr8FB4P61+7U96vfJxyh+Ny5jNZrVrFPM6fwSflF+8rxBtSiO37s94PX5+i3ne1Fm3MS9yeC9ufG7qrrf5qd5p6q/dfMYncWOrcvg0h0cVX9+/r3MO/4ob65XD407DnTzV+V191cG7+iqHzzsIX3T1BfJu8pX5PeZZza/M/FSPYwYVz3Y4eVfX/LeYz/bV/ZVp5QuBg4cufQZdXPp0erHX2eXt7AX9zX8Ebxa9oJ/dwnyMuVsgeFce07qF6S24aduZ2rRtlPt+TG3ajsqMHzvgvOGlL2FhYeGVhzkX5+JcnItzcS7Oxbk4F+fiXJyLc3Eu+2NhYWHOxbk4F+fiXJyLc3EuzsW5OBfn4lyci3PZmAsLC3MuzsW5OBfn4lyci3NxLs7FuTgX5+JcnEtYWBg34SbchJtwE27CTbgJN+Em3ISbcBNuwk025sLCwpyLc3EuzsW5OBfn4lyci3NxLs7FuTgX5xIWFhbmXJyLc3EuzsW5OBfn4lyci3NxLs7FuTiXsLCwMOfiXJyLc3EuzsW5OBfn4lyci3NxLs5lfywsLMy5OBfn4lyci3NxLs7FuTgX5+JcnItzcS4bc2FhYc7FuTgX5+JcnItzcS7Oxbk4F+fiXJyLcwkLCwtzLs7FuTgX5+JcnItzcS7Oxbk4F+fiXJxLWFhYmHNxLs7FuTgX5+JcnItzcS7Oxbk4F+eaWn8EGAAQn4gxVHsFfAAAAABJRU5ErkJggg==") center center repeat-y;
+  background-size: 10rpx auto;
+}
+
+.poupon-container .poupon-item .icon-is-reselve {
+  position: absolute;
+  right: 200rpx;
+  top: -30rpx;
+}
+
+.poupon-container .poupon-item .item-left {
+  width: 76%;
+  padding: 20rpx;
+}
+
+.poupon-container .poupon-item .item-left .name {
+  -webkit-line-clamp:2;
+display:-webkit-box;
+-webkit-box-orient:vertical;
+overflow:hidden;
+}
+
+.poupon-container .poupon-item .item-left .date {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.poupon-container .poupon-item .item-right {
+  width: 23.5%;
+  border-left: 1rpx dotted #ccc;
+  position: relative;
+}
+
+.poupon-container .poupon-item .item-right::before {
+    display: block;
+    content: '';
+    position: absolute;
+    left: -10rpx;
+    top: -10rpx;
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: 20rpx;
+    background: #f0f0f0;
+}
+
+.poupon-container .poupon-item .item-right::after {
+    display: block;
+    content: '';
+    position: absolute;
+    left: -10rpx;
+    bottom: -10rpx;
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: 20rpx;
+    background: #f0f0f0;
+}
+
+.poupon-container .poupon-item .item-right .btn {
+  width: 100rpx;
+  height: 100rpx;
+  border: 1rpx solid transparent;
+  border-radius: 100rpx;
+  font-size: 26rpx;
+}
+
+.poupon-container .poupon-item .item-right .btn.reselve {
+  color: #ff0036;
+  border-color: #ff0036 !important;
+}
+
+.poupon-container .poupon-item .item-right .btn.empty {
+  color: #ccc;
+  border-color: #ccc !important;
+}
+
+.poupon-container .poupon-item .item-right .btn.use {
+  background: rgba(255, 233, 233, .8);
+  color: #ff0036;
+}

@@ -1,0 +1,33 @@
+var filters = {
+  toFix: function (value) {
+    return parseFloat(value).toFixed(2);
+  }
+};
+function my_sub(str) {
+  var reg = getRegExp("-", "g");
+  str = str.replace(reg,'.');
+  return str.substring(0, 10);
+}
+function toInt(str) {
+  return parseInt(str);
+}
+function toEncrypt(str) {
+  console.log(str);
+  var mtel = "";
+  str && (mtel = str.substring(0, 3) + '****' + str.substring(7));
+  return mtel;
+}
+module.exports = {
+  toFix: filters.toFix,
+  sub: my_sub,
+  toInt: toInt,
+  toEncrypt: toEncrypt,
+  timesub: function (value) {
+    if (typeof value != "undefined") {
+      value = value.substring(0, 10);
+    } else {
+      value = '';
+    }
+    return value;
+  },
+}

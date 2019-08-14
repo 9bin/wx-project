@@ -1,0 +1,34 @@
+<!--area_picker/area_picker.wxml-->
+<view class="area-picker {{area_picker_show?'active':''}}">
+  <view bindtap="hideAreaPicker" class="area-picker-bg">
+    <scroll-view></scroll-view>
+  </view>
+  <view class="area-picker-body">
+    <view class="area-picker-top flex-row flex-y-center">
+      <view class="area-picker-title">所在地区</view>
+      <view bindtap="hideAreaPicker" class="area-picker-cancel fi fi-close"></view>
+    </view>
+    <view class='area-picker-region flex-row flex-y-center'>
+      <view class='flex-y-center flex-x-center' bindtap='showProPick'>
+        <text>{{region[0]||'请选择'}}</text>
+      </view>
+      <view class='flex-y-center flex-x-center' bindtap='showCityPick' wx:if="{{region.length>=1}}">
+        <text>{{region[1]||'请选择'}}</text>
+      </view>
+      <view class='flex-y-center flex-x-center' bindtap='showCouPick' wx:if="{{region.length>=2}}">
+        <text>{{region[2]||'请选择'}}</text>
+      </view>
+    </view>
+    <scroll-view scrollY="{{true}}">
+      <view wx:if="{{showProPick}}" bindtap="provinceChange" data-id='{{item.id}}' data-name='{{item.areaName}}' class='flex-y-center {{proChecked==item.id?"red":""}}' style="height:80rpx; text-align: left;" wx:for="{{area_picker_province_list}}" wx:key="index">{{item.areaName}}
+        <text style='margin-left:40rpx;' wx:if="{{proChecked==item.id}}" class='red fi fi-check'></text>
+      </view>
+      <view wx:if="{{showCityPick}}" bindtap="cityChange" data-id='{{item.id}}' data-name='{{item.areaName}}' class='flex-y-center {{cityChecked==item.id?"red":""}}' style="height:80rpx; text-align: left;" wx:for="{{area_picker_city_list}}" wx:key="index">{{item.areaName}}
+        <text style='margin-left:40rpx;' wx:if="{{cityChecked==item.id}}" class='red fi fi-check'></text>
+      </view>
+      <view wx:if="{{showCouPick}}" bindtap="countyChange" data-id='{{item.id}}' data-name='{{item.areaName}}' class='flex-y-center {{couChecked==item.id?"red":""}}' style="height:80rpx; text-align: left;" wx:for="{{area_picker_county_list}}" wx:key="index">{{item.areaName}}
+        <text style='margin-left:40rpx;' wx:if="{{couChecked==item.id}}" class='red fi fi-check'></text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

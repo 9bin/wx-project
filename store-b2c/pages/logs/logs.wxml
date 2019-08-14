@@ -1,0 +1,24 @@
+<!--logs.wxml-->
+<!-- <view class="container log-list">
+  <block wx:for="{{logs}}" wx:for-item="log">
+    <text class="log-item">{{index + 1}}. {{log}}</text>
+  </block>
+</view> -->
+<!-- <view class='swiper'>
+  <swiper bindchange="hide" current="{{current}}" circular="true" class="goods-image-swiper">
+    <swiper-item wx:for="{{listImg}}">
+      <image bindtap="play" class="play {{img_hide}}" data-url="{{videoPath}}" src="/images/video-play.png" wx:if="{{videoPath}}"></image>
+      <image bindtap="onGoodsImageClick" class="goods-image" data-index="{{index}}" mode="aspectFill" src="{{item}}"></image>
+    </swiper-item>
+  </swiper>
+  <view class='dots'>{{current+1}}／{{goods.listImg.length}}</view>
+</view> -->
+<view class='swiper' wx:if="{{listImg && listImg.length>0}}" id='swiper'>
+  <view class='swiper-wrapper flex-row' style='width:{{swiperWidth*2}}px;' bindtouchstart='start' bindtouchmove='move' bindtouchend='end'>
+    <view class='swiper-item flex-grow-0 flex-row' wx:for="{{listImg}}" style='width:{{swiperWidth}}px;left:{{index*(-swiperWidth)}}px;{{style[index]}}'>
+      <image catchtap="play" class="play" data-url="{{videoPath}}" src="/images/video-play.png" wx:if="{{videoPath&&(index==0)}}"></image>
+      <image catchtap="onGoodsImageClick" class="goods-image" data-index="{{index}}" mode="aspectFill" src="{{item}}"></image>
+      <video class='{{hide}}' controls autoplay="true" id="video" src="{{url}}" wx:if="{{videoPath&&(index==0)}}"></video>
+    </view>
+  </view>
+</view>

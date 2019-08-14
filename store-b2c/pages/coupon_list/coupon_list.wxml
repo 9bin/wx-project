@@ -1,0 +1,47 @@
+<!--pages/coupon_list/coupon_list.wxml-->
+<wxs module="util" src="../../util.wxs"></wxs>
+<include src="../../commons/extension/extension.wxml"></include>
+<view class='page'>
+  <view class='top-bar flex-row'>
+        <view class='top-cat-item flex-x-center flex-grow-1 {{couponType=="0"?"active":""}}' data-coupon-type="0" catchtap='checkTag'><view class='{{couponType=="0"?"active":""}}'>全部</view></view>
+        <view class='top-cat-item flex-x-center flex-grow-1 {{couponType=="1"?"active":""}}' data-coupon-type="1" catchtap='checkTag'><view class='{{couponType=="1"?"active":""}}'>全平台</view></view>
+        <view class='top-cat-item flex-x-center flex-grow-1 {{couponType=="2"?"active":""}}' data-coupon-type="2" catchtap='checkTag'><view class='{{couponType=="2"?"active":""}}'>指定商品</view></view>
+  </view>
+
+  <view class='poupon-container'>
+    <scroll-view class='poupon-list' bindscrolltolower="tolower" scrollY="{{true}}" scroll-top="{{top_bar_scroll}}">
+      <view class='poupon-item flex-row' wx:for="{{list}}">
+        <view class='icon-is-reselve' wx:if="{{item.isUse!='0'}}">
+          <image src='/images/img-coupon-status-icon-1.png' style='width:100rpx;height:100rpx;'></image>
+        </view>
+        <view class='item-left flex-row flex-y-center'>
+          <view class='flex-grow-0 flex-col flex-x-center flex-y-center' style='margin-right:24rpx;min-width:160rpx;'>
+            <view class='red mb-10' style='font-size: 60rpx;font-weight:800;'>{{util.toInt(item.processValue)}}</view>
+            <view class='red'><text style='font-size: 24rpx;' wx:if="{{util.toFix(item.reachStandardValue)>0}}">满{{item.reachStandardValue}}可用</text><text wx:else>无门槛</text></view>
+          </view>
+          <view class='flex-grow-1 flex-col'>
+            <view class='name mb-20'>{{item.name}}</view>
+            <view class='date'>{{util.sub(item.validityDateStart)}}-{{util.sub(item.validityDateEnd)}}</view>
+          </view>
+        </view>
+        <view class='item-right flex-col flex-y-center flex-x-center' wx:if='{{item.isUse=="0" && (util.toFix(item.sendNumber)-util.toFix(item.quantity))<0}}'>
+          <view class='btn reselve flex-x-center flex-y-center flex-col' data-id='{{item.id}}' bindtap='receive'>
+            <view>立即</view>
+            <view>领取</view>
+          </view>
+          <view style='font-size:24rpx;'>剩余{{util.toInt((1-util.toFix(item.sendNumber)/util.toFix(item.quantity))*100)}}%</view>
+        </view>
+        <view class='item-right flex-col flex-y-center flex-x-center' wx:if='{{item.isUse=="0" && (util.toFix(item.sendNumber)-util.toFix(item.quantity))>=0}}'>
+          <view class='btn empty flex-x-center flex-y-center'>已抢光</view>
+        </view>
+        <view class='item-right flex-col flex-y-center flex-x-center' wx:if='{{item.isUse!="0"}}'>
+          <view class='btn use flex-x-center flex-y-center flex-col' bindtap='toUse'>
+            <view>立即</view>
+            <view>使用</view>
+          </view>
+        </view>  
+      </view>
+      <include src="../../commons/loading/loading.wxml"></include>
+    </scroll-view>
+  </view>
+</view>

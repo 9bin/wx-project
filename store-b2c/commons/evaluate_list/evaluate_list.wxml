@@ -1,0 +1,87 @@
+<wxs module="util" src="../../util.wxs"></wxs>
+<template name="evaluate_list">
+  <scroll-view scrollY="{{true}}" class="evaluate_list" bindscrolltolower="scrolltolower">
+    <view>
+      <view class='evaluate-header flex-row' wx:if="{{evaluateTag.length>0}}">
+        <view bindtap='chickTag' class="evaluate-header-item {{tag.active?'active':''}}" wx:for="{{evaluateTag}}" data-id='{{tag.labelId}}' wx:for-item="tag">{{tag.flagName}}{{tag.useAmount}}</view>
+      </view>
+      <view style='margin-top:20rpx;'>
+        <navigator hover-class='none' url='/pages/evaluate_detail/evaluate_detail?id={{item.id}}' class='comment-item flex-row' wx:for="{{evaluateList}}">
+          <view class='flex-grow-0' style="overflow: visible">
+            <image mode="aspectFill" src="{{item.headPortraitUrl}}" style="width: 70rpx;height: 70rpx;border-radius: 1000rpx"></image>
+          </view>
+          <view class="flex-grow-1">
+            <view class="flex-row">
+              <view class="flex-grow-1 flex-y-center nickname">
+                <view>{{item.nickName}}</view>
+              </view>
+              <view class="flex-grow-0 flex-y-center addtime flex-col">
+                <view>{{util.timesub(item.createTime)}}</view>
+              </view>
+            </view>
+            <view class="flex-row flex-y-center mb-20">
+              <view class="flex-grow-1 nickname">
+                <view class='starGroup'>
+                  <view class='starContainer starContainer-on' style='width:{{item.disCate/5*100}}%'>
+                    <view class='starList flex-y-center flex-row'>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                    </view>
+                  </view>
+                  <view class='starContainer starContainer-default'>
+                    <view class='starList flex-y-center flex-row'>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                      <i class="fi fi-star"></i>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <view class="flex-grow-0 flex-y-center addtime flex-col">
+                <view wx:if="{{item.terminal==0}}">来自WEB后台</view>
+                <view wx:if="{{item.terminal==1}}">来自触屏手机版</view>
+                <view wx:if="{{item.terminal==2}}">来自android手机版</view>
+                <view wx:if="{{item.terminal==3}}">来自IOS手机版</view>
+              </view>
+            </view>
+            <view class="mb-20">{{item.disContent}}</view>
+            <view class="pic-list" wx:if="{{item.imageList&&item.imageList.length>0}}">
+              <image catchtap="commentPicView" class="pic-item" data-index="{{index}}" data-pic-index="{{pic_index}}" mode="aspectFill" src="{{item}}" wx:for="{{item.imageList}}" wx:for-index="{{pic_index}}"></image>
+            </view>
+            <view class='flex-y-center flex-row attrActionGroup'>
+              <view class='attrGroup flex-row flex-grow-1'>
+                <view class='attrGroup-item'>{{item.disProductProperty}}</view>
+              </view>
+              <view class='actionGroup flex-row flex-grow-0'>
+                <view class="actionItem flex-y-center flex-row {{item.toggleClass?'hide':''}}" data-id='{{item.id}}' catchtap='toggleClass'>
+                  <view class='fi fi-thumbs-default'></view>
+                  <view>{{item.laudAmount}}</view>
+                </view>
+                <view class="actionItem flex-y-center flex-row {{item.toggleClass?'on':'hide'}}" data-id='{{item.id}}' catchtap='toggleClass'>
+                  <view class='fi fi-thumbs-on'></view>
+                  <view>{{item.laudAmount}}</view>
+                </view>
+                <view class='actionItem flex-y-center flex-row'>
+                  <view class='fi fi fi-comment'></view>
+                  <view>{{item.replayAmount}}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </navigator>
+        <include src="/commons/loading/loading.wxml"></include>
+      </view>
+    </view>
+    <view wx:if="{{show_no_data_tip}}">
+      <view class='flex-col flex-x-center flex-y-center' style='margin-top:200rpx;'>
+        <image src='/images/no-evaluate.png' style='width:270rpx;height:200rpx;'></image>
+        <text style='color:#999999;font-size:30rpx;margint-top:20rpx;'>暂无评论哦~</text>
+      </view>
+    </view>
+  </scroll-view>
+</template>

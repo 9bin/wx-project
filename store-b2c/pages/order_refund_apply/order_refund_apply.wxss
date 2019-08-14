@@ -1,0 +1,130 @@
+/* pages/order_refund_apply/order_refund_apply.wxss */
+.goods-item {
+  background: #fff;
+  border-bottom: 1rpx solid #e3e3e3;
+  padding: 32rpx 24rpx;
+}
+
+.goods-item:first-child {
+  border-top: 1rpx solid #eee;
+}
+
+.goods-item .goods-pic {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+}
+
+.goods-item .goods-name {
+  margin-bottom: 10rpx;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-item .attr-list,.goods-item .num {
+    font-size: 26rpx;
+    color: #999; 
+}
+
+.item {
+  padding: 32rpx 24rpx;
+  background: #fff;
+  overflow-x: hidden; 
+}
+
+.item .btn-status {
+  padding: 10rpx 40rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+  color: #666;
+  margin-right: 20rpx;
+}
+
+.item .btn-status.active {
+  color: #eb0c36;
+  border-color: #eb0c36;
+}
+
+.number-input-box {
+    height: 70rpx;
+}
+
+.number-input-box .number-input {
+    height: 70rpx!important;
+    border: none;
+    text-align: center;
+    width: 120rpx;
+    background: #eee;
+    margin: 0 4rpx!important;
+}
+
+.number-input-box .number-btn {
+    height: 100%!important;
+    width: 70rpx;
+    background: #eee;
+}
+
+.number-input-box .number-btn.disabled {
+    background: #f6f6f6;
+    color: #aaa;
+}
+
+.item .area {
+  width: 100%;
+  height: 300rpx;
+  padding: 20rpx;
+  position: relative;
+  border: 1rpx solid #e6e6e6;
+}
+
+.item .area textarea {
+  width: 100%;
+  height: 100%;
+  font-size: 26rpx;
+}
+.item .area .tips {
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.imgGroups {
+  flex-wrap: wrap;
+  margin-top: 32rpx;
+  margin-left: -32rpx;
+}
+
+.img-item {
+  position: relative;
+  margin-left: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.img-item .fi {
+  color: #000;
+  position: absolute;
+  top: 0rpx;
+  right: 0rpx;
+  font-size: 50rpx;
+  opacity: 0.5;
+}
+
+.img-item image {
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.bar-bottom {
+  margin: 32rpx auto;
+  width: 90%;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #fff;
+  background: #eb0c36;
+  border-radius: 10rpx;
+}

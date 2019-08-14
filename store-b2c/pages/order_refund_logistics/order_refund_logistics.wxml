@@ -1,0 +1,35 @@
+<!--pages/order_refund_logistics/order_refund_logistics.wxml-->
+<include src="../../commons/extension/extension.wxml" />
+<view class='page'>
+  <form bindsubmit='submit'>
+  <button class='bar-bottom' form-type='submit'>提交</button>
+  <view class='flex-row flex-y-center' style='margin-top:20rpx;background:#fff;padding:32rpx 24rpx;'>
+    <view class='flex-grow-0' style='color:#666'>物流公司</view>
+    <navigator class='flex-grow-1' hover-class='none' url='/pages/order_refund_logistics/logistics_company/logistics_company'>
+      <input class='flex-grow-1' name="logisticsCompany" style='padding-left:20rpx;text-align:right;' placeholder='请选择' disabled='{{true}}' value='{{logisticsCompany}}'></input>
+    </navigator>
+    <view class="flex-grow-0 fi fi-angle-right" style="font-size:50rpx;color:#cccccc;"></view>
+  </view>
+  <view class='flex-row flex-y-center' style='border-top:1rpx solid #e6e6e6;background:#fff;padding:32rpx 24rpx;'>
+    <view class='flex-grow-0' style='color:#666'>物流单号</view>
+    <view class='flex-grow-1'>
+      <input class='flex-grow-1' name="logisticsCode" style='padding-left:20rpx;text-align:right;' placeholder='请输入物流单号' value='{{logisticsCode}}'></input>
+    </view>
+    <view class="flex-grow-0 fi fi-angle-right" style="font-size:50rpx;color:#cccccc;"></view>
+  </view>
+  <view class='flex-col' style='margin-top:20rpx;background:#fff;padding:32rpx 24rpx;'>
+    <view style='color:#666'>上传凭证</view>
+    <view class='imgGroups flex-row'>
+      <view class='img-item'  wx:for="{{imgList}}" wx:if="{{imgList.length}}">
+        <text class='fi fi-close-solid' data-index="{{index}}" bindtap='cancleChoose'></text>
+        <image src='{{item}}' style='border:1rpx solid #ccc;' data-index="{{index}}" bindtap='onGoodsImageClick'></image>
+      </view>
+      <view class='img-item' bindtap='chooseImg' wx:if="{{!imgList||imgList.length<5}}">
+        <image src='/images/icon-image-picker.png' mode="aspectFill" style='border:1rpx dashed #ccc;'></image>
+      </view>
+    </view>
+    <view style='color:#999;font-size:26rpx;'>为了更好的解决问题，请上传照片，最多5张，最少1张。每张不超过5M，支
+持JPG、BMP、PNG格式。</view>
+  </view>
+  </form>
+</view>

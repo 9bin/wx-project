@@ -1,0 +1,248 @@
+<!--pages/limit_time_buy/order_submit/order_submit.wxml-->
+<import src="../../../wxParse/wxParse.wxml"></import>
+<wxs module="util" src="../../../util.wxs"></wxs>
+
+<view class="bottom-bar flex-row" wx:if="{{is_area==1&&offline==0}}">
+    <view class="is_area">所选地区暂时无货</view>
+</view>
+<form bindsubmit="orderSubmit" reportSubmit="true" wx:else>
+    <view class="bottom-bar flex-row">
+        <view class="flex-y-center flex-grow-1" style="padding: 0 24rpx">
+            <view class="flex-grow-1" style="text-align: right ">
+                    总计: <text style="color:#eb0c36;">￥{{new_total_price}}</text>
+                </view>
+        </view>
+        <button class="flex-y-center flex-grow-0 flex-x-center submit-btn" formType="submit">提交订单</button>
+    </view>
+</form>
+<view class="{{show_card||show_model||show?'no-scroll':''}}" style="padding-bottom: 109rpx;border-top: 1rpx solid #e3e3e3;">
+  <navigator class="flex-row address-picker" url="/pages/address_picker/address_picker?id={{address.id}}">
+      <view class="flex-grow-1" wx:if="{{address}}">
+          <view class="flex-row" style="margin-bottom: 20rpx;font-size:30rpx;">
+              <view class="flex-grow-0">{{address.deliveryName}}</view>
+              <view class="flex-grow-0" style='margin-left:40rpx;'>{{address.deliveryPhone}}</view>
+          </view>
+          <view style="color: #999;font-size:26rpx;">{{address.deliveryProv}}{{address.deliveryCity}}{{address.deliveryArea}}{{address.deliveryAddr}}</view>
+      </view>
+      <view class="flex-grow-1" wx:else>
+          <view>请选择收货地址</view>
+      </view>
+      <view class="flex-grow-0 flex-y-bottom">
+          <image src="/images/icon-jiantou-r.png" style="width: 15rpx; height: 28rpx;margin-left: 24rpx"></image>
+          <!-- <view class='fi fi-angle-right' style='font-size:40rpx;'></view> -->
+      </view>
+  </navigator>
+  <view class="cart-list">
+      <view class="flex-col " wx:for="{{productList}}" style="{{orderGiftList.length<=0?'border-bottom:1rpx solid #e3e3e3':''}}">
+          <view class="cart-item flex-row">
+              <view class="flex-grow-0">
+                  <image class="goods-pic" mode="aspectFill" src="{{item.mainImg}}"></image>
+              </view>
+              <view class="flex-grow-1 flex-col">
+                  <view class="flex-grow-1">
+                      <view class="goods-name">{{item.productName}}</view>
+                      <view class="attr-list">
+                          {{item.property}}
+                      </view>
+                  </view>
+                  <view class="flex-grow-0 flex-row">
+                      <view class="flex-grow-1 flex-row">
+                        <view class='price'>￥{{util.toFix(item.marketingInfo.flashSaleInfo.activityPrice)}}</view>
+                        <view class='orgin_price flex-y-bottom'>￥{{util.toFix(item.marketPrice)}}</view>
+                      </view>
+                      <view class="flex-grow-0 num">×{{item.cartInfo.itemCount || 1}}</view>
+                  </view>
+              </view>
+          </view>
+          <view wx:if="{{orderGiftList&&orderGiftList.length>0}}">
+              <view class='goods-gifts flex-row' wx:for="{{orderGiftList}}" wx:for-item="gift">
+                  <view class="flex-y-center flex-grow-1">{{gift.giftName}}</view>
+                  <view class="flex-y-center flex-grow-0">x{{gift.giftCount}}</view>
+              </view>
+          </view>
+          <view class="goods-intrgral flex-row" wx:if="{{item.give>0}}">
+              <view class="flex-y-center"> 订单完成返回</view>
+              <view class="flex-y-center" style="color:#ff4544">{{item.give}}</view>
+              <view class="flex-y-center">积分</view>
+          </view>
+      </view>
+  </view>
+  <navigator class='lable mb-20 flex-row flex-y-center' url='/pages/distribution/distribution?productIds={{productIds}}'>
+    <view class='flex-grow-1' style="color: #666">配送方式</view>
+    <view class='flex-grow-0'>
+      <view>{{distribution==1?'快递配送':'上门自提'}}</view>
+    </view>
+    <view class="flex-grow-0">
+        <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+    </view>
+  </navigator>
+  <navigator class='lable mb-20 flex-row flex-y-center' url='/pages/invoice/invoice'>
+    <view class='flex-grow-1' style="color: #666">发票</view>
+    <view class='flex-grow-0'>
+      <view wx:if="{{invoiceType == '2'}}">普通发票</view>
+      <view wx:if="{{invoiceType == '1'}}">不开发票</view>
+    </view>
+    <view class="flex-grow-0">
+        <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+    </view>
+  </navigator>
+  <view bindtap="showCouponPicker" class='lable mb-20 flex-row flex-y-center'>
+    <view class='flex-grow-1' style="color: #666">优惠券</view>
+    <view class='flex-grow-0'>
+      <view style="color: #888" wx:if="{{!couponList||couponList.length==0}}">目前无可用优惠券</view>
+      <block wx:else>
+          <!-- <view wx:if="{{picker_coupon}}">-{{picker_coupon.sub_price}}元</view> -->
+          <view>有{{couponList.length}}张优惠券可以使用</view>
+      </block>
+    </view>
+    <view class="flex-grow-0">
+        <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+    </view>
+  </view>
+  <view wx:if="{{businessConfig.integralUsePoint=='1'}}" class='lable mb-20 flex-row flex-y-center'>
+    <view class='flex-grow-1 flex-row flex-y-center' style="color: #666">
+      <view>积分抵扣</view>
+      <!-- <view bindtap='integration' class='fi fi-is-warning' style='font-size:50rpx;'></view> -->
+    </view>
+    <view class='flex-grow-0'>
+      <view>可用1000积分抵{{1000*util.toInt(businessConfig.glodExchangeCapital)}}元</view>
+    </view>
+    <view class="flex-grow-0 integral-switch">
+        <switch bindchange="integralSwitchChange" checked='{{integral_radio}}' color="#ff3306" class="flex-y-center" style="height:44rpx"></switch>
+    </view>
+  </view>
+  <view class='lable mb-20 flex-row flex-y-center' bindtap='showPwd'>
+    <view class='flex-grow-1' style="color: #666">
+      <view>余额支付</view>
+    </view>
+    <view class='flex-grow-0'>
+      <view>可用余额￥{{member.capital}}</view>
+    </view>
+    <view class="flex-grow-0">
+        <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+    </view>
+  </view>
+  <view class='lable mb-20'>
+    <textarea bindinput="bindinput" value='{{leaveWords}}' placeholder='选填：给商家留言（60字以内）' auto-height maxlength="60" placeholder-style='color:#999;'></textarea>
+  </view>
+<view class='lable mb-20 flex-col'>
+    <view class='flex-row mb-20'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>商品金额</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>￥{{util.toFix(realPayPrice)}}</view>
+      </view>
+    </view>
+    <view class='flex-row mb-20'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>优惠券</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>-￥{{util.toFix(picker_coupon.processValue || 0)}}</view>
+      </view>
+    </view>
+    <view class='flex-row mb-20'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>积分抵扣</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>-￥{{util.toFix(integral_ex.forehead)}}</view>
+      </view>
+    </view>
+    <view class='flex-row mb-20'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>余额支付</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>-￥{{util.toFix(balencePay || 0)}}</view>
+      </view>
+    </view>
+    <view class='flex-row'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>运费</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>+￥{{express_price}}</view>
+      </view>
+    </view>
+  </view>
+  
+</view>
+
+<!-- 积分抵扣规则说明弹窗 -->
+<view class="dAlert showIntegraExplan {{showIntegraExplan ? 'on':''}}">
+  <view class='alertContainer'>
+    <view class='alert-main'>
+      <view class='alertMainer'>
+        <view class='descContent'>
+          <view class='title flex-y-center flex-x-center'>积分兑换说明</view>
+        <view class='content'><template is="wxParse" data="{{wxParseData:detail.nodes}}"></template></view>
+        <view class='btn flex-y-center flex-x-center' style='color:#ff0036' bindtap='integration'>我知道了</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='alertMask'></view>
+</view>
+
+<!-- 积分抵扣验证码输入弹窗 -->
+<view class="dAlert showIntegraCode {{showIntegraCode ? 'on':''}}">
+  <view class='alertContainer'>
+    <view class='alert-main'>
+      <view class='alertMainer'>
+        <form bindreset='cancleExchange' bindsubmit='submitExchange'>
+          <view class='descContent'>
+            <view class='title flex-y-center flex-x-center'>积分兑换</view>
+            <view class='flex-col flex-y-center' style='border-top:1rpx solid #e6e6e6;padding:24rpx'>
+              <view style='width:480rpx'>共{{member.integral}}积分，本次使用</view>
+              <view class='flex-row flex-y-center' style='width:480rpx;margin-top:30rpx;'><input class='flex-grow-1' style='border:1rpx solid #ccc;height:80rpx;line-height:80rpx;padding: 0 20rpx;' name="integral" type='number' value='{{integral_ex.forehead_integral}}' bindinput='integralipt' ></input><text class='flex-grow-0' style='margin-left:10rpx;'>积分</text></view>
+              <view style='width:480rpx;margin-top:20rpx;'>抵扣<text style='color:#eb0c36;'>￥{{integral_ex.forehead}}</text></view>
+              <view style='width:480rpx;color:#999;font-size:26rpx;margin:20rpx;'>请输入手机尾号{{mobile}}接收的短信验证码</view>
+              <view class='code flex-row flex-y-center' style='width:480rpx;'>
+                <input placeholder='短信验证码' placeholder-style='color:#999' name="code"></input>
+                <button type="default" size="mini" plain='plain' disabled='{{util.toInt(integral_ex.forehead_integral)<=0 || statuGetSmsCode}}' bindtap="getSmsCode">{{getSmsCodeTxt}}</button>
+              </view>
+
+            </view>
+            <view class='btnGroups flex-row flex-y-center'>
+              <button class='btn flex-grow-1 flex-y-center flex-x-center' form-type='reset' plain='true'>取消</button>
+              <button class='btn flex-grow-1 flex-y-center flex-x-center' form-type='submit' plain='true' style='color:#eb0c36;border-left:1rpx solid #e6e6e6'>确定</button>
+            </view>
+          </view>
+        </form>
+      </view>
+    </view>
+  </view>
+  <view class='alertMask'></view>
+</view>
+
+<!-- 余额支付密码输入弹窗 -->
+<view class="dAlert showPwd {{showPwd ? 'on':''}}">
+  <view class='alertContainer'>
+    <view class='alert-main'>
+      <view class='alertMainer'>
+        <view class='descContent'>
+          <view class='title flex-y-center flex-x-center'>余额支付</view>
+          <view class='flex-col flex-y-center' style='border-top:1rpx solid #e6e6e6;padding:24rpx'>
+            <view class='payInput flex-row flex-y-center'><input class='iptBalencePay' type='digit' value='{{balencePay}}' bindinput='balencePay'></input><text class='text'>￥</text></view>
+            <view class='balance flex-row flex-y-center'>
+              <view class='fi fi-rmb'></view>
+              <view>余额（剩余￥{{member.capital}}）</view>
+            </view>
+            <view class='inputContent'>
+              <view class='iptGroups flex-row'> 
+                <block wx:for="{{length}}" wx:key="item"> 
+                  <input class='iptbox' value="{{password.length>=index+1?password[index]:''}}" disabled password catchtap='Tap'></input> 
+                </block>
+              </view> 
+              <input name="password" type='number' password class='ipt' maxlength="{{length}}" focus="{{isFocus}}" bindinput="Focus"></input>  
+            </view>
+            <view class='forgetPwd'>忘记密码</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='alertMask' bindtap='closeShowPwd'></view>
+</view>

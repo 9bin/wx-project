@@ -1,0 +1,192 @@
+/* pages/order/order.wxss */
+
+.tab-bar {
+  background: #fff;
+  border-top: 1rpx solid #e3e3e3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.tab-bar~.order-list {
+  padding-top: 100rpx;
+}
+
+.tab-bar .navigator {
+  display: block;
+  padding: 0 24rpx;
+  text-align: center;
+}
+
+.tab-bar .navigator text {
+  height: 100rpx;
+  line-height: 100rpx;
+  display: inline-block;
+}
+
+.tab-bar .navigator.active text {
+  color: #f00;
+  border-bottom: 4rpx solid #f00;
+}
+
+.order-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.order-list .order-item {
+  background: #fff;
+  margin-top: 20rpx;
+}
+
+.order-list .order-info {
+  font-size: 28rpx;
+  color: #888;
+  padding: 32rpx 24rpx;
+}
+
+.goods-item {
+  background: #fff;
+  border-bottom: 1rpx solid #e3e3e3;
+  padding: 32rpx 24rpx;
+}
+
+.goods-item:first-child {
+  border-top: 1rpx solid #eee;
+}
+
+.goods-item .goods-pic {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+}
+
+.goods-item .goods-name {
+  margin-bottom: 10rpx;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-item .attr-list,.goods-item .num {
+    font-size: 26rpx;
+    color: #999; 
+}
+
+.gift-item {
+  background: #fff;
+  border-bottom: 1rpx solid #e3e3e3;
+  padding: 32rpx 24rpx;
+}
+
+.gift-item .gift-pic {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+}
+
+.gift-item .gift-name {
+  margin-bottom: 20rpx;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gift-item .gift-name .tag {
+  border-radius: 6rpx;
+  border: 1rpx solid #eb0c36;
+  color: #eb0c36;
+  font-size: 24rpx;
+  padding: 0 5rpx;
+  margin-right: 10rpx;
+}
+
+.totle-price {
+  font-size: 26rpx;
+  color: #666;
+  display: flex;
+  justify-content: flex-end;
+  padding: 32rpx 24rpx;
+}
+
+.btnGroups {
+  border-top: 1rpx solid #e3e3e3;
+  justify-content: flex-end;
+  padding: 32rpx 24rpx;
+}
+
+.btnGroups .btn {
+  width: 160rpx;
+  border-radius: 10rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  margin-left: 24rpx;
+}
+
+.btnGroups .btn.cancle {
+  color: #999;
+  border: 1rpx solid #ccc;
+}
+
+.btnGroups .btn.check {
+  color: #eb0c36;
+  border: 1rpx solid #eb0c36;
+}
+
+.btnGroups .btn.submit {
+  color: #fff;
+  background: #eb0c36;
+}
+
+.picker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  overflow:hidden;
+}
+
+.picker .content-box {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  animation: showModel 0.5s;
+  padding: 30rpx 24rpx;
+}
+
+@keyframes showModel {
+  0% {transform: translateY(150%);}  
+}
+
+.picker .content-box .reason-list {
+  background: #fff;
+  border-radius: 20rpx;
+}
+
+.picker .content-box .reason-list .reason-item {
+  height: 105rpx;
+  line-height: 105rpx;
+  border-top: 1rpx solid #e6e6e6;
+  text-align: center;
+}
+
+.picker .content-box .button {
+  background: #fff;
+  border-radius: 20rpx;
+  height: 105rpx;
+  line-height: 105rpx;
+  text-align: center;
+  color: #eb0c36;
+  margin-top: 30rpx;
+}

@@ -1,0 +1,47 @@
+/* pages/distribution/distribution.wxss */
+.top-nav {
+  margin-top: 20rpx;
+  background: #fff;
+  padding: 24rpx 36rpx;
+}
+
+.fi-wait-receipt {
+  font-size: 40rpx;
+}
+
+.nav {
+  font-size: 26rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 5rpx;
+  border: 1rpx solid #ccc;
+}
+
+.nav.active {
+  border-color: #eb0c36;
+  color: #eb0c36;
+}
+
+.address-picker {
+  background: #fff;
+  margin-top: 20rpx;
+}
+.address-picker .li {
+  padding: 24rpx;
+  border-bottom: 1rpx solid #e5e5e5;
+}
+
+.address-picker .li .lable {
+  color: #666;
+}
+
+.btn {
+  width: 90%;
+  margin: 50rpx auto;
+  background: #eb0c36;
+  color: #fff;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  border-radius: 10rpx;
+}

@@ -1,0 +1,184 @@
+/* pages/order_detail/order_detail.wxss */
+.btnGroups {
+  border-top: 1rpx solid #e3e3e3;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 9999;
+}
+
+.btnGroups .btn {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+}
+
+.btnGroups .btn.cancle {
+  color: #999;
+}
+
+.btnGroups .btn.check {
+  color: #eb0c36;
+}
+
+.btnGroups .btn.submit {
+  color: #fff;
+  background: #eb0c36;
+}
+page {
+  overflow-x: hidden;
+}
+.page {
+  padding-bottom: 100rpx;
+}
+.statu-bar {
+  box-sizing: border-box;
+  padding: 0 24rpx;
+  color: #fff;
+  height: 108rpx;
+  position: relative;
+  z-index: 8;
+}
+
+.statu-bar image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.statu-bar .text {
+  height: 108rpx;
+}
+
+.statu-bar .text .fi {
+  font-size: 50rpx;
+  margin-right: 10rpx;
+}
+
+.goods-item {
+  background: #fff;
+  border-bottom: 1rpx solid #e3e3e3;
+  padding: 32rpx 24rpx;
+}
+
+.goods-item:first-child {
+  border-top: 1rpx solid #eee;
+}
+
+.goods-item .goods-pic {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+}
+
+.goods-item .goods-name {
+  margin-bottom: 10rpx;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.goods-item .attr-list,.goods-item .num {
+    font-size: 26rpx;
+    color: #999; 
+}
+
+.gift-item {
+  background: #fff;
+  border-bottom: 1rpx solid #e3e3e3;
+  padding: 32rpx 24rpx;
+}
+
+.gift-item .gift-pic {
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+}
+
+.gift-item .gift-name {
+  margin-bottom: 20rpx;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gift-item .gift-name .tag {
+  border-radius: 6rpx;
+  border: 1rpx solid #eb0c36;
+  color: #eb0c36;
+  font-size: 24rpx;
+  padding: 0 5rpx;
+  margin-right: 10rpx;
+}
+
+.price-detail {
+  background: #fff;
+  padding: 32rpx 24rpx;
+}
+
+.left {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.right {
+  font-size: 28rpx;
+}
+
+.totle-price {
+  padding: 32rpx 24rpx;
+  background: #f8f8f8
+}
+
+/* 取消订单弹窗 */
+.picker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  overflow:hidden;
+}
+
+.picker .content-box {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  animation: showModel 0.5s;
+  padding: 30rpx 24rpx;
+}
+
+@keyframes showModel {
+  0% {transform: translateY(150%);}  
+}
+
+.picker .content-box .reason-list {
+  background: #fff;
+  border-radius: 20rpx;
+}
+
+.picker .content-box .reason-list .reason-item {
+  height: 105rpx;
+  line-height: 105rpx;
+  border-top: 1rpx solid #e6e6e6;
+  text-align: center;
+}
+
+.picker .content-box .button {
+  background: #fff;
+  border-radius: 20rpx;
+  height: 105rpx;
+  line-height: 105rpx;
+  text-align: center;
+  color: #eb0c36;
+  margin-top: 30rpx;
+}

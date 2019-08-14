@@ -1,0 +1,46 @@
+/* pages/address_edit/address_edit.wxss */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.bottom-bar view {
+    background: #eb0c36;
+    text-align: center;
+    height: 100rpx;
+    line-height: 100rpx;
+    color: #fff;
+}
+
+.edit-row {
+    background: #fff;
+    height: 100rpx;
+    border-bottom: 1rpx solid #eeeeee;
+    padding: 0 24rpx;
+}
+
+.edit-row:first-child {
+    border-top: 1rpx solid #eeeeee;
+}
+
+.edit-row .row-label {
+    margin-right: 24rpx;
+    min-width: 140rpx;
+}
+
+.delete {
+    text-align: center;
+    padding: 18rpx 0;
+    margin: 32rpx 24rpx;
+    border-radius: 10rpx;
+    display: block;
+    border: 1rpx solid #999;
+    color: #999;
+}
+
+.get-wechat-address:active {
+    opacity: .85;
+}

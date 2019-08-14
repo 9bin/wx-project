@@ -1,0 +1,112 @@
+/* pages/invoice/invoice.wxss */
+.top-nav {
+  background: #fff;
+  padding: 24rpx 36rpx;
+  border-top: 1rpx solid #e6e6e6;
+}
+
+.fi-wait-receipt {
+  font-size: 40rpx;
+}
+
+.nav {
+  font-size: 26rpx;
+  padding: 10rpx 24rpx;
+  border-radius: 5rpx;
+  border: 1rpx solid #ccc;
+}
+
+.nav.active {
+  border-color: #eb0c36;
+  color: #eb0c36;
+}
+
+.invoiceTitle {
+  background: #fff;
+  margin-top: 20rpx;
+  padding: 30rpx 24rpx;
+}
+
+.radio-group {
+  padding: 24rpx 0;
+}
+
+.radio-group .radio {
+  font-size: 26rpx;
+}
+
+.radio-group .radio:last-child {
+  margin-left: 40rpx;
+}
+
+.inputGroup {
+  background: #fff;
+  padding: 0 24rpx 30rpx;
+}
+.inputGroup .input {
+  height: 80rpx;
+  background: #f0f0f0;
+  border-radius: 5rpx;
+}
+
+.inputGroup .input input{
+  padding: 0 20rpx;
+  font-size: 28rpx;
+}
+
+.inputGroup .input .fi {
+  font-size: 60rpx;
+  color: #999;
+  margin: 0 10rpx;
+}
+
+.invoiceContent {
+  background: #fff;
+  margin-top: 20rpx;
+  padding: 30rpx 24rpx;
+}
+
+.invoiceContent .radio {
+  margin-top: 20rpx;
+}
+
+.btn {
+  width: 90%;
+  margin: 50rpx auto;
+  background: #eb0c36;
+  color: #fff;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  border-radius: 10rpx;
+}
+
+/* 弹出窗 */
+.show_modle .alertContainer {
+  top: 15%;
+  border-radius: 20rpx;
+  background: #fff;
+}
+.show_modle .alertContainer .alert-main .alertMainer {
+  padding: 0;
+}
+.show_modle .title {
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #333;
+}
+.show_modle .desc {
+  height: 400rpx;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.show_modle .close .button{
+  text-align: center;
+  font-size: 36rpx;
+  border: none;
+  background: #fff;
+  color: #eb0c36;
+}

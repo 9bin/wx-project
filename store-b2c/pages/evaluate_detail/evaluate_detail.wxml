@@ -1,0 +1,97 @@
+<!--pages/evaluate_detail/evaluate_detail.wxml-->
+<view class='evaluate-detail'>
+  <view class='footerProEval'>
+    <view class='flex-row flex-y-center'>
+      <view class='inputContainer flex-grow-1'>
+        <input class='input flex-grow-1' bindconfirm="confirm" confirm-type="send" placeholder='说点什么呗'placeholder-style="color:#999"></input>
+      </view>
+      <view class='actionGroup flex-row flex-grow-0'>
+        <view class="actionItem flex-y-center flex-row {{evaluate.toggleClass?'hide':''}}" data-id='{{evaluate.id}}' catchtap='toggleClass'>
+          <view class='fi fi-thumbs-default'></view>
+          <view style='color: #666;'>{{evaluate.dianzhan}}</view>
+        </view>
+        <view class="actionItem flex-y-center flex-row {{evaluate.toggleClass?'on':'hide'}}" data-id='{{evaluate.id}}' catchtap='toggleClass'>
+          <view class='fi fi-thumbs-on'></view>
+          <view style='color: #666;'>{{evaluate.dianzhan}}</view>
+        </view>
+        <view class='actionItem flex-y-center flex-row'>
+          <view class='fi fi fi-comment'></view>
+          <view>{{evaluate.replay.length}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='detailContainer'>
+    <view class='detail-header flex-row flex-y-center'>
+      <view class='flex-row flex-y-center flex-grow-1'>
+        <image wx:if="{{evaluate.avatar_url}}" mode="aspectFill" src="{{evaluate.avatar_url}}" style="width: 70rpx;height: 70rpx;border-radius: 1000rpx"></image>
+        <image wx:else mode="aspectFill" src="/images/img-head-nologin.png" style="width: 70rpx;height: 70rpx;border-radius: 1000rpx"></image>
+        <text style='margin-left:20rpx;'>{{evaluate.nickname}}</text>
+      </view>
+      <view class='date'>{{evaluate.addtime}}</view>
+    </view>
+
+    <view class='starGroup' style='margin:24rpx 0;'>
+      <view class='starContainer starContainer-on' style='width:{{evaluate.star/5*100}}%'>
+        <view class='starList flex-y-center flex-row'>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+        </view>
+      </view>
+      <view class='starContainer starContainer-default'>
+        <view class='starList flex-y-center flex-row'>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+          <i class="fi fi-star"></i>
+        </view>
+      </view>
+    </view>
+
+    <view class="mb-20">{{evaluate.content}}</view>
+
+    <view class="pic-list" wx:if="{{evaluate.pic_list&&evaluate.pic_list.length>0}}">
+      <image catchtap="commentPicView" class="pic-item" data-index="{{index}}" data-pic-index="{{pic_index}}" mode="aspectFill" src="{{item}}" wx:for="{{evaluate.pic_list}}" wx:for-index="{{pic_index}}"></image>
+    </view>
+
+    <view class='attrGroup flex-row'>
+      <view class='attrGroup-item' wx:for="{{['深空灰','256G']}}">{{item}}；</view>
+    </view>
+
+    <view class='evalCurrentPro'>
+      <view class="lineAngleUpGroup">
+          <i class="fi fi-angle-up flex-x-center flex-y-center"></i>
+      </view>
+      <view class='goods-rele'>
+        <view class='flex-row flex-y-center'>
+          <image class='goods-pic flex-grow-0' src='https://wiexin.ym688.cn/web/uploads/image/75/75563ba2b04f54ddfe40203db5171ce00e20775b.jpg'></image>
+          <text class='goods-name'>Apple iPhoneX （A1865） 64G 深空灰色 全网通手机正品国行</text>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <view class='evalDetailReplyList'>
+    <view style='padding:24rpx;font-size:26rpx;'>{{evaluate.replay.length}}条评论</view>
+    <view class="lineAngleUpGroup" style='margin:0 24rpx;'>
+        <i class="fi fi-angle-up flex-x-center flex-y-center"></i>
+    </view>
+    <view class='evalDetailItem flex-col' wx:for="{{evaluate.replay}}">
+      <view class='detail-header flex-row flex-y-center'>
+        <view class='flex-row flex-y-center flex-grow-1'>
+          <image wx:if="{{item.avatar_url}}" mode="aspectFill" src="{{item.avatar_url}}" style="width: 70rpx;height: 70rpx;border-radius: 1000rpx"></image>
+          <image wx:else mode="aspectFill" src="/images/img-head-nologin.png" style="width: 70rpx;height: 70rpx;border-radius: 1000rpx"></image>
+          <text style='margin-left:20rpx;'>{{item.nickname}}</text>
+        </view>
+        <view class='date'>{{item.addtime}}</view>
+      </view>
+      <view style='font-size:26rpx;color:#666;margin-top:15rpx;'>{{item.content}}</view>
+
+    </view>
+  </view> 
+</view>

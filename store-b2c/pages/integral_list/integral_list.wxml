@@ -1,0 +1,96 @@
+<!--pages/integral_list/integral_list.wxml-->
+<wxs module="util" src="../../util.wxs"></wxs>
+<include src="../../commons/extension/extension.wxml"></include>
+<view class='page'>
+  <view style='position:relative' class='mb-20'>
+    <view class='top-banner flex-row flex-y-center'>
+      <image class='back-banner' mode="aspectFill" src="/images/img750x210x01.jpg"></image>
+      <view class='flex-grow-1 flex-y-center flex-row integral-info'>
+        <view class="flex-grow-0 flex-col flex-x-center flex-y-center icon">
+          <image class="hexagon" src="/images/icon-hexagon.png"></image>
+          <view class='fi fi-member-menu-integral'></view>
+        </view>
+        <view class='flex-grow-1 flex-col'>
+          <text><text style='font-size:45rpx;font-weight:bold;'>{{integral_info.gold}}</text><text style='font-size:24rpx;'> 积分</text></text>
+          <text style='font-size:30rpx;'>已连续签到{{integral_info.continuousSignAmount}}天</text>
+        </view>
+        <view class='flex-grow-0 flex-y-center sign' wx:if="{{integral_info.isIntegral==1}}">
+          <view class='btn' bindtap='toSign'>签到<text wx:if="{{integral_info.giveIntegral>=0}}">领{{integral_info.giveIntegral}}积分</text></view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- <view class='interaction mb-20' data-lottery-type='5' bindtap='lottery'>
+    <image class='interaction-img' mode='aspectFill' src='/images/delete/img750x160x01.jpg'></image>
+  </view>
+  <view class='interaction mb-20' data-lottery-type='5' bindtap='lottery'>
+    <image class='interaction-img' mode='aspectFill' src='/images/delete/img750x160x02.jpg'></image>
+  </view> -->
+  <view class='integral'>
+    <view class='top-title flex-row flex-y-center'>
+      <view class='flex-grow-1' style='font-size:30rpx;color:#999;'>积分收支明细</view>
+      <image class='flex-grow-0 date' src="/images/icon-date.png" bindtap='showScreenView'></image>
+    </view>
+    <view class='list'>
+      <view class='item flex-row flex-y-center' wx:for="{{list}}">
+        <view class='flex-grow-1'>{{item.remark}}</view>
+        <view class='flex-grow-0 flex-col' style='margin-left:20rpx;'>
+          <view class='mb-10' style='font-size:24rpx;color:#999'>{{util.timesub(item.createTime)}}</view>
+          <view style='display:flex;justify-content:flex-end;font-weight:bold;'>{{item.amount}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <include src="../../commons/loading/loading.wxml"></include>
+</view>
+
+<!-- 筛选弹窗 start-->
+<view class="showScreenView " wx:if="{{showScreenView}}" catchtouchmove="preventTouchMove">
+ <form bindreset='screenReset' bindsubmit='screenSubmit'>
+  <view id="screenContainer" animation="{{animationData}}" class='screenContainer' bindtouchstart='catchtouchstart' bindtouchmove='move_view' bindtouchend='colse_view'>
+      <view class='btnGroup flex-row'>
+        <button form-type='reset' class='reset flex-x-center flex-y-center flex-grow-1' plain='true'>重置</button>
+        <button form-type='submit' class='submit flex-x-center flex-y-center flex-grow-1' plain='true'>确定</button>
+      </view>
+      <scroll-view scrollY="true" class='classfiyContainer'>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='screenTagShow'>
+            <view class='classfiy-name flex-grow-1'>范围</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view catchtap='chickClassfiyTag' data-id='{{item.id}}' class='tag {{checked == item.id?"active":""}}' wx:for="{{screenDate}}">{{item.name}}</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </form>
+  <view class='screenMask' bindtap='closeScreenView'></view>
+</view>
+<!-- 筛选弹窗 end-->
+
+<view class="dAlert {{showSignIn ? 'on':''}}">
+  <view class='alertContainer'>
+    <view class='alert-main'>
+      <view class='alertMainer flex-col flex-y-center'>
+        <view class='sign-container flex-col flex-x-center flex-y-center'>
+          <image class='img' mode='aspectFill' src='/images/register.png'></image>
+          <view class='tips' wx:if="{{interaction.interaction}}">获得{{interaction.interaction.joinLimitDay}}次抽奖机会</view>
+          <view class='tips' wx:if="{{!interaction.interaction && interaction.giveIntegralAmount>0}}">已领取{{interaction.giveIntegralAmount}}积分</view>
+          <view class='flex-row flex-x-between btnGroups' wx:if="{{interaction.interaction}}">
+            <view class='btn cancle' bindtap='hideSingIn'>取消</view>
+            <view class='btn confirm' data-id='{{interaction.interaction.id}}' data-lottery-type='{{interaction.interaction.type}}' bindtap='lottery'>去抽奖</view>
+          </view>
+          <view class='btnGroups flex-x-center flex-y-center' wx:else>
+            <view class='btn cancle' bindtap='hideSingIn' style='width:360rpx !important;'>确定</view>
+          </view>
+        </view>
+        <view class='close' bindtap='hideSingIn'>
+          <view class='fi fi-is-error'></view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='alertMask'></view>
+</view>

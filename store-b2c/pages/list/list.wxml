@@ -1,0 +1,197 @@
+<!--pages/list/list.wxml-->
+<view class='page'>
+  <!-- <include src="/commons/navbar/navbar.wxml"></include> -->
+  <view class='body after-navber'>
+    <view class='top'>
+      <!-- 顶部搜索 -->
+      <view class='top-search flex-row flex-y-center' style='background:#fff;color: #333 !important;'>
+        <view class="search-block flex-grow-1">
+          <navigator url="/pages/search/search" hover-class='none' class='flex-row flex-y-center'>
+            <view class='fi fi-search'></view>
+            <view style='color:#333'>{{content._keyWords}}</view>
+          </navigator>
+        </view>
+        <view class="flex-grow-0 fle-y-center flex-x-center" style='margin-right: 24rpx;' bindtap='setListType'>
+            <image wx:if="{{listType=='grid'}}" src='/images/icon-arrange-2.png' style='width:40rpx;height:40rpx;'></image>
+            <image wx:if="{{listType=='col'}}" src='/images/icon-arrange-1.png' style='width:40rpx;height:40rpx;'></image>
+        </view>
+      </view>
+
+      <!-- 顶部导航 -->
+      <view class='top-navbar flex-row'>
+        <view class='flex-grow-1 flex-row flex-x-center flex-y-center' data-select="1" bindtap='sortClick'>
+            <text class='{{select=="1"?"active":""}}'>销量</text>
+        </view>
+        <view class='flex-grow-1 flex-row flex-x-center flex-y-center' data-select="2" bindtap='sortClick'>
+            <text class='{{select=="2"?"active":""}}'>新品</text>
+        </view>
+        <view class='flex-grow-1 flex-row flex-x-center flex-y-center' data-select="3" bindtap='sortClick'>
+            <text class='{{select=="3"?"active":""}}'>价格</text>
+            <view class='flex-col'>
+              <i class="fi fi-triangle-up {{sort=='4'?'active':''}}" style="margin-bottom:-18rpx;"></i>
+              <i class="fi fi-triangle-down {{sort=='3'?'active':''}}" style="margin-bottom:-4rpx;"></i>
+            </view>
+        </view>
+        <view class='flex-grow-1 flex-row flex-x-center flex-y-center {{is_screen?"active":""}}' bindtap='showScreenView'>
+            <text>筛选</text>
+            <i class="fi fi-filter" style="font-size:42rpx;vertical-align: 4rpx;"></i>
+        </view>
+      </view>
+    </view>
+    <view style='width:100%;overflow-x:hidden;padding-top: 212rpx;'>
+      <view class="flex-x-center" wx:if="{{show_no_data_tip}}"><image src='/images/img-no-data.png' style='width:396rpx;height:366rpx;'></image></view>
+      <!-- 网格排序样式 -->
+      <block wx:if="{{listType=='grid'}}">
+        <view class='goods-list flex-row'>
+          <view class='flex-grow-0 li' wx:for="{{goods_list}}" wx:for-index="index" wx:for-item="goods">
+            <navigator class='goods-item' openType="navigate" url='/pages/goods/goods?id={{goods.id}}'>
+              <view class='lable'>
+                <image wx:if="{{index%2==0}}" src='/images/ico-tag-hot.png' style='width:80rpx;height:80rpx;'></image>
+                <image wx:else src='/images/ico-tag-new.png' style='width:80rpx;height:80rpx;'></image>
+                <text class='name flex-y-center'>精品推荐</text>
+              </view>
+              <image class='image' mode="aspectFill" src="{{goods.mainImg}}"></image>
+              <view class='flex-col' style='padding:20rpx;'>
+                <text class="text-more-2" style="height:2.8em;line-height:1.4;font-size:26rpx"><text style='font-size:24rpx;color:#fff;background:#eb0c36;border-radius:5rpx;padding:0 8rpx;margin-right:10rpx;'>{{goods.marketingTag}}</text>{{goods.productName}}</text>
+                <view class='flex-col'>
+                  <view class='flex-row' style='padding: 10rpx 0;'>
+                    <view style='color:#eb0c36;font-weight:bold;'><text style='font-size:24rpx;'>￥</text><text style='font-size:32rpx;'>{{goods.mallPrice}}</text></view>
+                    <view class='flex-y-bottom' wx:if="{{goods.marketPrice}}" style='font-size:26rpx;color:#999;text-decoration:line-through;margin-left:15rpx;'>￥{{goods.marketPrice}}</view>
+                  </view>
+                  <view class="flex-row " style="color:#999;font-size:24rpx;">
+                      <view class="flex-grow-1">好评{{goods.praisePercent}}%</view>
+                      <view class="flex-grow-0">销量{{goods.buys}}</view>
+                  </view>
+                </view>
+              </view>
+            </navigator>
+          </view>
+        </view>
+      </block>
+
+      <!-- 纵队排序样式 -->
+      <block wx:if="{{listType=='col'}}">
+        <navigator class='goods-item-2 flex-row flex-y-center' wx:for="{{goods_list}}" openType="navigate" url='/pages/goods/goods?id={{goods.id}}'  wx:for-index="index" wx:for-item="goods">
+          <image class='image flex-grow-0' mode="aspectFill" src="{{goods.mainImg}}"></image>
+          <view class='flex-col' style='margin-left:24rpx;'>
+            <view class="text-more-2 mb-10" style="height:2.8em;line-height:1.4;font-size:30rpx">{{goods.productName}}</view>
+            <view wx:if="{{goods.marketingTag}}" class='icon-tag flex-x-center flex-y-center flex-grow-0 mb-10'>{{goods.marketingTag}}</view>
+            <view class='mb-10' style='height:40rpx;' wx:else></view>
+            <view class='flex-row mb-10'>
+              <view style='color:#eb0c36;font-weight:bold;'><text style='font-size:24rpx;'>￥</text><text style='font-size:32rpx;'>{{goods.mallPrice}}</text></view>
+              <view class='flex-y-bottom' wx:if="{{goods.marketPrice}}" style='font-size:26rpx;color:#999;text-decoration:line-through;margin-left:15rpx;'>￥{{goods.marketPrice}}</view>
+            </view>
+            <view class="flex-row " style="color:#999;font-size:24rpx;">
+                <view>好评{{goods.praisePercent}}%</view>
+                <view style='margin-left:60rpx;'>销量{{goods.buys}}</view>
+            </view>
+          </view>
+        </navigator>
+      </block>
+      <include src="/commons/loading/loading.wxml"></include>
+    </view>
+  </view>
+</view>
+
+
+<!-- 筛选弹窗 start-->
+<view class="showScreenView" wx:if="{{showScreenView}}" catchtouchmove="preventTouchMove">
+ <form bindreset='screenReset' bindsubmit='screenSubmit'>
+  <view id="screenContainer" animation="{{animationData}}" class='screenContainer' bindtouchstart='catchtouchstart' bindtouchmove='move_view' bindtouchend='colse_view'>
+      <view class='btnGroup flex-row'>
+        <button form-type='reset' class='reset flex-x-center flex-y-center flex-grow-1' plain='true'>重置</button>
+        <button form-type='submit' class='submit flex-x-center flex-y-center flex-grow-1' plain='true'>确定</button>
+      </view>
+      <scroll-view scrollY="true" class='classfiyContainer {{(classfiyListShow || brandListShow)?"hide":""}}'>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center'>
+            <view class='classfiy-name flex-grow-1'>价格</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view class='tag {{priceTagIndex == index?"active":""}}' wx:for="{{priceWhere}}" catchtap='chickPriceTag' data-min='{{item.priceStart}}' data-max='{{item.priceEnd}}'>{{item.priceStart}}-{{item.priceEnd}}</view>
+            </view>
+            <view class='flex-row flex-y-center flex-x-between' style='margin-top:24rpx; '>
+              <input class='input' value='{{cat.price.min}}' type='number' bindinput='bindMinInput' placeholder='最低价' placeholder-style='color:#999'></input>
+              <view>-</view>
+              <input class='input' value='{{cat.price.max}}' type='number' bindinput='bindMaxInput' placeholder='最高价' placeholder-style='color:#999'></input>
+            </view>
+          </view>
+        </view>
+        <view class='classfiy-item' style='border-top: 1rpx solid #e6e6e6;'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='classfiyListShow'>
+            <view class='classfiy-name flex-grow-1'>全部分类</view>
+            <view wx:if="{{cat.classfiy.id}}" class='flex-grow-0 red'>{{cat.classfiy.name}}</view>
+            <view wx:else class='flex-grow-0' style='color:#999;'>全部</view>
+            <view class='flex-grow-0 fi fi-angle-right'></view>
+          </view>
+        </view>
+        <view class='classfiy-item' style='margin-top:24rpx;'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='screenTagShow'>
+            <view class='classfiy-name flex-grow-1'>品牌</view>
+            <view style='color:#eb0c36'>{{cat.brand.name}}</view>
+            <view class='fi fi-angle-right {{screenTagShow?"show":""}}'></view>
+          </view>
+          <view class='classfiy-tag {{screenTagShow?"show":"hide"}}'>
+            <view class='tagGroup flex-row' wx:if="{{brandList.length<10}}">
+                <view catchtap='chickClassfiyTag' data-id='{{item.id}}' data-name='{{item.name}}' class='tag {{cat.brand.id == item.id?"active":""}}' wx:for="{{brandList}}">{{item.name}}</view>
+            </view>
+            <view class='tagGroup flex-row' wx:else>
+                <view wx:if="{{index<8}}" catchtap='chickClassfiyTag' data-id='{{item.id}}' data-name='{{item.name}}' class='tag {{cat.brand.id == item.id?"active":""}}' wx:for="{{brandList}}">{{item.name}}</view>
+                <view catchtap="showBrandList" class='tag' style='background:#fff;color:#999'>
+                  <text>全部分类</text>
+                  <i class="fi fi-angle-right"></i>
+                </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <scroll-view scrollY="true" class='classfiyContainer {{classfiyListShow?"":"hide"}}'>
+        <view class='classfiy-list-li flex-row flex-y-center bg-white' >
+          <view class='flex-x-center' style='width:100%;'>全部分类</view>
+          <view class='nav-back flex-x-center flex-y-center' bindtap='classfiyListShow'><image src='/images/icon-left.png' style='width:24rpx;height:40rpx;'></image></view>
+        </view>
+        <view class='classfiy-list-li {{cat.classfiy.id==""?"red":""}} flex-row flex-y-center bg-white' bindtap='choose' data-child_id="{{}}" data-child_name='{{}}'>
+          <view class='flex-grow-1'>全部分类</view>
+          <view wx:if="{{cat.classfiy.id==''}}" class="flex-grow-0 fi fi-check"></view>
+        </view>
+        <view class='flex-col' wx:for="{{cat_list_child}}" wx:key="index">
+          <view class='classfiy-list-li flex-row flex-y-center bg-white' bindtap='showChildList' data-current_checked_cat='{{item.id}}'>
+            <view class='flex-grow-1'>{{item.name}}</view>
+            <view class='icon flex-grow-0 flex-x-center flex-y-center' wx:if="{{show_child_list && current_checked_cat === item.id}}"><image src='/images/icon-up.png'></image></view>
+            <view class='icon flex-grow-0 flex-x-center flex-y-center' wx:else><image src='/images/icon-down.png'></image></view>
+          </view>
+          <view wx:if="{{show_child_list && current_checked_cat === item.id}}" class='classfiy-list-li flex-y-center flex-row' wx:for="{{item.childNode}}" wx:for-item="child" wx:key="index" bindtap='choose' data-child_id="{{child.id}}" data-child_name='{{child.name}}'>
+            <view class='{{cat.classfiy.id == child.id?"red":""}} flex-grow-1' style='margin-left:40rpx;'>{{child.name}}</view>
+            <view wx:if="{{cat.classfiy.id == child.id}}" class="flex-grow-0 fi fi-check red"></view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class='classfiyContainer {{brandListShow?"":"hide"}}'>
+        <view class='classfiy-list-li flex-row flex-y-center bg-white' >
+          <view class='flex-x-center' style='width:100%;'>全部分类</view>
+          <view class='nav-back flex-x-center flex-y-center' bindtap='showBrandList'><image src='/images/icon-left.png' style='width:24rpx;height:40rpx;'></image></view>
+        </view>
+        <scroll-view class="wxSortPickerViewList" scroll-y="true" scroll-into-view="{{wxSortPickerViewtoView}}">
+            <block wx:for="{{separateBrandList}}" wx:for-item="item" wx:key="index">
+                <view id="{{index}}" class="wxSortPickerViewTag">{{index}}</view>
+                <block wx:for="{{item}}" wx:for-item="child" wx:key="">
+                    <view class="wxSortPickerViewItem flex-row flex-y-center" data-id="{{child.id}}" data-name='{{child.name}}'  bindtap = "chickClassfiyTag">
+                        <view class='{{cat.brand.id == child.id?"red":""}} flex-grow-1'>{{child.name}}</view>
+                        <view wx:if="{{cat.brand.id == child.id}}" class='flex-grow-0 fi fi-check red' style='margin-right:84rpx;'></view>            
+                    </view>
+                </block>
+            </block>
+        </scroll-view>
+        <scroll-view class="wxSortPickerViewTemTags">
+            <block wx:for="{{['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#']}}" wx:for-item="item" wx:key="">
+                <view bindtap="wxSortPickerViewTemTagTap" data-tag="{{item}}" class="wxSortPickerViewTemTag">{{item}}</view>
+            </block>
+        </scroll-view>
+      </view>
+      
+    </view>
+  </form>
+  <view class='screenMask' bindtap='closeScreenView'></view>
+</view>
+<!-- 筛选弹窗 end-->

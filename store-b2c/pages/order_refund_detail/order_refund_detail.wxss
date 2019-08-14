@@ -1,0 +1,117 @@
+/* pages/order_refund_detail/order_refund_detail.wxss */
+.page {
+  padding-bottom: 110rpx;
+}
+.top-title {
+  background: #fff;
+  border-top: 1rpx solid #e6e6e6;
+}
+
+.show-progress {
+  background: #fff;
+}
+
+.flow-list {
+  padding: 72rpx 24rpx 32rpx;
+}
+
+.flow-list-item {
+  width: 140rpx;
+  position: relative;
+}
+
+.flow-list-item::before {
+  content: "";
+  position: absolute;
+  left: -35rpx;
+  top: 35rpx;
+  width: 70rpx;
+  height: 4rpx;
+  background: #39d196;
+  display: block;
+  z-index: 10;
+  border-radius: 999rpx;
+}
+
+.flow-list-item:first-child::before {
+  display: none;
+}
+
+.flow-list-item .green .fi {
+  font-size: 70rpx !important;
+  font-weight: bold;
+}
+
+.flow-list-item .fixTips {
+  position: absolute;
+  top: -40rpx;
+  height: 40rpx;
+  background: #39d196;
+  color: #fff;
+  font-size: 24rpx;
+  border-radius: 10rpx;
+  padding: 5rpx 10rpx;
+}
+
+.flow-list-item .fixTips .fi {
+  color: #39d196 !important;
+  position: absolute;
+  bottom: -22rpx;
+  font-size: 32rpx;
+}
+
+.flow-list-item .name {
+  font-size: 26rpx;
+}
+
+.green {
+  color: #39d196;
+}
+
+.statusTxt {
+  padding: 0 24rpx 32rpx;
+}
+
+.statusTxt .btn {
+  padding: 10rpx 20rpx;
+  font-size: 26rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+}
+
+.img {
+  width: 120rpx;
+  height: 120rpx;
+  margin-left: 20rpx;
+}
+.img:first-child {
+  margin-left: 0;
+}
+
+.btnGroups {
+  position: fixed;
+  bottom: 0;
+  height: 110rpx;
+  left: 0;
+  background: #fff;
+  justify-content: flex-end;
+}
+
+.btnGroups .btn {
+  width: 160rpx;
+  border-radius: 10rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  margin-left: 24rpx;
+}
+
+.btnGroups .btn.cancle {
+  color: #999;
+  border: 1rpx solid #ccc;
+}
+
+.btnGroups .btn.check {
+  color: #eb0c36;
+  border: 1rpx solid #eb0c36;
+}

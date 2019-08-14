@@ -1,0 +1,44 @@
+/* pages/order_refund_logistics/logistics_company/logistics_company.wxss */
+.wxSortPickerViewTemTags{
+  position: fixed;
+  top: 80rpx;
+  right: 20rpx;
+  color: #eb0c36;
+  z-index: 1;
+}
+.wxSortPickerViewTemTag{
+  text-align: center;
+  padding: 4rpx 0;
+  font-size: 22rpx;
+  font-weight: bold;
+}
+.wxSortPickerViewFixedTag{
+  position: fixed;
+  width: 100%;
+}
+
+.wxSortPickerViewTag{
+  background-color: #f8f8f8;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding-left: 24rpx;
+}
+
+.wxSortPickerViewItem{
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  border-bottom: 1rpx solid #eee;
+  padding-left: 24rpx;
+}
+
+.wxSortPickerViewList {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  bottom: 0;
+}

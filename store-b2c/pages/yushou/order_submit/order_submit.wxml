@@ -1,0 +1,126 @@
+<include src="../../../commons/extension/extension.wxml" />
+<view class="bottom-bar flex-row" wx:if="{{is_area==1&&offline==0}}">
+    <view class="is_area">所选地区暂时无货</view>
+</view>
+<form bindsubmit="orderSubmit" reportSubmit="true" wx:else>
+    <view class="bottom-bar flex-row">
+        <view class="flex-y-center flex-grow-1" style="padding: 0 24rpx">
+            <view class="flex-grow-1" style="text-align: right ">
+                    总计: <text style="color:#eb0c36;">￥{{new_total_price}}</text>
+                </view>
+        </view>
+        <button class="flex-y-center flex-grow-0 flex-x-center submit-btn" formType="submit">提交订单</button>
+    </view>
+</form>
+<view class="{{show_card||show_model||show?'no-scroll':''}}" style="padding-bottom: 109rpx;border-top: 1rpx solid #e3e3e3;">
+  <navigator class="flex-row address-picker" url="/pages/address_picker/address_picker?id={{address.id}}">
+      <view class="flex-grow-1" wx:if="{{address}}">
+          <view class="flex-row" style="margin-bottom: 20rpx;font-size:30rpx;">
+              <view class="flex-grow-0">{{address.deliveryName}}</view>
+              <view class="flex-grow-0" style='margin-left:40rpx;'>{{address.deliveryPhone}}</view>
+          </view>
+          <view style="color: #999;font-size:26rpx;">{{address.deliveryProv}}{{address.deliveryCity}}{{address.deliveryArea}}{{address.deliveryAddr}}</view>
+      </view>
+      <view class="flex-grow-1" wx:else>
+          <view>请选择收货地址</view>
+      </view>
+      <view class="flex-grow-0 flex-y-bottom">
+          <image src="/images/icon-jiantou-r.png" style="width: 15rpx; height: 28rpx;margin-left: 24rpx"></image>
+          <!-- <view class='fi fi-angle-right' style='font-size:40rpx;'></view> -->
+      </view>
+  </navigator>
+  <view class="cart-list">
+      <view class="flex-col" wx:for="{{productList}}" style="{{orderGiftList.length<=0?'border-bottom:1rpx solid #e3e3e3':''}}">
+          <view class="cart-item flex-row">
+              <view class="flex-grow-0">
+                  <image class="goods-pic" mode="aspectFill" src="{{item.mainImg}}"></image>
+              </view>
+              <view class="flex-grow-1 flex-col">
+                  <view class="flex-grow-1">
+                      <view class="goods-name">{{item.productName}}</view>
+                      <view class="attr-list">{{item.property}}</view>
+                  </view>
+                  <view class='flex-grow-1 flex-row' style='padding: 10rpx 0;'><text class='flex-y-bottom' style='color:#666;font-size:24rpx;'>预售价 ￥</text><text style='font-size:30rpx;'>{{item.mallPrice}}</text></view>
+                  <view class="flex-grow-1 flex-row">
+                      <view class="flex-grow-1">
+                        <view class='orgin_price'>定金 <text style='color:#eb0c36;font-size:30rpx;'>￥{{item.marketingInfo.presellInfo.deposit}} <text style='font-size:24rpx;'>抵</text> ￥{{item.marketingInfo.presellInfo.deductionMoney}}</text></view>
+                      </view>
+                      <view class="flex-grow-0 num">×{{item.cartInfo.itemCount || 1}}</view>
+                  </view>
+              </view>
+          </view>
+          <view wx:if="{{orderGiftList&&orderGiftList.length>0}}">
+              <view class='goods-gifts flex-row' wx:for="{{orderGiftList}}" wx:for-item="gift">
+                  <view class="flex-y-center flex-grow-1">{{gift.giftName}}</view>
+                  <view class="flex-y-center flex-grow-0">x{{gift.giftCount}}</view>
+              </view>
+          </view>
+          <view class="goods-intrgral flex-row" wx:if="{{goods.give>0}}">
+              <view class="flex-y-center"> 订单完成返回</view>
+              <view class="flex-y-center" style="color:#ff4544">{{goods.give}}</view>
+              <view class="flex-y-center">积分</view>
+          </view>
+      </view>
+  </view>
+  <navigator class='lable mb-20 flex-row flex-y-center' url='/pages/distribution/distribution?productIds={{productIds}}'>
+    <view class='flex-grow-1' style="color: #666">配送方式</view>
+    <view class='flex-grow-0'>
+      <view>{{distribution==1?'快递配送':'上门自提'}}</view>
+    </view>
+    <view class="flex-grow-0">
+        <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+    </view>
+  </navigator>
+  <view class='lable flex-row flex-y-center' style="color: #eb0c36">
+    <view>定金</view>
+    <view style='margin-left:30rpx;'>
+      <view>小计：{{productList[0].marketingInfo.presellInfo.deposit}}</view>
+    </view>
+  </view>
+  <view class='lable flex-row flex-y-center' style="color: #666;border-top:1rpx solid #e6e6e6;">
+    <view>尾款</view>
+    <view style='margin-left:30rpx;'>
+      <view>小计：{{productList[0].marketingInfo.presellInfo.balancePayment}}</view>
+    </view>
+  </view>
+  <view class='lable mb-20 flex-y-center' style="color: #666;border-top:1rpx solid #e6e6e6;">
+    <view>{{productList[0].marketingInfo.presellInfo.clearingStartTime}}开始支付尾款</view>
+  </view>
+  <navigator class='lable mb-20 flex-row flex-y-center' url='/pages/invoice/invoice'>
+    <view class='flex-grow-1' style="color: #666">发票</view>
+    <view class='flex-grow-0'>
+      <view wx:if="{{invoiceType == '2'}}">普通发票</view>
+      <view wx:if="{{invoiceType == '1'}}">不开发票</view>
+    </view>
+    <view class="flex-grow-0">
+        <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+    </view>
+  </navigator>
+  <view class='lable mb-20'>
+    <textarea bindinput="bindinput" placeholder='选填：给商家留言（60字以内）' auto-height maxlength="60" placeholder-style='color:#999;'></textarea>
+  </view>
+  <view class='lable flex-col'>
+    <view class='flex-row mb-20'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>定金金额</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>￥{{productList[0].marketingInfo.presellInfo.deposit}}</view>
+      </view>
+    </view>
+    <view class='flex-row'>
+      <view class='flex-grow-1' style="color: #666">
+        <view>运费</view>
+      </view>
+      <view class='flex-grow-0 flex-y-bottom'>
+        <view>+￥{{express_price || 0.00}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='flex-row flex-y-center' style="padding: 24rpx;color: #999;font-size:26rpx;">
+    <image src='/images/icon-warning-2.png' style='height:40rpx;width:40rpx;'></image>
+    <view style='margin-left:10rpx;'>
+      在规定的时间内未支付尾款，定金将不退回
+    </view>
+  </view>
+</view>

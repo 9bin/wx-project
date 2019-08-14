@@ -1,0 +1,67 @@
+<!--pages/balance/bill_list/bill_list.wxml-->
+<wxs module="util" src="../../../util.wxs"></wxs>
+<view class='page'>
+  <view class='flex-row tab-bar'>
+    <view class='flex-grow-1' bindtap='tapTab' data-status='2'>
+      <view class='navigator {{status==2?"active":""}}'>
+        <text>全部</text>
+      </view>
+    </view>
+    <view class='flex-grow-1' bindtap='tapTab' data-status='1'>
+      <view class='navigator {{status==1?"active":""}}'>
+        <text>收入</text>
+      </view>
+    </view>
+    <view class='flex-grow-1' bindtap='tapTab' data-status='0'>
+      <view class='navigator {{status==0?"active":""}}'>
+        <text>支出</text>
+      </view>
+    </view>
+  </view>
+  <view class='choose-date' bindtap='showScreenView'>
+      <image src='/images/icon-date.png'></image>
+    </view>
+  <view class='detail-list'>
+    <view class='flex-col flex-x-center flex-y-center' style='color:#999' wx:if="{{show_no_data_tip}}">
+      <view class='fi fi-data-null' style='font-size:320rpx;'></view>
+      <view style='font-size:32rpx;margin-top:-40rpx;'>暂无记录哦~</view>
+    </view>
+    <view class='item flex-row flex-y-center' wx:for="{{list}}">
+        <view class='flex-grow-1 flex-col'>
+          <view class='mb-10'>{{item.remark}}</view>
+          <view class='mb-10' style='font-size:28rpx;color:#666'>{{item.currentAmount}}</view>
+        </view>
+        <view class='flex-grow-0 flex-col' style='margin-left:20rpx;'>
+          <view class='mb-10' style='font-size:24rpx;color:#666'>{{util.timesub(item.createTime)}}</view>
+          <view style='display:flex;justify-content:flex-end;font-weight:bold;'>{{item.inOrOut==0?"-":"+"}}{{item.amount}}</view>
+        </view>
+      </view>
+    <include src="/commons/loading/loading.wxml"></include>
+  </view>
+</view>
+
+<!-- 筛选弹窗 start-->
+<view class="showScreenView " wx:if="{{showScreenView}}" catchtouchmove="preventTouchMove">
+  <form bindreset='screenReset' bindsubmit='screenSubmit'>
+    <view id="screenContainer" animation="{{animationData}}" class='screenContainer' bindtouchstart='catchtouchstart' bindtouchmove='move_view' bindtouchend='colse_view'>
+      <view class='btnGroup flex-row'>
+        <button form-type='reset' class='reset flex-x-center flex-y-center flex-grow-1' plain='true'>重置</button>
+        <button form-type='submit' class='submit flex-x-center flex-y-center flex-grow-1' plain='true'>确定</button>
+      </view>
+      <scroll-view scrollY="true" class='classfiyContainer'>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='screenTagShow'>
+            <view class='classfiy-name flex-grow-1'>范围</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view catchtap='chickClassfiyTag' data-id='{{item.id}}' class='tag {{checked == item.id?"active":""}}' wx:for="{{screenDate}}">{{item.name}}</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </form>
+  <view class='screenMask' bindtap='closeScreenView'></view>
+</view>
+<!-- 筛选弹窗 end-->

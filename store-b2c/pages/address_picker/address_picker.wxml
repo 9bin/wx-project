@@ -1,0 +1,26 @@
+<!--pages/address_picker/address_picker.wxml-->
+<view class="bottom-bar flex-row flex-y-center">
+    <!-- <view bindtap='getWechatAddress'>获取微信地址</view> -->
+    <navigator url="/pages/address_edit/address_edit"><i class="fi fi-add"></i>新增</navigator>
+</view>
+<view class='address-list'>
+  <view style="margin-bottom: 32rpx">
+      <view style="color: #888;text-align: center;padding: 32rpx 0;" wx:if="{{show_no_data_tip}}">暂无收货地址</view>
+      <block wx:else>
+          <radio-group class="radio-group" bindchange="radioChange">
+            <label class="address-item  flex-row flex-y-center" wx:for="{{address_list}}">
+              <radio class='flex-grow-0' value="{{index}}" checked="{{item.id == id}}" color='#eb0c36'/>
+              <view class='flex-grow-1' style='margin-left:24rpx;'>
+                <view class="userinfo flex-row">
+                  <view class="flex-grow-0">{{item.deliveryName}}</view>
+                  <view class="flex-grow-0" style='margin-left:24rpx;'>{{item.deliveryPhone}}</view>
+                  <view class='flex-grow-0 icon' style='margin-left:24rpx;' wx:if="{{item.isDefault == '1'}}">默认</view>
+                </view>
+                <view class="address-detail">{{item.deliveryProv}}{{item.deliveryCity}}{{item.deliveryArea}}{{item.deliveryAddr}}</view>
+              </view>
+              <view class='flex-grow-0 fi fi-edit' catchtap='editAddress' data-id='{{item.id}}'></view>
+            </label>
+          </radio-group>
+      </block>
+  </view>
+</view>

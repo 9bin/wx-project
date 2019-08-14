@@ -1,0 +1,43 @@
+/* pages/order_refund_logistics/order_refund_logistics.wxss */
+page {
+  overflow-x: hidden;
+}
+.imgGroups {
+  flex-wrap: wrap;
+  margin-top: 32rpx;
+  margin-left: -32rpx;
+}
+
+.img-item {
+  position: relative;
+  margin-left: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.img-item .fi {
+  color: #000;
+  position: absolute;
+  top: 0rpx;
+  right: 0rpx;
+  font-size: 50rpx;
+  opacity: 0.5;
+}
+
+.img-item image {
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.bar-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 110rpx;
+  line-height: 110rpx;
+  color: #fff;
+  background: #eb0c36;
+  border: none;
+  border-radius: 0;
+}

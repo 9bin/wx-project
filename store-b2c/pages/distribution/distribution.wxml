@@ -1,0 +1,31 @@
+<!--pages/distribution/distribution.wxml-->
+<view class='top-nav'>
+  <view class='flex-row flex-y-center'>
+    <view class='fi fi-wait-receipt'></view>
+    <view style='font-size:26rpx;margin-left:15rpx;'>配送方式</view>
+  </view>
+  <view class='flex-row' style='margin-top:20rpx;'>
+    <view bindtap='getSendType' data-distribution='1' class="nav {{distribution==1?'active':''}}">快递配送</view>
+    <view bindtap='getSendType' data-distribution='2' class="nav {{distribution==2?'active':''}}" style='margin-left:20rpx;'>上门自提</view>
+  </view>
+</view>
+
+<block wx:if="{{distribution==2}}">
+  <view class='address-picker'>
+    <view class='li flex-row flex-y-center'>
+      <view class='lable flex-grow-0'>联系人</view>
+      <input class='flex-grow-1' data-name="name" placeholder='请输入联系人' bindinput='inputBlur' style='text-align:right;margin-left:24rpx;' value='{{name}}'></input>
+    </view>
+    <view class='li flex-row flex-y-center'>
+      <view class='lable flex-grow-0'>联系方式</view>
+      <input class='flex-grow-1' data-name="mobile" placeholder='请输入联系方式' bindinput='inputBlur' style='text-align:right;margin-left:24rpx;' value='{{mobile}}'></input>
+    </view>
+    <navigator class='li flex-row flex-y-center' url='/pages/pick_area/pick_area?productIds={{productIds}}&id={{selfPickAddr.id}}'>
+      <view class='lable flex-grow-1'>自提地点</view>
+      <view class='flex-gorw-0'>{{selfPickAddr?selfPickAddr.selfPickName:'请选择自提点'}}</view>
+      <view class='flex-grow-0 flex-y-center'><image src="/images/icon-jiantou-r.png" style="width: 15rpx; height: 28rpx;margin-left: 24rpx"></image></view>
+    </navigator>
+  </view>
+</block>
+
+<view class='btn' bindtap='submit'>确定</view>

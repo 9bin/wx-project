@@ -1,0 +1,62 @@
+<!--pages/evaluate/evaluate.wxml-->
+<view class='page'>
+  <view class='goods-item mb-20' wx:for="{{goods_list}}">
+    <view class='flex-row score-row flex-y-center'>
+      <view class='flex-grow-0'>
+        <image class="goods-pic" wx:if="{{item.full_path+item.productImg}}" src="{{item.full_path+item.productImg}}"></image>
+      </view>
+      <view class='flex-grow-1 flex-col' style='margin-left: 20rpx;'>
+        <view>描述相符</view>
+        <view class='starList flex-y-center flex-row'>
+          <view class="fi fi-star {{item.disScore>=1?'on':''}}" data-index="{{index}}" data-score="1" bindtap="setScore1"></view>
+          <view class="fi fi-star {{item.disScore>=2?'on':''}}" data-index="{{index}}" data-score="2" bindtap="setScore1"></view>
+          <view class="fi fi-star {{item.disScore>=3?'on':''}}" data-index="{{index}}" data-score="3" bindtap="setScore1"></view>
+          <view class="fi fi-star {{item.disScore>=4?'on':''}}" data-index="{{index}}" data-score="4" bindtap="setScore1"></view>
+          <view class="fi fi-star {{item.disScore>=5?'on':''}}" data-index="{{index}}" data-score="5" bindtap="setScore1"></view>
+        </view>
+      </view>
+    </view>
+    <view class='flex-row content-row'>
+      <view class="form-label">{{item.content.length}}/500</view>
+      <view class="textarea">
+        <textarea bindinput="contentInput" data-index="{{index}}" maxlength="500" placeholder="分享你的购物心得" placeholderStyle="color:#999"></textarea>
+      </view>
+    </view>
+    <view class='imgGroups flex-row'>
+      <view class='img-item' wx:for="{{item.pic_list}}" wx:for-item="img" wx:for-index="pic_index">
+        <text class='fi fi-close-solid' data-index="{{index}}" data-pic-index="{{pic_index}}" bindtap='deleteImage'></text>
+        <image src='{{img}}' style='border:1rpx solid #ccc;' data-index="{{index}}" bindtap='onGoodsImageClick'></image>
+      </view>
+      <view class='img-item' bindtap='chooseImage' data-index="{{index}}" wx:if="{{!item.pic_list||item.pic_list.length<5}}">
+        <image src='/images/icon-image-picker.png' mode="aspectFill" style='border:1rpx solid #ccc;'></image>
+      </view>
+    </view>
+  </view>
+  <view class='flex-row flex-y-center' style='padding: 32rpx 24rpx;background:#fff'>
+    <view>服务态度</view>
+    <view class='starList flex-y-center flex-row' style='margin-left:32rpx;'>
+      <view class="fi fi-star {{serviceScore>=1?'on':''}}" data-score="1" bindtap="setScore2"></view>
+      <view class="fi fi-star {{serviceScore>=2?'on':''}}" data-score="2" bindtap="setScore2"></view>
+      <view class="fi fi-star {{serviceScore>=3?'on':''}}" data-score="3" bindtap="setScore2"></view>
+      <view class="fi fi-star {{serviceScore>=4?'on':''}}" data-score="4" bindtap="setScore2"></view>
+      <view class="fi fi-star {{serviceScore>=5?'on':''}}" data-score="5" bindtap="setScore2"></view>
+    </view>
+  </view>
+  <view class='flex-row flex-y-center' style='padding: 32rpx 24rpx;background:#fff'>
+    <view>发货速度</view>
+    <view class='starList flex-y-center flex-row' style='margin-left:32rpx;background:#ff'>
+      <view class="fi fi-star {{logisticeScore>=1?'on':''}}" data-score="1" bindtap="setScore3"></view>
+      <view class="fi fi-star {{logisticeScore>=2?'on':''}}" data-score="2" bindtap="setScore3"></view>
+      <view class="fi fi-star {{logisticeScore>=3?'on':''}}" data-score="3" bindtap="setScore3"></view>
+      <view class="fi fi-star {{logisticeScore>=4?'on':''}}" data-score="4" bindtap="setScore3"></view>
+      <view class="fi fi-star {{logisticeScore>=5?'on':''}}" data-score="5" bindtap="setScore3"></view>
+    </view>
+  </view>
+</view>
+<view class="bar-bottom flex-row flex-y-center">
+  <view class='flex-grow-1 flex-row flex-y-center anon'>
+    <view class='fi {{is_anon?"fi-check-on":"fi-radio"}}' bindtap='radio'></view>
+    <view>匿名</view>
+  </view>
+  <view bindtap="commentSubmit" class="submit-btn flex-grow-0 flex-x-center flex-y-center">提交</view>
+</view>

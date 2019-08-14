@@ -1,0 +1,51 @@
+/* .log-list {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+}
+.log-item {
+  margin: 10rpx;
+} */
+
+.swiper {
+  position: relative;
+  width: 100%;
+  height: 750rpx;
+}
+
+.swiper-wrapper {
+  height: 750rpx;
+  position: relative;
+  left: 0;
+  visibility: visible;
+}
+
+.swiper-item {
+  height: 750rpx;
+  position: relative;
+}
+
+.goods-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.play {
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  top: 275rpx;
+  left: 325rpx;
+}
+
+#video {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}

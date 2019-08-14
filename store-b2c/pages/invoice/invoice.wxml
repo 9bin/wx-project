@@ -1,0 +1,68 @@
+
+<!--pages/invoice/invoice.wxml-->
+<view class='top-nav'>
+  <view class='flex-row'>
+    <view class='flex-grow-1' style='font-size:26rpx;margin-left:15rpx;'>发票类型</view>
+    <view class='flex-grow-0' style='font-size:26rpx;color:#999' bindtap='showInvoiceState'>发票须知</view>
+  </view>
+  <view class='flex-row' style='margin-top:20rpx;'>
+    <view bindtap='getSendType' data-invoice-type='2' class="nav {{invoiceType==2?'active':''}}">普通发票</view>
+    <view bindtap='getSendType' data-invoice-type='1' class="nav {{invoiceType==1?'active':''}}" style='margin-left:20rpx;'>不要发票</view>
+  </view>
+</view>
+
+<block wx:if="{{invoiceType=='2'}}">
+  <view class='invoiceTitle flex-col'>
+    <view style='font-size:26rpx'>发票抬头</view>
+    <radio-group class="radio-group flex-y-center flex-row" bindchange="radioChange">
+      <label class="radio" wx:for="{{invoiceTitleType}}">
+        <radio value="{{item.name}}" checked="{{item.name == invoiceTitleChecked}}" color='#ff0036'/>{{item.value}}
+      </label>
+    </radio-group>
+  </view>
+</block>
+
+<block wx:if="{{invoiceType=='2'&&invoiceTitleChecked == '2'}}">
+  <view class='inputGroup'>
+    <view class='input flex-y-center' style='margin-bottom:20rpx;'><input class='flex-grow-1' placeholder='请输入单位名称（全称）' placeholder-style='color:#999' value='{{unit}}' bindinput='bindUnitInput'></input></view>
+    <view class='input flex-row flex-y-center'>
+      <input class='flex-grow-1' value='{{ratepayerCode}}' placeholder='请输入纳税人识别号' placeholder-style='color:#999' bindinput='bindCodeInput'></input>
+      <view class='fi fi-is-warning' bindtap='showCodeState'></view>
+    </view>
+  </view>
+</block>
+
+<block wx:if="{{invoiceType=='2'}}">
+  <view class='invoiceContent flex-col'>
+    <view style='font-size:26rpx'>发票明细</view>
+    <radio-group class="flex-col" bindchange="radioChange2">
+      <label class="radio">
+        <radio value="1" color='#ff0036' checked='{{invoiceContent=="1"}}'/>商品明细
+      </label>
+      <label class="radio">
+        <radio value="2" color='#ff0036' checked='{{invoiceContent=="2"}}'/>商品类别
+      </label>
+    </radio-group>
+  </view>
+</block>
+<view class='btn' bindtap='submit'>确定</view>
+
+<!-- 协议内容 -->
+<view class="dAlert show_modle {{showModle?'on':''}}">
+    <view class="alertContainer">
+        <view class="alert-main">
+            <view class="alertMainer">
+              <import src="../../wxParse/wxParse.wxml"></import>
+              <view class='title'>{{modleTitle}}</view>
+              <scroll-view scroll-y class='desc'>
+                <template is="wxParse" data="{{wxParseData:content.nodes}}"></template>
+              </scroll-view>
+              <view class='close'>
+                <button class='button' plain bindtap='closeModle'>我知道了</button>
+              </view>
+            </view> 
+        </view>
+    </view>
+    <view class="alertMask"></view>
+</view>
+

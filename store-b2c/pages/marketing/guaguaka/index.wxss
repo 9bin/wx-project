@@ -1,0 +1,282 @@
+/* pages/marketing/guaguaka/index.wxss */
+page {
+  background: #ea4e32;
+}
+.tip {
+  position: relative;
+  width: 100%;
+  height: 475rpx;
+  margin-bottom: 24rpx;
+}
+
+.tip image {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tip .desc {
+  position: absolute;
+  bottom: 10rpx;
+  color: #fff;
+  font-size: 30rpx;
+}
+
+.lotto-center {
+  position: relative;
+  width: 702rpx;
+  margin: 0 auto 24rpx;
+  height: 324rpx;
+  overflow-y: hidden;
+}
+
+.lotto-center .bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.lotto-center .bg image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.lotto-center .bg view {
+  font-size: 30rpx;
+  color: #ff0036;
+  border-radius: 10rpx;
+  background: #ffd201;
+  padding: 20rpx 40rpx;
+}
+
+.lotto-center .scratch_wp {
+  position: relative;
+  width: 702rpx;
+  height: 324rpx;
+  z-index: 0;
+}
+
+.lotto-center .scratch_wp .scratch-canvas {
+  width: 702rpx; 
+  height: 324rpx; 
+  background: transparent
+}
+
+.lotto-center .scratch_wp .scratch-bg-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 702rpx; 
+  height: 324rpx; 
+}
+
+.lotto-center .scratch_wp .scratch-bg-text .scratch-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 702rpx; 
+  height: 324rpx;
+  z-index: 0; 
+}
+
+
+
+.lotto-center .scratch_wp .scratch-bg-text .scratch-text {
+    font-size: 18pt;
+    color: #f05525;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    max-width: 410rpx;
+    padding: 0 24rpx;
+    z-index: 1;
+}
+
+.winMemberList {
+  width: 90%;
+  padding: 20rpx;
+  margin: 0 auto 50rpx;
+  background: #fcc270;
+  box-shadow: 0 5rpx 15rpx 0 #d07537;
+}
+
+.win-header {
+  position: relative;
+  margin-bottom: 20rpx;
+  margin-left: -30rpx;
+  width: 178rpx;
+  height: 60rpx;
+}
+
+.win-header .img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.win-container {
+  border: 1rpx solid #9c1013;
+}
+
+.win-container .swi-header {
+  width: 100%;
+  background: #f5b355;
+  font-size: 26rpx;
+  font-weight: bold;
+  height: 60rpx;
+  color: #ff0c36;
+}
+
+.win-container .swiper {
+  width: 100%;
+  height: 300rpx;
+  position: relative;
+}
+
+.win-container .swiper .swi-item {
+  width: 100%;
+  height: 60rpx;
+  font-size: 26rpx;
+  color: #ff0c36;
+}
+
+.win-container .swiper .swi-item.l1 {
+  background: #f5b355;
+}
+
+.win-container .swi {
+  text-align: center;
+  height: 60rpx;
+  line-height: 60rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.win-container .swi.name {
+  width: 30%;
+}
+
+.win-container .swi.reword {
+  width: 40%;
+}
+
+.win-container .swi.date {
+  width: 30%;
+}
+
+.rule {
+  width: 100%;
+  margin: 50rpx auto;
+  font-size: 24rpx;
+  padding: 0 40rpx;
+}
+
+/* 弹出窗 */
+.showRule .alertContainer {
+  top: 15%;
+  border-radius: 20rpx;
+  background: #fff;
+}
+.showRule .alertContainer .alert-main .alertMainer {
+  padding: 0;
+}
+.showRule .title {
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #333;
+}
+.showRule .desc {
+  height: 400rpx;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.showRule .close .button{
+  text-align: center;
+  font-size: 36rpx;
+  border: none;
+  background: #fff;
+  color: #eb0c36;
+}
+
+.showResult .alertContainer {
+  top: 20%;
+}
+
+.showResult .resultContainer {
+  width: 468rpx;
+  height: 395rpx;
+  margin: 0 auto;
+  position: relative;
+  z-index: 0;
+}
+
+.showResult .resultContainer .prize-bg-alert {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.showResult .resultContainer .title-tip {
+  position: absolute;
+  top: 10rpx;
+  width: 250rpx;
+  height: 40rpx;
+}
+
+.showResult .resultContainer .win-info {
+  width: 280rpx;
+  height: 200rpx;
+  overflow: hidden;
+  position: relative;
+  margin-top: 80rpx;
+
+}
+
+.showResult .resultContainer .win-info > view {
+  font-size: 26rpx;
+}
+
+.showResult .resultContainer .win-info .icon-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 10rpx;
+  border-radius: 10rpx;
+  background: #fff;
+}
+
+.showResult .resultContainer .win-btn {
+  position: relative;
+  margin-top: 10rpx;
+  width: 170rpx;
+  height: 57rpx;
+}
+
+.showResult .resultContainer .win-btn .btn-img-bg {
+  position: absolute;
+  top: 3rpx;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}

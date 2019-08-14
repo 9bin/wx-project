@@ -1,0 +1,155 @@
+<!--pages/miaosha/miaosha.wxml-->
+<include src="../../commons/extension/extension.wxml"></include>
+<view class='page {{__page_classes}}'>
+  <include src="/commons/navbar/navbar.wxml"></include>
+  <view class='body after-navber'>
+    <view class='top-bar'>
+      <!-- <view class='screen flex-x-center flex-y-center {{time_list.length>0?"":"hide"}}' bindtap='showScreenView'>
+        <view class='fi fi-filter'></view>
+      </view> -->
+      <scroll-view scroll-x scroll-left="{{top_bar_scroll}}">
+        <view class='start-time-list flex-row'>
+          <view class="flex-grow-0 flex-y-center start-time-item {{active_index==index?'active':''}} {{theme}}" data-index='{{index}}' wx:for="{{time_list}}" data-id='{{item.id}}' bindtap='topBarItemClick'>
+            <view class='flex-col'>
+              <view class="start-time">{{item.actStartTime}}</view>
+              <view wx:if="{{item.isBegin==1}}" class="start-status">抢购中</view>
+              <view wx:else class="start-status">即将开始</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <view style='width:100%;height:20rpx;background:#f0f0f0'></view>
+      <view class="flex-row time-over-bar" wx:if="{{time_list}}">
+        <block wx:if="{{active_index == index}}" wx:for="{{time_list}}" wx:key="index">
+          <view class="flex-grow-1 flex-y-center" style="font-size: 30rpx;" wx:if="{{item.isBegin==1}}">秒杀中 先下单先得哦~</view>
+          <view class="flex-grow-1 flex-y-center" style="font-size: 30rpx;" wx:if="{{item.isBegin==0}}">即将开始 先预约哦~</view>
+          <view class="flex-grow-0 flex-y-center" style="font-size: 30rpx;">
+            <text wx:if="{{item.isBegin==-1}}">本场秒杀已结束</text>
+            <block wx:if="{{item.isBegin==1}}">
+              <text style='margin-right:15rpx;'>距结束</text>
+              <!-- <text style="color: #666;margin-left: 10rpx">{{item.end_time_over}}</text> -->
+              <view class='flex-row flex-y-centr flex-grow-0'>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{times.h?times.h:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{times.m?times.m:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{times.s?times.s:'--'}}</view>
+                </view>
+              </view>
+            </block>
+            <block wx:if="{{item.isBegin==0}}">
+              <text style='margin-right:15rpx;'>距开始</text>
+              <!-- <text style="color: #666;margin-left: 10rpx">{{item.begin_time_over}}</text> -->
+              <view class='flex-row flex-y-centr flex-grow-0'>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{times.h?times.h:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{times.m?times.m:'--'}}</view>
+                </view>
+                <image class="limit-item-split" src="/images/icon-time-split.png" style="width: 20rpx;height: 34rpx"></image>
+                <view class="flex-y-center limit-time-item" style="width: 32rpx;height: 34rpx">
+                  <image src="/images/icon-time-bg.png" style="width: 100%;height: 100%"></image>
+                  <view class="flex-y-center flex-x-center">{{times.s?times.s:'--'}}</view>
+                </view>
+              </view>
+            </block>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- <view class="goods-loading" style="padding-top: 320rpx;text-align: center" wx:if="{{goods_list===null}}">
+      <image src="/images/loading2.svg" style="width: 120rpx;height: 120rpx"></image>
+    </view> -->
+    <view class='goods-list'>
+      <navigator class='item flex-row' wx:for="{{goods_list}}" url='/pages/miaosha/detail/detail?id={{item.id}}'>
+        <view class="flex-grow-0" style="padding: 20rpx 0rpx 20rpx 20rpx;">
+          <image class="cover-pic" mode="aspectFill" src="{{item.mainImg}}"></image>
+        </view>
+        <view class='flex-grow-1' style="padding: 28rpx 20rpx">
+          <view class="goods-name">{{item.productName}}</view>
+          <view class='goods-desc'>{{item.shortDesc}}</view>
+          <view class="progress-bar" wx:if="{{time_list[active_index].isBegin==1}}">
+            <view class="progress" style="width: {{item.sell_num*100/item.miaosha_num}}%;background:#ff0036"></view>
+          </view>
+          <view class="flex-row statue-text">
+            <block wx:if="{{time_list[active_index].isBegin==1}}">
+              <view wx:if="{{item.buys<item.marketingInfo.seckillInfo.stockQty}}" class="flex-grow-1">已售{{item.buys}}</view>
+              <view class="flex-grow-1" wx:else>{{item.marketingInfo.seckillInfo.stockQty}}件已抢完</view>
+            </block>
+            <block wx:else>
+              <view class="flex-grow-1">商品总量：{{item.marketingInfo.seckillInfo.stockQty}}</view>
+            </block>
+          </view>
+          <view class="flex-row">
+            <view class="flex-grow-1 flex-row flex-y-center">
+              <view class="miaosha-price">￥{{item.marketingInfo.seckillInfo.activityPrice}}</view>
+              <view class="price">￥{{item.marketPrice}}</view>
+            </view>
+            <view class="flex-grow-0 flex-y-bottom">
+              <view class="btn yy {{item.marketingInfo.seckillInfo.areadySubscribe==1?'is_book':''}}" catchtap='book' data-id='{{item.id}}' data-is_book="{{item.marketingInfo.seckillInfo.areadySubscribe}}" wx:if="{{time_list[active_index].isBegin==0}}">去预约</view>
+              <view class="btn" catchtap='buy' data-is_book="{{item.marketingInfo.seckillInfo.areadySubscribe==1}}" data-id='{{item.id}}' wx:else>去抢购</view>
+            </view>
+          </view>
+        </view>
+
+      </navigator>
+    </view>
+  </view>
+  <include src="/commons/loading/loading.wxml"></include>
+</view>
+
+<!-- 筛选弹窗 start-->
+<view class="showScreenView " wx:if="{{showScreenView}}" catchtouchmove="preventTouchMove">
+  <form bindreset='screenReset' bindsubmit='screenSubmit'>
+    <view id="screenContainer" animation="{{animationData}}" class='screenContainer' bindtouchstart='catchtouchstart' bindtouchmove='move_view' bindtouchend='colse_view'>
+      <view class='btnGroup flex-row'>
+        <button form-type='reset' class='reset flex-x-center flex-y-center flex-grow-1' plain='true'>重置</button>
+        <button form-type='submit' class='submit flex-x-center flex-y-center flex-grow-1' plain='true'>确定</button>
+      </view>
+      <scroll-view scrollY="true" class='classfiyContainer'>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center'>
+            <view class='classfiy-name flex-grow-1'>价格</view>
+          </view>
+          <view class='classfiy-tag'>
+            <view class='tagGroup flex-row'>
+              <view class='tag {{priceRange == item?"active":""}}' wx:for="{{['0-100','100-200','200-300']}}" catchtap='chickPriceTag' data-value='{{item}}'>{{item}}</view>
+            </view>
+            <view class='flex-row flex-y-center flex-x-between' style='margin-top:24rpx; '>
+              <input class='input' value='{{minInput}}' type='number' bindinput='bindMinInput' placeholder='最低价' placeholder-style='color:#999'></input>
+              <view>-</view>
+              <input class='input' value='{{maxInput}}' type='number' bindinput='bindMaxInput' placeholder='最高价' placeholder-style='color:#999'></input>
+            </view>
+          </view>
+        </view>
+        <view class='classfiy-item'>
+          <view class='classfiy-header flex-row flex-y-center' bindtap='screenTagShow'>
+            <view class='classfiy-name flex-grow-1'>分类</view>
+            <view style='color:#eb0c36'>{{tag}}</view>
+            <view class='fi fi-angle-right {{screenTagShow?"show":""}}'></view>
+          </view>
+          <view class='classfiy-tag {{screenTagShow?"show":"hide"}}'>
+            <view class='tagGroup flex-row'>
+              <view catchtap='chickClassfiyTag' data-value='{{item}}' class='tag {{tag == item?"active":""}}' wx:for="{{['生活电器','电脑办公','手机通讯','大家电','饮料酒水','家居家装','食品生鲜','个护家清','护肤美妆']}}">{{item}}</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </form>
+  <view class='screenMask' bindtap='closeScreenView'></view>
+</view>
+<!-- 筛选弹窗 end-->

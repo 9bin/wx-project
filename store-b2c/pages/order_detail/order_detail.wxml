@@ -1,0 +1,279 @@
+<!--pages/order_detail/order_detail.wxml-->
+<wxs module="util" src="../../util.wxs"></wxs>
+<view class='bottom-bar'>
+  <block wx:if="{{orderMap.orderStatus!=-1&&orderMap.orderStatus<6}}">
+    <block wx:if="{{orderMap.orderType=='5'}}">
+      <view class='btnGroups flex-row' wx:if="{{orderMap.depositStatus==0}}">
+        <view class='btn cancle flex-grow-1' bindtap='showReason' data-id='{{orderMap.id}}'>取消订单</view>
+        <navigator class='btn submit flex-grow-1' hover-class='none' url='/pages/wx_pay/wx_pay?id={{orderMap.id}}'>立即付款</navigator>
+      </view>
+      <view class='btnGroups flex-row' wx:elif="{{orderMap.depositStatus==1&&orderMap.balancePaymentStatus==0}}">
+        <view class='btn cancle flex-grow-1' bindtap='showReason' data-id='{{orderMap.id}}'>取消订单</view>
+        <navigator class='btn submit flex-grow-1' hover-class='none' url='/pages/wx_pay/wx_pay?id={{orderMap.id}}'>立即付款</navigator>
+      </view>
+    </block>
+    <block wx:else>
+      <view class='btnGroups flex-row' wx:if="{{orderMap.payStatus==0}}">
+        <view class='btn cancle flex-grow-1' bindtap='showReason' data-id='{{orderMap.id}}'>取消订单</view>
+        <navigator class='btn submit flex-grow-1' hover-class='none' url='/pages/wx_pay/wx_pay?id={{orderMap.id}}'>立即付款</navigator>
+      </view>
+    </block>
+  </block>
+  <blcok wx:if="{{orderMap.orderStatus==6}}">
+    <view class='btnGroups flex-row'>
+      <navigator class='btn cancle flex-grow-1' hover-class='none' url='/pages/logistics/logistics?id={{orderMap.id}}'>查看物流</navigator>
+      <view class='btn submit flex-grow-1' bindtap='confirmReceipt' data-id='{{orderMap.id}}'>确认收货</view>
+    </view>
+  </blcok>
+  <blcok wx:if="{{orderMap.orderStatus==8}}">
+      <view class='btnGroups flex-row' wx:if="{{orderMap.isAllDiscuss&&orderMap.isAllDiscuss=='1'}}">
+        <navigator class='btn cancle flex-grow-1' hover-class='none' url='/pages/logistics/logistics?id={{orderMap.id}}'>查看物流</navigator>
+        <navigator class='btn submit flex-grow-1' url='/pages/evaluate_detail/evaluate_detail?id={{orderMap.discussId}}'>查看评价</navigator>
+      </view>
+      <view class='btnGroups flex-row' wx:else>
+        <navigator class='btn cancle flex-grow-1' hover-class='none' url='/pages/logistics/logistics?id={{orderMap.id}}&logsType=1'>查看物流</navigator>
+        <navigator class='btn submit flex-grow-1' url='/pages/evaluate/evaluate?id={{orderMap.id}}'>去评价</navigator>
+      </view>
+    </blcok>
+</view>
+<view class='page' style='overflow-x:hidden'>
+  <view class='statu-bar'>
+    <image mode='aspectFill' src='/images/order_status_bar_back.jpg'></image>
+    <block wx:if="{{orderMap.orderStatus==-1}}">
+      <view class='text flex-row flex-y-center'>
+        <view class='fi fi-wait-send'></view>
+        <view>已取消</view>
+      </view>
+    </block>
+    <block wx:elif="{{orderMap.orderStatus!=-1&&orderMap.orderStatus<6}}">
+      <block wx:if="{{orderMap.orderType=='5'}}">
+        <view class='text flex-row flex-y-center' wx:if="{{orderMap.depositStatus=='0'}}">
+          <view class='flex-grow-0 fi fi-clock-time'></view>
+          <view class='flex-grow-1'>待付定金</view>
+          <view class='flex-grow-0'>{{orderMap.clearingEndTimeStr}}</view>
+        </view>
+        <view class='text flex-row flex-y-center' wx:elif="{{orderMap.depositStatus=='1'&&orderMap.balancePaymentStatus=='0'}}">
+          <view class='flex-grow-0 fi fi-clock-time'></view>
+          <view class='flex-grow-1'>待付尾款</view>
+          <view class='flex-grow-0'>{{orderMap.clearingEndTimeStr}}</view>
+        </view>
+        <view class='text flex-row flex-y-center' wx:elif="{{orderMap.depositStatus=='1'&&orderMap.balancePaymentStatus=='1'}}">
+          <view class='fi fi-wait-send'></view>
+          <view>待发货</view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class='text flex-row flex-y-center' wx:if="{{orderMap.payStatus==0}}">
+          <view class='flex-grow-0 fi fi-clock-time'></view>
+          <view class='flex-grow-1'>待付款</view>
+          <view class='flex-grow-0'>{{orderMap.clearingEndTimeStr}}</view>
+        </view>
+        <view class='text flex-row flex-y-center' wx:else>
+          <view class='fi fi-wait-send'></view>
+          <view>待发货</view>
+        </view>
+      </block>
+    </block>
+    <block wx:if="{{orderMap.payStatus==1&&orderMap.orderStatus>=6}}">
+      <view class='text flex-row flex-y-center'>
+        <view class='fi fi-order-sure'></view>
+        <view>已完成</view>
+      </view>
+    </block>
+  </view>
+
+  <view class='flex-row mb-20' style='padding:32rpx 24rpx;background:#fff'>
+    <view class='flex-grow-0 fi fi-member-menu-address' style='font-size:40rpx;'></view>
+    <view class='flex-grow-1 flex-col' style='margin-left:10rpx;'>
+      <view class='flex-row mb-20'>
+        <text>{{orderCneesMap.receiveName}}</text>
+        <text style='margin-left:40rpx;'>{{util.toEncrypt(orderCneesMap.receiveMobile)}}</text>
+      </view>
+      <view wx:if="{{orderCneesMap.type=='1'}}" style='font-size:26rpx;color:#999'>{{orderCneesMap.receiveAddress}}</view>
+      <view wx:if="{{orderCneesMap.type=='2'}}" style='font-size:26rpx;color:#999'>{{orderCneesMap.selfPickName}}</view>
+    </view>
+  </view>
+
+  <view class='mb-20'>
+    <view class='goods-list'>
+      <view class='goods-item flex-row' wx:for="{{orderMap.orderLineList}}" wx:for-item="goods">
+        <view class='flex-grow-0' style="overflow: visible" bindtap='navGoodsDetail' data-id='{{goods.subProductId}}' data-goods-type='{{orderMap.orderType}}'>
+          <image class="goods-pic" mode="aspectFill" src="{{goods.full_path+goods.productImg}}"></image>
+        </view>
+        <view class='flex-grow-1 flex-col'>
+          <view class='flex-grow-1'>
+            <view class='goods-name' bindtap='navGoodsDetail' data-id='{{goods.subProductId}}' data-goods-type='{{orderMap.orderType}}'>{{goods.productName}}</view>
+            <view class='attr-list mb-10'>{{goods.property}}</view>
+          </view>
+          <view class="flex-grow-0 flex-row">
+            <view class="flex-grow-1">{{goods.packPrice}}</view>
+            <view class="flex-grow-0 num flex-y-bottom">x{{goods.packQty || 1}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='gift-list'>
+      <view class='gift-item flex-row' wx:if="{{gift.giftType==1}}" wx:for="{{orderMap.orderGiftList}}" wx:for-item="gift">
+        <view class='flex-grow-0' style="overflow: visible">
+          <image class="gift-pic" mode="aspectFill" src="{{gift.imgPath}}"></image>
+        </view>
+        <view class='flex-grow-1 flex-col'>
+          <view class='flex-grow-1'>
+            <view class='gift-name'>
+              <text class='tag'>赠品</text>
+              <text>{{gift.giftName}}</text>
+            </view>
+          </view>
+          <view class="flex-grow-0 flex-row">
+            <view class="flex-grow-0" style='font-size:26rpx;color:#999'>x{{goods.packQty || 1}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <block wx:if="{{orderMap.orderType=='5'}}">
+      <view class='price-detail'>
+        <view class='mb-20' style='color:#eb0c36'>阶段1：{{orderMap.depositStatus=="1"?"已付款":"待付款"}}</view>
+        <view class='flex-row mb-10'>
+          <view class='left flex-grow-1'>商品定金</view>
+          <view class='right flex-grow-0'>￥{{orderMap.deposit}}</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>运费</view>
+          <view class='right flex-grow-0'>￥{{orderMap.shipping}}</view>
+        </view>
+      </view>
+      <view class='totle-price flex-row'>
+        <view class='flex-grow-1'>{{orderMap.depositStatus=="1"?"定金已付款":"定金需付款"}}</view>
+        <view class='flex-grow-0' style='color:#eb0c36'>{{util.toFix(orderMap.deposit)+util.toFix(orderMap.shipping)}}</view>
+      </view>
+      <view class='price-detail'>
+        <view class='mb-20' style='color:#eb0c36'>阶段2：{{orderMap.balancePaymentStatus=="1"?"已付款":"待付款"}}</view>
+        <view class='flex-row mb-10'>
+          <view class='left flex-grow-1'>商品尾款</view>
+          <view class='right flex-grow-0'>￥{{orderMap.balancePayment}}</view>
+        </view>
+        <view class='price-item flex-row'>
+          <view class='left flex-grow-1'>服务费</view>
+          <view class='right flex-grow-0'>￥{{0.00}}</view>
+        </view>
+      </view>
+      <view class='totle-price flex-row'>
+        <view class='flex-grow-1'>{{orderMap.balancePaymentStatus=="1"?"尾款已付款":"尾款需付款"}}</view>
+        <view class='flex-grow-0' style='color:#eb0c36'>￥{{orderMap.balancePayment}}</view>
+      </view>
+    </block>
+    <block wx:elif="{{orderMap.orderType=='6'}}">
+      <view class='price-detail'>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>商品金额</view>
+          <view class='right flex-grow-0'>{{orderMap.totalSumAmout}}积分</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left'>运费</view>
+          <view class='right'>+￥{{orderMap.shipping}}</view>
+        </view>
+      </view>
+      <view class='totle-price flex-row'>
+        <view class='flex-grow-1'>{{orderMap.payStatus==1?"已付款":"应付款"}}</view>
+        <view class='flex-grow-0' style='color:#eb0c36'>{{orderMap.sumAmout}}积分</view>
+      </view>
+    </block>
+    <block wx:else>
+      <view class='price-detail'>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>商品金额</view>
+          <view class='right flex-grow-0'>￥{{orderMap.totalSumAmout}}</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>优惠券</view>
+          <view class='right flex-grow-0'>-￥{{orderMap.discountValue}}</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>积分抵扣</view>
+          <view class='right flex-grow-0'>-￥{{orderMap.creditDeduction}}</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>余额抵扣</view>
+          <view class='right flex-grow-0'>-￥{{orderMap.fundsPay}}</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left flex-grow-1'>运费</view>
+          <view class='right flex-grow-0'>+￥{{orderMap.shipping}}</view>
+        </view>
+      </view>
+      <view class='totle-price flex-row'>
+        <view class='flex-grow-1'>{{orderMap.payStatus==1?"已付款":"应付款"}}</view>
+        <view class='flex-grow-0' style='color:#eb0c36'>￥{{orderMap.sumAmout}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class='mb-20'>
+    <view style='background: #fff;padding: 32rpx 24rpx;border-bottom: 1rpx solid #e6e6e6;'>
+      <view class='flex-row mb-10'>
+        <view class='left'>订单编号：</view>
+        <view class='right'>{{orderMap.orderCode}}</view>
+      </view>
+      <view class='flex-row'>
+        <view class='left'>下单时间：</view>
+        <view class='right'>{{orderMap.orderTime}}</view>
+      </view>
+    </view>
+    <view style='background: #fff;padding: 32rpx 24rpx;border-bottom: 1rpx solid #e6e6e6;'>
+      <view class='flex-row mb-10'>
+        <view class='left'>支付方式：</view>
+        <view class='right'>在线支付</view>
+      </view>
+      <view class='flex-row mb-10'>
+        <view class='left'>配送方式：</view>
+        <view class='right' wx:if="{{orderCneesMap.type=='1'}}">快递配送</view>
+        <view class='right' wx:if="{{orderCneesMap.type=='2'}}">上门自提</view>
+      </view>
+      <block wx:if="{{orderCneesMap.type=='2'}}">
+        <view class='flex-row mb-10'>
+          <view class='left'>自提码：</view>
+          <view class='right'>{{orderCneesMap.orderId}}</view>
+        </view>
+        <view class='flex-row mb-10'>
+          <view class='left'>自提地点：</view>
+          <view class='right'>{{orderCneesMap.selfPickName}}</view>
+        </view>
+        <view class='flex-row'>
+          <view class='left'>联系方式：</view>
+          <view class='right'>{{orderCneesMap.receiveMobile}}</view>
+        </view>
+      </block>
+    </view>
+    <view style='background: #fff;padding: 32rpx 24rpx;border-bottom: 1rpx solid #e6e6e6;' wx:if="{{orderInvoiceMap&&(orderInvoiceMap.invoiceType=='2'||orderInvoiceMap.invoiceType=='3')}}">
+      <view class='flex-row'>
+        <view class='left'>发票类型：</view>
+        <view class='right' wx:if="{{orderInvoiceMap.invoiceType=='1'}}">不开发票</view>
+        <view class='right' wx:if="{{orderInvoiceMap.invoiceType=='2'}}">普通发票</view>
+        <view class='right' wx:if="{{orderInvoiceMap.invoiceType=='3'}}">电子普通发票</view>
+      </view>
+      <view class='flex-row mb-10'>
+        <view class='left'>发票抬头：</view>
+        <view class='right'>{{orderInvoiceMap.invoiceTitle}}</view>
+      </view>
+      <view class='flex-row mb-10'>
+        <view class='left'>纳税人识别号：</view>
+        <view class='right'>{{orderInvoiceMap.invoiceTitle}}</view>
+      </view>
+      <view class='flex-row'>
+        <view class='left'>发票内容：</view>
+        <view class='right' wx:if="{{orderInvoiceMap.invoiceContent=='1'}}">商品明细</view>
+        <view class='right' wx:if="{{orderInvoiceMap.invoiceContent=='2'}}">商品类别</view>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+<view class='picker' wx:if="{{showCancle}}">
+  <view class='content-box'>
+    <view class='flex-col reason-list'>
+      <view class='reason-item' bindtap='cancle' data-reason='{{item}}' wx:for="{{['不想买了','信息填写错误','重复下单/误下单','卖家缺货','其他原因']}}">{{item}}</view>
+    </view>
+    <view class='button' bindtap='cancleReason'>取消</view>
+  </view>
+</view>

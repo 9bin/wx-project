@@ -1,0 +1,475 @@
+<!--pages/miaosha/detail/detail.wxml-->
+<wxs module="filters" src="../../../util.wxs"></wxs>
+<import src="../../../wxParse/wxParse.wxml"></import>
+<import src="../../../commons/evaluate_list/evaluate_list.wxml"></import>
+<include src="../../../commons/extension/extension.wxml"></include>
+<include src="../../../area_picker/area_picker.wxml"></include>
+<view class='page'>
+  <view class="body {{show_promotion_list||show_coupon_list||no_scroll?'no-scroll':''}}">
+
+    <!-- 领取优惠券弹窗 -->
+    <view class="show-popup" wx:if="{{show_coupon_list}}">
+      <view class="content-box" style="height: 850rpx; background: #f8f8f8 !important;">
+        <view class='popup-top flex-row flex-y-center'>
+          <view class='title flex-x-center flex-y-center'>优惠券</view>
+          <view bindtap="hideCouponList" class="flex-x-center flex-y-center" style="position: absolute;right: 24rpx;">
+              <image src="/images/icon-close.png" style="width: 30rpx;height: 30rpx"></image>
+            </view>
+        </view>
+        <view class='flex-y-center' style='font-size:30rpx;width:100%;padding:0 24rpx;height: 80rpx;'>可领优惠券</view>
+        <scroll-view scrollY="{{true}}" class='popup-list coupon-list'>
+          <block wx:for="{{coupon_list}}">
+            <view class='item flex-row flex-y-center'>
+              <view class='item-left flex-col flex-y-center flex-x-center flex-grow-0'>
+                <view style='font-size:48rpx'>￥<text style='font-size:80rpx'>{{filters.toFix(item.processValue)}}</text></view>
+                <view style='font-size:24rpx' wx:if="{{filters.toFix(item.reachStandardValue)>0}}">满{{item.reachStandardValue}}元可用</view>
+              </view>
+              <view class='item-middle flex-col flex-grow-1'>
+                <view class='name'><text class='icon'>优惠券</text>{{item.name}}</view>
+                <view style='color:#999;font-size:24rpx;'>有效期:</view>
+                <view style='color:#999;font-size:24rpx;'>{{filters.sub(item.validityDateStart)}}-{{filters.sub(item.validityDateEnd)}}</view>
+              </view>
+              <view class='item-right'>
+                <button data-id='{{item.id}}' bindtap='receive' class='flex-y-center flex-x-center' plain='{{true}}' wx:if="{{item.isUse =='0'}}">立即领取</button>
+                <image wx:else src='/images/img-coupon-status-icon-1.png'></image>
+              </view>
+            </view>
+          </block>
+        </scroll-view>
+      </view>
+    </view>
+
+    <!-- 查看促销列表 -->
+    <view class="show-popup" wx:if="{{show_promotion_list}}">
+      <view class="content-box" style="height: 850rpx;">
+        <view class='popup-top flex-row flex-y-center'>
+          <view class='title flex-x-center flex-y-center'>促销</view>
+          <view bindtap="hidePromotionList" class="flex-x-center flex-y-center" style="position: absolute;right: 24rpx;">
+              <image src="/images/icon-close.png" style="width: 30rpx;height: 30rpx"></image>
+          </view>
+        </view>
+        <scroll-view scrollY="{{true}}" class='popup-list promotion'>
+          <!-- <block wx:for="{{coupon_list}}">
+          </block> -->
+          <view class='li flex-row'>
+            <view class='promotion-tag flex-grow-0'>赠积分</view>
+            <view class='name flex-grow-1'>赠1000积分</view>
+          </view>
+          <view class='li flex-row'>
+            <view class='promotion-tag flex-grow-0'>赠送</view>
+            <view class='name flex-grow-1'>满299即赠送商品，赠完为止</view>
+            <view class="flex-grow-0 ">
+                <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+            </view>
+          </view>
+          <view class='li flex-row'>
+            <view class='promotion-tag flex-grow-0'>满减</view>
+            <view class='name flex-grow-1'>活动商品买满199元减50元</view>
+            <view class="flex-grow-0 ">
+                <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+            </view>
+          </view>
+          <view class='li flex-row'>
+            <view class='promotion-tag flex-grow-0'>赠品</view>
+            <view class='name flex-grow-1 flex-col'><text>华为荣耀畅玩手环A1（活力蓝）来电提醒 运动 睡眠监测 紫外线测试 计步防水（赠完即止）</text><text>x1</text></view>
+            <view class="flex-grow-0 ">
+                <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+            </view>
+          </view>
+          <view class='li flex-row'>
+            <view class='promotion-tag flex-grow-0'>满减送</view>
+            <view class='name flex-grow-1'>
+              <view class='flex-col'>
+                <view class='mb-10' style='color:#eb0c36'>满100元</view>
+                <view class='mb-10'>可立减10元；享9.5折；包邮；赠50元优惠券1张；赠苹果蓝牙耳机一副</view>
+              </view>
+              <view class='flex-col'>
+                <view class='mb-10' style='color:#eb0c36'>满200元</view>
+                <view class='mb-10'>可立减30元；享9.5折；包邮；赠50元优惠券1张；赠苹果蓝牙耳机一副</view>
+              </view>
+              <view class='flex-col'>
+                <view class='mb-10' style='color:#eb0c36'>满300元</view>
+                <view class='mb-10'>可立减100元；享9.5折；包邮；赠50元优惠券1张；赠苹果蓝牙耳机一副</view>
+              </view>
+            </view>
+            <view class="flex-grow-0 ">
+                <image src="/images/icon-jiantou-r.png" style="width: 12rpx;height: 22rpx;margin-left: 12rpx"></image>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+    
+    <view class='topBar flex-row flex-y-center'>
+      <view class='nav flex-row flex-x-center'>
+        <view class="nav-item flex-y-center flex-x-center {{nav_status==0?'active':''}}" bindtap='navTap' data-nav_status='0'>商品</view>
+        <view class="nav-item flex-y-center flex-x-center {{nav_status==1?'active':''}}" bindtap='navTap' data-nav_status='1'>详情</view>
+        <view class="nav-item flex-y-center flex-x-center {{nav_status==2?'active':''}}" bindtap='navTap' data-nav_status='2'>评价</view>
+      </view>
+      <view class='icon flex-row flex-y-center'>
+        <view class='fi fi-share' bindtap="showShareModal"></view>
+        <view class='fi fi-more-dot' style='margin-left:10rpx;' bindtap='showMenu'></view>
+      </view>
+    </view>
+    <view class='menuFloat flex-col' wx:if="{{showMenu}}">
+      <view class='fi fi-triangle-up'></view>
+      <navigator class='menu-li flex-row flex-y-center' open-type='reLaunch' url='/pages/home/home' style='border-bottom: 2rpx solid #fff;'>
+        <i class="fi fi-home"></i>
+        <text>首页</text>
+      </navigator>
+      <navigator class='menu-li flex-row flex-y-center' open-type='navigate' url='/pages/search/search'>
+        <i class="fi fi-search"></i>
+        <text>搜索</text>
+      </navigator>
+    </view>
+    <scroll-view scroll-y scroll-into-view="{{toview}}" scroll-top="{{scrollTop}}" class='detailContainer' wx:if="{{nav_status==1 || nav_status == 0}}">
+      <view class='swiper' id='swiper'>
+        <block wx:if="{{goods.listImg && goods.listImg.length>0}}">
+          <view class='swiper-wrapper flex-row' style='width:{{swiperWidth*goods.listImg.length}}px;' bindtouchstart='start' bindtouchmove='move' bindtouchend='end'>
+            <view class='swiper-item flex-grow-0 flex-row' wx:for="{{goods.listImg}}" style='width:{{swiperWidth}}px;left:{{index*(-swiperWidth)}}px;{{style[index]}}'>
+              <image catchtap="play" class="play" data-url="{{goods.videoPath}}" src="/images/video-play.png" wx:if="{{goods.videoPath&&index==0}}"></image>
+              <image catchtap="onGoodsImageClick" class="goods-image" data-index="{{index}}" mode="aspectFill" src="{{item}}"></image>
+              <video class='{{hide}}' controls autoplay="true" id="video" src="{{url}}" wx:if="{{goods.videoPath&&index==0}}"></video>
+            </view>
+          </view>
+          <view class='dots'>{{current+1}}／{{goods.listImg.length}}</view>
+        </block>
+        <block  wx:elif="{{goods.mainImg}}">
+          <view class='swiper-wrapper flex-row' style='width:100%;'>
+            <view class='swiper-item flex-grow-0 flex-row' style='width:100%;'>
+              <image catchtap="play" class="play" data-url="{{goods.videoPath}}" src="/images/video-play.png" wx:if="{{goods.videoPath}}"></image>
+              <image catchtap="onGoodsImageClickOne" class="goods-image" data-src="{{goods.mainImg}}" mode="aspectFill" src="{{goods.mainImg}}"></image>
+              <video class='{{hide}}' controls autoplay="true" id="video" src="{{url}}"></video>
+            </view>
+          </view>
+          <view class='dots'>{{1}}／{{1}}</view>
+        </block>
+      </view>
+      <view class='miaosha-bar flex-row'>
+        <view class="flex-grow-1 flex-col miaosha-bar-left">
+          <view class="flex-y-center">
+            <view class="flex-y-bottom miaosha-price">
+              <text class="cny">￥</text>
+              <text>{{miaosha_data.activityPrice}}</text>
+            </view>
+          </view>
+          <view class="flex-row flex-y-center">
+            <view class='activeTypeTag flex-row flex-y-center'>
+              <view class='fi fi-limit-time-buy'></view>
+              <view class='text'>秒杀</view>
+            </view>
+            <view>
+              <view class="goods-price">￥{{goods.marketPrice}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="flex-grow-0 flex-y-center miaosha-bar-right">
+          <view wx:if="{{miaosha_data.statusText==3}}">
+            <view class="time-over-text">已结束</view>
+            <view class="timer">
+              <text class="timer-num">--</text>
+              <text class="timer-split">:</text>
+              <text class="timer-num">--</text>
+              <text class="timer-split">:</text>
+              <text class="timer-num">--</text>
+            </view>
+          </view>
+          <view wx:else>
+            <view class="time-over-text" wx:if="{{miaosha_data.statusText==2}}">距离结束还剩</view>
+            <view class="time-over-text" wx:if="{{miaosha_data.statusText==1}}">距离开始还剩</view>
+            <view class="timer">
+              <text class="timer-num">{{miaosha_end_time_over.h}}</text>
+              <text class="timer-split">:</text>
+              <text class="timer-num">{{miaosha_end_time_over.m}}</text>
+              <text class="timer-split">:</text>
+              <text class="timer-num">{{miaosha_end_time_over.s}}</text>
+            </view>
+          </view>
+          
+        </view>
+      </view>
+
+      <view class="goods-info" style="background: #fff;padding:32rpx 24rpx;">
+        <view style="font-weight: bold;margin-bottom: 24rpx;line-height: 1.7">{{goods.productName}}</view>
+        <view class='flex-row'>
+          <view class="flex-grow-1 check-list">{{goods.shortDesc}}</view>
+          <view class="flex-grow-0 flex-y-bottom" style="margin-right: 32rpx">
+              <text style="font-size: 9pt;color: #888;">销量：{{goods.buys}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class='desc'>
+        <view class='desc-item getCoupon flex-row flex-y-center' wx:if="{{goods.marketingInfo.couponInfo && goods.marketingInfo.couponInfo.couponBatchList.length>0}}">
+          <view class='flex-grow-0 label-name'>领券</view>
+          <view class='flex-grow-1 flex-row flex-y-center'>
+            <view class='coupon flex-grow-0' style='display:{{index>2?"none":""}};' wx:for="{{goods.marketingInfo.couponInfo.couponBatchList}}" wx:for-item="item">
+              <view wx:if="{{filters.toFix(item.reachStandardValue)>0}}">满{{item.reachStandardValue}}减{{item.processValue}}</view>
+              <view wx:else>立减{{item.processValue}}</view>
+            </view>
+          </view>
+          <view class='flex-grow-0 fi fi-more-dot' bindtap='showCouponList'></view>
+        </view>
+        <view class='desc-item flex-row' wx:if="{{goods.marketingInfo.marketInfo&&goods.marketingInfo.marketInfo.parketRuleList.length>0}}">
+        <view class='flex-grow-0 label-name'>促销</view>
+          <view class='flex-grow-1 flex-row flex-x-center' style='overflow:hidden;'>
+            <view class='cuxiao flex-y-center' style='margin-left: 15rpx;' wx:if="{{goods.marketingInfo.marketInfo.parketRuleList.length>1}}" wx:for="{{goods.marketingInfo.marketInfo.parketRuleList}}">
+              <text class='cuxiao-type'>{{item.type}}</text>
+            </view>
+            <view class='cuxiao flex-row flex-y-center' style='margin-bottom: 15rpx;' wx:for="{{store.cuxiao_list}}">
+              <text class='cuxiao-type'>{{item.type}}</text>
+              <text class='cuxiao-name'>{{item.name}}</text>
+            </view>
+          </view>
+          <view class='flex-grow-0 fi fi-more-dot' style='margin-top: -15rpx;' bindtap='showPromotionList'></view>
+        </view> 
+      </view>
+
+      <!-- <view class='desc'>
+        <view class='desc-item flex-row flex-y-center' wx:if="{{goods}}">
+          <view class='flex-grow-0 label-name'>选择</view>
+          <view class='flex-grow-1' style='font-size:28rpx;'>规格，数量</view>
+          <view class='flex-grow-0 fi fi-more-dot' bindtap="showAttrPicker"></view>
+        </view>
+      </view> -->
+
+      <view class='desc'>
+        <view class='desc-item flex-row flex-y-center' wx:if="{{goods}}">
+          <view class='flex-grow-1 label-name'>数量</view>
+            <view class="flex-grow-0">
+              <view class="flex-row number-input-box">
+                <view bindtap="numberSub" class="flex-grow-0 flex-x-center flex-y-center number-btn number-sub {{form.number<=1?'disabled':''}}">-
+                </view>
+                <view class="flex-grow-0">
+                  <input bindblur="numberBlur" class="flex-grow-1 number-input" type="number" value="{{form.number}}"></input>
+                </view>
+                <view bindtap="numberAdd" class="flex-grow-0 flex-x-center flex-y-center number-btn number-add">+
+                </view>
+              </view>
+            </view>
+        </view>
+      </view>
+
+      <view class='desc'>
+        <view class='desc-item'>
+          <view class='flex-row flex-y-center'>
+            <view class='flex-grow-0 label-name'>送至</view>
+            <view class='flex-grow-1' style='font-size:28rpx;'>
+                <text wx:if="{{region.length>0}}">{{region[0]}}{{region[1]}}{{region[2]}}</text>
+                <text wx:else>请选择收货地区</text>
+            </view>
+            <view bindtap="bindRegionChange">
+              <view class='flex-grow-0 fi fi-more-dot'></view>
+            </view>
+          </view>
+          <view class='flex-row' style='margin-top:20rpx;'>
+            <view class='flex-grow-0 label-name'>运费</view>
+            <view class='flex-grow-1' style='font-size:28rpx;'>
+              {{freight}}元
+            </view>
+          </view> 
+        </view>
+      </view>
+
+      <view class='bg-white' style='border-top:1rpx solid #e6e6e6;padding: 0 24rpx;'>
+        <view class='desc-item flex-y-center flex-row'>
+          <view class="check-item flex-y-center flex-grow-1" wx:for="{{['七天无理由退换','货到付款','正品保证','24小时发货']}}">
+            <view class='fi fi-is-success'></view>
+            <text class='flex-grow-0'>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{goods.commentEntity}}">
+        <view class='desc pingjia-header flex-row flex-y-center'>
+          <view bindtap='navTap' data-nav_status='2' class='flex-row flex-grow-1' style='font-size:28rpx;'>
+            <view>商品评价</view>
+            <view>（{{goods.discussCount}}）</view>
+          </view>
+          <view class='flex-row flex-y-center flex-grow-0' style='font-size:26rpx;'>
+            <view style='color:#999999'>好评度</view>
+            <view style='color:#ff0036;margin-left:8rpx'>{{goods.goodReputation}}%</view>
+            <view class='fi fi-angle-right'></view>
+          </view>
+        </view>
+        <navigator wx:if="{{goods.commentEntity}}" class='comment-item flex-row' hover-class='none' url='/pages/evaluate_detail/evaluate_detail?id={{goods.commentEntity.id}}'>
+          <view class='flex-grow-0' style="overflow: visible">
+            <image mode="aspectFill" src="{{goods.commentEntity.headPortraitUrl}}" style="width: 70rpx;height: 70rpx;border-radius: 1000rpx"></image>
+          </view>
+          <view class="flex-grow-1">
+              <view class="flex-row">
+                  <view class="flex-grow-1 flex-y-center nickname">
+                    <view>{{goods.commentEntity.nickName}}</view>
+                  </view>
+                  <view class="flex-grow-0 flex-y-center addtime flex-col">
+                    <view>{{filters.timesub(goods.commentEntity.createTime)}}</view>
+                  </view>
+              </view>
+              <view class="flex-row flex-y-center mb-20">
+                  <view class="flex-grow-1 nickname">
+                    <view class='starGroup'>
+                      <view class='starContainer starContainer-on' style='width:{{goods.commentEntity.disCate/5*100}}%'>
+                        <view class='starList flex-y-center flex-row'>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                        </view>
+                      </view>
+                      <view class='starContainer starContainer-default'>
+                        <view class='starList flex-y-center flex-row'>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                          <i class="fi fi-star"></i>
+                        </view>
+                      </view>
+                    </view>
+                  </view>
+                  <view class="flex-grow-0 flex-y-center addtime flex-col">
+                    <view wx:if="{{goods.commentEntity.terminal==0}}">来自WEB后台</view>
+                    <view wx:if="{{goods.commentEntity.terminal==1}}">来自触屏手机版</view>
+                    <view wx:if="{{goods.commentEntity.terminal==2}}">来自android手机版</view>
+                    <view wx:if="{{goods.commentEntity.terminal==3}}">来自IOS手机版</view>
+                  </view>
+              </view>
+              <view class="mb-20">{{goods.commentEntity.disContent}}</view>
+              <view class="pic-list" wx:if="{{goods.commentEntity.imageList&&goods.commentEntity.imageList.length>0}}">
+                  <image catchtap="commentPicView" class="pic-item" data-pic-index="{{pic_index}}" mode="aspectFill" src="{{item}}" wx:for="{{goods.commentEntity.imageList}}" wx:for-index="{{pic_index}}"></image>
+              </view>
+              <view class='flex-y-center flex-row attrActionGroup'>
+                  <view class='attrGroup flex-row flex-grow-1'>
+                    <view class='attrGroup-item'>{{goods.commentEntity.disProductProperty}}</view>
+                  </view>
+                  <view class='actionGroup flex-row flex-grow-0'>
+                    <view class="actionItem flex-y-center flex-row {{goods.commentEntity.toggleClass?'hide':''}}" data-id='{{goods.commentEntity.id}}' catchtap='toggleClass'>
+                      <view class='fi fi-thumbs-default'></view>
+                      <view>{{goods.commentEntity.laudAmount}}</view>
+                    </view>
+                    <view class="actionItem flex-y-center flex-row {{goods.commentEntity.toggleClass?'on':'hide'}}" data-id='{{goods.commentEntity.id}}' catchtap='toggleClass'>
+                      <view class='fi fi-thumbs-on'></view>
+                      <view>{{goods.commentEntity.laudAmount}}</view>
+                    </view>
+                    <view class='actionItem flex-y-center flex-row'>
+                      <view class='fi fi fi-comment'></view>
+                      <view>{{goods.commentEntity.replayAmount}}</view>
+                    </view>
+                  </view>
+              </view>
+              <view class='btn flex-y-center flex-x-center' catchtap='navTap' data-nav_status='2'>查看全部评价</view>
+          </view>
+        </navigator>
+      </view>
+
+      <view class='desc' id="goodsDetail">
+        <view bindtap='showGoodsDetail' class="flex-y-center flex-x-center flex-row {{tab_detail?'hide':''}}" style='height:80rpx;'>
+          <view style='font-size: 28rpx;color:#999'>查看图文详情</view>
+          <view class='fi fi-angle-down' style='font-size: 36rpx;color:#999'></view>
+        </view>
+        <view class="tab-group-item {{tab_detail?'':'hide'}}">
+            <view class="goods-detail">
+                <template is="wxParse" data="{{wxParseData:detail.nodes}}"></template>
+            </view>
+        </view>
+      </view>
+
+    </scroll-view>
+    <view class="flex-row bar-bottom">
+        <view class="flex-grow-0 flex-row">
+            <view class="flex-grow-0 flex-y-center bar-bottom-btn" data-flag='{{goods.collectionFlag}}' bindtap='collect'>
+                
+                <view wx:if="{{goods.collectionFlag==1}}">
+                    <i class="fi fi-star" style="color:#eb0c36"></i>
+                    <text>已收藏</text>
+                </view>
+                <view wx:else>
+                    <i class="fi fi-star-border"></i>
+                    <text>收藏</text>
+                </view>
+            </view>
+            <navigator class="flex-grow-0 flex-y-center bar-bottom-btn" openType="switchTab" url="/pages/cart/cart">
+                <view class='flex-col flex-y-center'>
+                    <view style='position: relative;width:60rpx;'>
+                      <i class="fi fi-cart"></i>
+                      <i class="number">{{goods.cartNum || 0}}</i>
+                    </view>
+                    <text>购物车</text>
+                </view>
+            </navigator>
+        </view>
+        <view class="flex-grow-1 flex-row">
+            <block wx:if="{{ !miaosha_data || miaosha_data.status!=1 || miaosha_data.statusText==3}}">
+              <view class="flex-grow-1 flex-y-center flex-x-center buy-origin">暂无活动</view>
+            </block>
+            <block>
+              <view catchtap="buyNow" data-id='{{goods.id}}' wx:if="{{miaosha_data.areadySubscribe==1 && miaosha_data.statusText==2}}" class="flex-grow-1 flex-y-center flex-x-center buy-now">立即购买</view>
+              <view catchtap="buyOrigin" data-id='{{goods.id}}' wx:else class="flex-grow-1 flex-y-center flex-x-center buy-origin">原价购买</view>
+              <view catchtap='book' data-id='{{goods.id}}' wx:if="{{miaosha_data.areadySubscribe==0 && miaosha_data.statusText==1}}" class="flex-grow-1 flex-y-center flex-x-center buy-now">立即预约</view>
+            </block>
+        </view>
+    </view>
+  </view>
+</view>
+<view class="modal flex-row {{hide}}" bindtap='close'>
+  <view class="flex-y-center" style="width:100%;">
+    <video controls autoplay="true" id="video" src="{{url}}" style="height:80%">
+    </video>
+  </view>
+</view>
+
+<view class="share-modal {{share_modal_active}}">
+    <view class="share-modal-body">
+        <view style='width:100%;text-align:center;margin-bottom:30rpx;'>分享到</view>
+        <view class="flex-row">
+            <view class="flex-grow-1 flex-x-center">
+                <button class="share-bottom" openType="share">
+                    <image src="/images/icon-share-friend.png"></image>
+                    <view>微信好友</view>
+                </button>
+            </view>
+            <view class="flex-grow-1 flex-x-center">
+                <view bindtap="getGoodsQrcode" class="share-bottom">
+                    <image src="/images/icon-share-qrcode.png"></image>
+                    <view>生成海报</view>
+                </view>
+            </view>
+        </view>
+        <view bindtap="shareModalClose" class="share-modal-close flex-y-center flex-x-center">取消</view>
+    </view>
+</view>
+
+<view class="goods-qrcode-modal {{goods_qrcode_active}}">
+    <view class="goods-qrcode-body flex-col">
+        <view class="flex-grow-1" style="position: relative">
+            <view style="position: absolute;left: 0;top:0;width: 100%;height: 100%;padding: 100rpx 100rpx 60rpx">
+                <view class="goods-qrcode-box">
+                    <view class="goods-qrcode-loading flex-x-center flex-y-center">
+                        <view class="flex-x-center flex-col">
+                            <image src="/images/loading2.svg" style="width: 150rpx;height: 150rpx"></image>
+                            <view style="color: #888">海报生成中</view>
+                        </view>
+                    </view>
+                    <image bindtap="goodsQrcodeClick" class="goods-qrcode {{goods_qrcode?'active':''}}" data-src="{{goods_qrcode}}" mode="aspectFit" src="{{goods_qrcode}}"></image>
+                </view>
+            </view>
+        </view>
+        <view class="flex-grow-0 flex-col flex-x-center" style="padding: 0 60rpx 80rpx">
+            <view style="margin-bottom: 20rpx;padding: 0 40rpx">
+                <button bindtap="saveGoodsQrcode" style="background: #ff4544;color: #fff;" wx:if="{{goods_qrcode}}">
+                    保存图片
+                </button>
+                <button style="opacity: .4" disabled='true' wx:else>保存图片</button>
+            </view>
+            <view style="color: #888;font-size: 9pt;text-align: center">保存至相册可以分享到朋友圈</view>
+        </view>
+        <view bindtap="goodsQrcodeClose" class="goods-qrcode-close">
+            <image src="/images/icon-close2.png" style="width: 50rpx;height: 50rpx;display: block"></image>
+        </view>
+    </view>
+</view>
+
+<view wx:if="{{nav_status == 2}}">
+  <template is="evaluate_list" data="{{evaluateList: evaluateList, is_loading: is_loading, evaluateTag: evaluateTag, show_no_data_tip: show_no_data_tip}}"></template>
+</view>

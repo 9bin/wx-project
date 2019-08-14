@@ -1,0 +1,89 @@
+/* pages/conllect/conllect.wxss */
+.page {
+  overflow-x: hidden;
+}
+
+.item {
+  position: relative;
+  z-index: 0;
+  height: 228rpx;
+  border-top: 1rpx solid #e6e6e6;
+}
+
+.goods-item-2 {
+  padding: 0 24rpx;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+}
+
+.goods-item-2 .image {
+  width: 160rpx;
+  height: 160rpx;
+  display: block;
+}
+
+.goods-item-2 .icon-tag{
+  font-size:24rpx;
+  color:#fff;
+  background:#eb0c36;
+  border-radius:5rpx;
+  height: 40rpx;
+  width: fit-content;
+  padding: 0 8rpx;
+}
+
+.add-cat {
+  position: absolute;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 60rpx;
+  background: #eb0c36;
+  color: #fff;
+  right: 24rpx;
+  bottom: 24rpx; 
+}
+.add-cat.gray {
+ background: #ccc; 
+}
+
+.good-is-exis {
+  width: 100%;
+  padding: 0 24rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, .2);
+}
+
+.good-is-exis .text {
+  width: 160rpx;
+  height: 160rpx;
+  color: #fff;
+  font-size: 40rpx;
+  border-radius: 160rpx;
+  background: rgba(100, 100, 100, .5);
+  text-align: center;
+  line-height: 160rpx;
+}
+
+.dele-conllect {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  background: #eb0c36;
+  z-index: 0;
+  color: #fff;
+  font-size: 32rpx;
+}

@@ -1,0 +1,18 @@
+<!--pages/order_submit_coupon/order_submit_coupon.wxml-->
+  <scroll-view class='list' scroll-y="{{true}}" enable-back-to-top="{{true}}" bindscrolltolower="onReachBottom">
+    <radio-group class="flex-col" bindchange="radioChange">
+      <label class="radio flex-row flex-y-center" wx:for="{{list}}">
+        <view class='radio-left flex-col flex-y-center flex-x-center flex-grow-0'>
+          <view style='font-size:48rpx'>￥<text style='font-size:80rpx'>{{item.sub_price}}</text></view>
+          <view style='font-size:24rpx'>满{{item.min_price}}元可用</view>
+        </view>
+        <view class='radio-middle flex-col flex-grow-1'>
+          <view class='name'><text class='icon'>优惠券</text>{{item.name}}</view>
+          <view style='color:#999;font-size:24rpx;'>有效期:</view>
+          <view style='color:#999;font-size:24rpx;'>{{item.begintime}}-{{item.endtime}}</view>
+        </view>
+        <radio value="{{item.id}}" color='#eb0c36' checked="{{item.checked}}"/>
+      </label>
+    </radio-group>
+  </scroll-view>
+

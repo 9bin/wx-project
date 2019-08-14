@@ -1,0 +1,156 @@
+<!--pages/order_refund_detail/order_refund_detail.wxml-->
+<view class='page'>
+  <view class='top-title mb-20'>
+    <view style='padding: 32rpx 24rpx;'>
+      <view class='mb-20'>
+        <text style='color:#666;'>服务类型：</text>
+        <text style='color:#999;'>{{returnType==0?'退货':'换货'}}</text>
+      </view>
+      <view class='mb-20'>
+        <text style='color:#666;'>服务单号：</text>
+        <text style='color:#999;'>{{returnCode}}</text>
+      </view>
+      <view class='mb-20'>
+        <text style='color:#666;'>申请时间：</text>
+        <text style='color:#999;'>{{createTime}}</text>
+      </view>
+    </view>
+    <view style='padding: 32rpx 24rpx;border-top:1rpx solid #e6e6e6;' wx:if="{{returnType==0&&(status==6||status==8)}}">
+      <view class='flex-col flex-x-center flex-y-center'>
+        <view class='flex-row flex-y-center green mb-20'>
+          <image src='/images/icon-check-on.png' style='width:50rpx;height:50rpx;'></image>
+          <text style='font-size:40rpx;margin-left:14rpx;'>已退款</text>
+        </view>
+        <view class='mb-20' style='font-size:40rpx;'>￥{{returnAmount}}</view>
+        <view style='color:#999;'>已退回至原支付卡</view>
+      </view>
+    </view>
+  </view>
+  <view class='show-progress mb-20'>
+    <view style='padding: 32rpx 24rpx;color:#666;border-bottom:1rpx solid #e6e6e6;'>售后进度</view>
+    <view class='flow-list flex-x-center flex-y-center flex-row'>
+      <block wx:for="{{returnProFlowList}}">
+        <view class='flow-list-item flex-x-center flex-y-center flex-col' wx:if="{{item.postDate&&item.postTime}}">
+          <view class='fixTips flex-col flex-x-center flex-y-center' wx:if="{{!returnProFlowList[index+1].postDate||!returnProFlowList[index+1].postTime}}">
+            <block wx:if="{{status==0}}">
+              <text>已取消</text>
+            </block>
+            <block wx:elif="{{status==8}}">
+              <text>已完成</text>
+            </block>
+            <block wx:elif="{{status==7}}">
+              <text>审核不通过</text>
+            </block>
+            <block wx:elif="{{status==6}}">
+              <text>已退款</text>
+            </block>
+            <block wx:elif="{{status==5}}">
+              <text>待退款</text>
+            </block>
+            <block wx:elif="{{status==4}}">
+              <text>已收货</text>
+            </block>
+            <block wx:elif="{{status==3}}">
+              <text>待收货</text>
+            </block>
+            <block wx:elif="{{status==2}}">
+              <text>审核通过</text>
+            </block>
+            <block wx:elif="{{status==1}}">
+              <text>待审核</text>
+            </block>
+            <text class='fi fi-triangle-down'></text>
+          </view>
+          <view class='flex-grow-0 flex-x-center flex-y-center flex-col green'>
+            <text class='fi {{item.postDate&&item.postTime&&index<(returnProFlowList.length-1)?"fi-is-success":"fi-radio-on"}}'></text>
+            <text class='name'>{{item.name}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class='statusTxt flex-row flex-y-center' style='color:#666;'>
+      <view class='flex-grow-1' wx:if="{{status==0}}">您的服务订单已取消</view>
+      <view class='flex-grow-1' wx:if="{{status==8}}">服务单完成</view>
+      <view class='flex-grow-1' wx:if="{{status==7}}">您的服务订单审核不通过</view>
+      <view class='flex-grow-1' wx:if="{{status==6}}">已退款，请您注意查收</view>
+      <view class='flex-grow-1' wx:if="{{status==5}}">商品已寄出，待商家确认</view>
+      <view class='flex-grow-1' wx:if="{{status==4&&item.cneeStatus==2}}">商家已收货，待商家重新发货</view>
+      <view class='flex-grow-1' wx:if="{{status==3}}">
+        <block wx:if="{{deliveryStatus==1}}">商家已寄出，请注意物流信息</block>
+        <block wx:if="{{deliveryStatus==2}}">商品已寄出，待商家确认</block>
+      </view>
+      <view class='flex-grow-1' wx:if="{{status==2}}">商家审核已通过，待寄出商品</view>
+      <view class='flex-grow-1' wx:if="{{status==1}}">您的服务单已申请成功，等待商家审核</view>
+      <!-- <navigator class='flex-grow-0 btn' url='/pages/order_refund_detail/detail/detail?id={{id}}'>进度详情</navigator> -->
+    </view>
+  </view>
+  <block wx:if="{{remark}}">
+    <view class='mb-20' style='background:#fff;'>
+      <view style='padding: 32rpx 24rpx;color:#666;border-bottom:1rpx solid #e6e6e6;'>商家留言</view>
+      <view style='padding: 32rpx 24rpx;color:#666;'>{{remark}}</view>
+    </view>
+  </block>
+  <view class='mb-20' style='background:#fff;'>
+    <view style='padding: 32rpx 24rpx;color:#666;border-bottom:1rpx solid #e6e6e6;'>问题描述</view>
+    <view style='padding: 32rpx 24rpx;color:#999;'>
+      <view class='mb-20'>{{rejectedDesc}}</view>
+      <view class='mb-20' style='font-size:26rpx;'>{{createTime}}</view>
+      <view class='flex-row'>
+        <view class='img' wx:for="{{proofPicUrl}}" data-index='index' bindtap='onGoodsImageClick'>
+          <image src='{{full_path+item}}' style='width:120rpx;height:120rpx;'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='mb-20' style='background:#fff;'>
+    <view style='padding: 32rpx 24rpx;color:#666;border-bottom:1rpx solid #e6e6e6;'>服务单信息</view>
+    <view style='padding: 32rpx 24rpx;font-size:28rpx;'>
+      <view class='mb-20'>
+        <text style='color:#999;'>申请数量：</text>
+        <text style='color:#666;'>{{rejectedCount}}</text>
+      </view>
+      <block wx:if="{{deliverMapEntity.consigneeName&&deliverMapEntity.consigneeMobile}}">
+        <view class='mb-20'>
+          <text style='color:#999;'>商品退回：</text>
+          <text style='color:#666;'>快递返回</text>
+        </view>
+        <view class='mb-20' wx:if="{{returnType==0}}">
+          <text style='color:#999;'>退款方式：</text>
+          <text style='color:#666;'>原返</text>
+        </view>
+        <view class='mb-20'>
+          <text style='color:#999;'>联系人：</text>
+          <text style='color:#666;'>{{deliverMapEntity.consigneeName}}</text>
+        </view>
+        <view class='mb-20'>
+          <text style='color:#999;'>联系方式：</text>
+          <text style='color:#666;'>{{deliverMapEntity.consigneeMobile}}</text>
+        </view>
+        <view>
+          <text style='color:#999;'>取件地址：</text>
+          <text style='color:#666;'>{{deliverMapEntity.consigneeProvince}}{{deliverMapEntity.consigneeCity}}{{deliverMapEntity.consigneeArea}}{{deliverMapEntity.consigneeAddress}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+  <block wx:if="{{status==1}}">
+    <view class='btnGroups flex-y-center'>
+      <view class='btn cancle' bindtap='cancle'>取消申请</view>
+    </view>
+  </block>
+  <block wx:if="{{status==2}}">
+    <view class='btnGroups flex-y-center'>
+      <navigator class='btn check' url='/pages/order_refund_logistics/order_refund_logistics?id={{id}}&extype={{returnType}}'>填写物流</navigator>
+    </view>
+  </block>
+  <block wx:if="{{status==3&&deliveryStatus==1}}">
+    <view class='btnGroups flex-y-center'>
+      <view class='btn check' bindtap='sureReseiving'>确认收货</view>
+    </view>
+  </block>
+  <block wx:if="{{status==6}}">
+    <view class='btnGroups flex-y-center'>
+      <view class='btn check' bindtap='sureCollection'>确认收款</view>
+    </view>
+  </block>
+</view>

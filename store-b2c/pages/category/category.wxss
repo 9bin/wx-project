@@ -1,0 +1,79 @@
+/* pages/category/category.wxss */
+
+.cat-list {
+  background: #f7f7f7;
+}
+
+.cat-list .cat-item {
+  height: 106rpx;
+  text-align: center;
+  border-left: 8rpx solid transparent;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.cat-list .cat-item.active {
+  background: #fff;
+  color: #ff4544;
+  border-left-color: #ff4544;
+}
+
+.cat-list .cat-item .cat-name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size: 26rpx;
+}
+
+.cat-container {
+  padding-bottom: 115rpx;
+}
+
+.device_iphone_x~.after-navber .cat-container {
+  padding-bottom: 180rpx;
+}
+
+.cat-small-style {
+  width: 100%;
+}
+
+.cat-small-style .cat-2-name {
+  height: 80rpx;
+  font-size: 28rpx;
+  line-height: 80rpx;
+}
+
+.cat-small-style .cat-num-3 {
+  background: #fff;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 10rpx 10rpx 20rpx 10rpx;
+}
+
+.cat-small-style .cat-num-3 .flex-grow-0 {
+  width: 31.333333%;
+  margin-left: 2%;
+  margin-top: 10rpx;
+}
+
+.cat-small-style .cat-item .cat-icon {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 10rpx;
+}
+
+.cat-small-style .cat-item .cat-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: 24rpx;
+}
+
+.advert {
+  width: 100%;
+}
+
+.advert image {
+  width: 100%;
+  height: 184rpx;
+}

@@ -1,0 +1,51 @@
+<!--pages/footprint/footprint.wxml-->
+<view class='page'>
+  <view class='date'>
+    <view class='year-month flex-x-center flex-y-center' wx:if="{{showDays}}">
+      <view class='fi fi-triangle-left' bindtap='lastMonth_Fn'></view>
+      <view style='padding:0 24rpx;'>{{yearNum}}年{{monthNum}}月</view>
+      <view class='fi fi-triangle-right' bindtap='nextMonth_Fn'></view>
+    </view>
+    <view class='week-name flex-row'>
+      <view class='flex-grow-1'>日</view>
+      <view class='flex-grow-1'>一</view>
+      <view class='flex-grow-1'>二</view>
+      <view class='flex-grow-1'>三</view>
+      <view class='flex-grow-1'>四</view>
+      <view class='flex-grow-1'>五</view>
+      <view class='flex-grow-1'>六</view>
+    </view>
+    <view class='monthDay' style='height:{{showDays?MonthDayArray.length*75:75}}rpx;'>
+      <view class='tr flex-row' wx:if="{{showDays||currentIndex==index}}" wx:for="{{MonthDayArray}}" wx:key="month">
+        <view data-id='{{item.num}}' data-is-disable='{{!item.isCurrentMonth}}' class="day flex-grow-1 {{item.isCurrentMonth ? 'currentMonth':''}} {{item.isSelect ? 'active' : ''}} {{selectNum==item.num&&item.isCurrentMonth?'select':''}}" wx:for="{{item}}" bindtap="dateClick"
+          wx:key="day">
+          <view class="gongli">{{item.num}}</view>
+        </view>
+      </view>
+    </view>
+    <view class='downGroup {{showDays?"up":""}}' bindtap='showDays'>
+      <text class='fi fi-angle-down'></text>
+    </view>
+  </view>
+  <view style='width:100%;padding-top:200rpx;margin-bottom:10rpx;overflow-x:hidden;transition: all .3s ease;'>
+    <view class='no-data flex-x-center flex-y-center flex-col' wx:if="{{show_no_data_tip}}" style='margin-top:30rpx;'>
+      <view class='fi fi-data-null' style='font-size: 320rpx;color: #999;'></view>
+      <view style='font-size:32rpx;color:#999;margin-top:-40rpx;'>暂无数据~</view>
+    </view>
+    <view class='goods-list flex-row'>
+      <view class='flex-grow-0' wx:for="{{list}}" wx:for-index="index" wx:for-item="goods">
+        <navigator class='goods-item' url='/pages/goods/goods?id={{goods.id}}'>
+          <image mode="aspectFill" src="{{goods.mainImg}}"></image>
+          <view class='flex-col' style='padding:20rpx;'>
+            <text class="text-more-2" style="height:2.8em;line-height:1.4;font-size:26rpx">{{goods.productName}}</text>
+            <view class="flex-row flex-y-center" style="padding-top:10rpx">
+              <view class="flex-grow-1" style="color:{{color_style}};font-weight:bold;font-size:36rpx;">￥{{goods.mallPrice}}</view>
+              <view wx:if="{{goods.praisePercent}}" class="fs-sm" style="color:#999;font-size:24rpx;">{{goods.praisePercent}}好评</view>
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </view>
+    <include src="../../commons/loading/loading.wxml" />
+  </view>
+</view>

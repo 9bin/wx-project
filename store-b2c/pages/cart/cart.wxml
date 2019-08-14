@@ -1,0 +1,242 @@
+<!--pages/cart/cart.wxml-->
+<wxs module="util" src="../../util.wxs"></wxs>
+<view class='page '>
+  <view class='body'>
+    <view class='top-bar flex-y-center'>
+      <block wx:if="{{show_cart_edit}}">
+        <view style='font-size:30rpx;color:#999;' bindtap="cartDone">完成</view>
+      </block>
+      <block wx:else>
+        <view style='font-size:30rpx;color:#eb0c36;' bindtap="cartEdit">编辑</view>
+      </block>
+    </view>
+    <view class='bottom-bar flex-row'>
+      <view class='flex-y-center flex-row flex-grow-1' style='background:#fff;'>
+        <view class='ranger flex-grow-1 flex-row flex-y-center'>
+          <view class='flex-grow-0 flex-y-center flex-row' bindtap='cartCheckAll'>
+            <view wx:if="{{!isAllCheck}}" style='font-size: 80rpx;' class='fi fi-radio'></view>
+            <view wx:if="{{isAllCheck}}" style='color:#eb0c36;font-size: 80rpx;' class='fi fi-radio-on'></view>
+            <view style='font-size:26rpx;color:#666'>全选</view>
+          </view>
+          <view class='flex-grow-1 flex-row' wx:if="{{show_cart_edit}}" style='font-size:30rpx;margin-left:24rpx;justify-content:flex-end;'>
+            <view bindtap="cartDelete" data-delete-type='addCollect' class="flex-y-center flex-grow-0 flex-x-center edit-btn">移入收藏夹</view>
+            <view bindtap="cartDelete" data-delete-type='delete' class="flex-y-center flex-grow-0 flex-x-center submit-btn">删除</view>
+          </view>
+          <view class='flex-grow-1' wx:else style='font-size:30rpx;margin-left:24rpx'>
+            <view>合计：￥{{totalPrice || 0.00}}</view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{!show_cart_edit}}" class='toPay flex-grow-0'>去结算({{count || 0}})</view>
+    </view>
+
+    <view class="no-data-tip flex-x-center flex-col" wx:if="{{productCount<=0}}">
+      <view class="flex-y-center flex-x-center flex-col">
+        <view class='fi fi-cart-null'></view>
+        <view style='font-size: 30rpx;color:#999;margin-top:-60rpx;'>空空如也，赶紧去购物吧~</view>
+      </view>
+      <navigator url='/pages/list/list' class='toBuyGoods' bindtap=''>立即购物</navigator>
+    </view>
+    <view class='goods-list' wx:else>
+      <block wx:if="{{ptProductList && ptProductList.length}}">
+        <view class='unit'>
+          <view class='item flex-row' wx:for="{{ptProductList}}">
+            <view style='{{item.txtStyle}}' class='goods-item flex-row flex-y-center' bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" data-util='ptProductList'>
+              <view class='flex-grow-0 flex-y-center' data-index="{{index}}" data-util='ptProductList' bindtap='cartCheckOne'>
+                <view wx:if="{{item.cartInfo.status==0}}" class='fi fi-radio' style='font-size: 80rpx;'></view>
+                <view wx:if="{{item.cartInfo.status==1}}" style='color:#eb0c36;font-size: 80rpx;' class='fi fi-radio-on'></view>
+              </view>
+              <navigator class='flex-row flex-y-center flex-grow-1' hover-class='none' url='/pages/goods/goods?id={{item.id}}'>
+                <image class='image flex-grow-0' mode="aspectFill" src="{{item.mainImg}}"></image>
+                <view class='flex-grow-1 flex-col' style='margin-left:24rpx;'>
+                  <view class='name mb-10'>{{item.productName}}</view>
+                  <!-- <block wx:if="{{show_cart_edit}}">
+                  <view class='flex-row flex-y-center mb-10' style='background: #f0f0f0;padding:0 10rpx;' data-index="{{index}}" data-util='ptProductList' bindtap='showAttrPicker'>
+                    <view class='property flex-grow-1'>{{item.property}}</view>
+                    <view class='fi fi-angle-down flex-grow-0' style='color:#999;font-size: 40rpx;'></view>
+                  </view>
+                </block> -->
+                  <!-- <block wx:else> -->
+                  <view class='flex-row flex-y-center mb-10'>
+                    <view class='property'>
+                      <text class='attr' wx:for="{{item.selectAttrMapList}}" wx:for-item="attr">{{attr.attrValue}}</text>
+                    </view>
+                  </view>
+                  <!-- </block> -->
+                  <view class='isReduction' wx:if="{{item.isReduction}}">比加入时降{{item.reductionRange}}元</view>
+                  <view class='flex-grow-1' style='color:#eb0c36'>
+                    <text style='font-size:24rpx;'>￥</text>
+                    <text style='font-size:36rpx;'>{{item.mallPrice}}</text>
+                  </view>
+                </view>
+              </navigator>
+              <view class="flex-row number-input-box">
+                <view bindtap="numberSub" data-index="{{index}}" data-util='ptProductList' class="flex-grow-0 flex-x-center flex-y-center number-btn number-sub {{item.cartInfo.itemCount<=1?'disabled':''}}">-
+                </view>
+                <view class="flex-grow-0">
+                  <input bindblur="numberBlur" data-cart-id="{{item.cartInfo.id}}" class="flex-grow-1 number-input" type="number" value="{{item.cartInfo.itemCount}}"></input>
+                </view>
+                <view bindtap="numberAdd" data-index="{{index}}" data-util='ptProductList' class="flex-grow-0 flex-x-center flex-y-center number-btn number-add">+
+                </view>
+              </view>
+            </view>
+            <view class='dele flex-x-center flex-y-center' data-cart-id="{{item.cartInfo.id}}" data-good-id='{{item.id}}' bindtap='cartDeleteOne'>删除</view>
+          </view>
+        </view>
+      </block>
+
+      <block wx:if="{{marketInfo.productList && marketInfo.productList.length}}">
+        <view class='unit'>
+          <view class='sentence flex-row flex-y-center'>
+            <view class='tag flex-grow-0' wx:if="{{marketInfo.fullGiftCouponList.length}}">满减</view>
+            <view class='sentence-name flex-grow-1'>{{marketInfo.marketSentence}}</view>
+            <view style='color:#eb0c36;font-size:26rpx;' class='flex-grow-0' wx:if="{{marketInfo.fullGiftCouponList.length}}">去逛逛</view>
+            <view style='color:#eb0c36;font-size:40rpx;' class='fi fi-angle-right'></view>
+          </view>
+          <view class='item flex-row' wx:for="{{marketInfo.productList}}" wx:for-item="item">
+            <view style='{{item.txtStyle}}' class='goods-item flex-row flex-y-center' bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" data-util='marketInfo'>
+              <view class='flex-grow-0 flex-y-center' data-index="{{index}}" data-util='marketInfo' bindtap='cartCheckOne'>
+                <view wx:if="{{item.cartInfo.status==0}}" class='fi fi-radio' style='font-size: 80rpx;'></view>
+                <view wx:if="{{item.cartInfo.status==1}}" style='color:#eb0c36;font-size: 80rpx;' class='fi fi-radio-on'></view>
+              </view>
+              <navigator class='flex-row flex-y-center flex-grow-1' hover-class='none' url='/pages/goods/goods?id={{item.id}}'>
+                <image class='image flex-grow-0' mode="aspectFill" src="{{item.mainImg}}"></image>
+                <view class='flex-grow-1 flex-col' style='margin-left:24rpx;'>
+                  <view class='name mb-10'>{{item.productName}}</view>
+                  <!-- <block wx:if="{{show_cart_edit}}">
+                    <view class='flex-row flex-y-center mb-10' style='background: #f0f0f0;padding:0 10rpx;' data-index="{{index}}" data-util='marketInfo' bindtap='showAttrPicker'>
+                      <view class='property flex-grow-1'>{{item.property}}</view>
+                      <view class='fi fi-angle-down flex-grow-0' style='color:#999;font-size: 40rpx;'></view>
+                    </view>
+                  </block> -->
+                  <!-- <block wx:else> -->
+                  <view class='flex-row flex-y-center mb-10'>
+                    <view class='property'>
+                      <text class='attr' wx:for="{{item.selectAttrMapList}}" wx:for-item="attr">{{attr.attrValue}}</text>
+                    </view>
+                  </view>
+                  <!-- </block> -->
+                  <view class='isReduction' wx:if="{{item.isReduction}}">比加入时降{{item.reductionRange}}元</view>
+                  <view class='flex-grow-1' style='color:#eb0c36'>
+                    <text style='font-size:24rpx;'>￥</text>
+                    <text style='font-size:36rpx;'>{{item.mallPrice}}</text>
+                  </view>
+                </view>
+              </navigator>
+              <view class="flex-row number-input-box">
+                <view bindtap="numberSub" data-index="{{index}}" data-util='marketInfo' class="flex-grow-0 flex-x-center flex-y-center number-btn number-sub {{item.cartInfo.itemCount<=1?'disabled':''}}">-
+                </view>
+                <view class="flex-grow-0">
+                  <input bindblur="numberBlur" data-cart-id="{{item.cartInfo.id}}" class="flex-grow-1 number-input" type="number" value="{{item.cartInfo.itemCount}}"></input>
+                </view>
+                <view bindtap="numberAdd" data-index="{{index}}" data-util='marketInfo' class="flex-grow-0 flex-x-center flex-y-center number-btn number-add">+
+                </view>
+              </view>
+            </view>
+            <view class='dele flex-x-center flex-y-center' data-cart-id="{{item.cartInfo.id}}" data-good-id='{{item.id}}' bindtap='cartDeleteOne'>删除</view>
+          </view>
+          <view class='item flex-row' wx:for="{{marketInfo.fullGiftProductList}}" wx:for-item="gift" wx:if="{{marketInfo.fullGiftProductList && marketInfo.fullGiftProductList.length}}">
+            <view class='goods-item flex-row flex-y-center'>
+              <view class='flex-grow-0 flex-y-center'>
+                <view class='fi fi-radio' style='font-size: 80rpx;visibility: hidden;'></view>
+              </view>
+              <image class='image flex-grow-0' mode="aspectFill" src="{{gift.imgPath}}"></image>
+              <view class='flex-grow-1 flex-col' style='margin-left:24rpx;'>
+                <view class='text-more-2 mb-20' style='font-size:28rpx;'>
+                  <text class='tag' style='margin-right:10rpx;'>赠品</text>{{gift.giftProductName}}</view>
+                <view class='flex-row flex-y-bottom'>
+                  <view class='flex-grow-1' style='color:#eb0c36'>
+                    <text style='font-size:24rpx;'>￥</text>
+                    <text style='font-size:36rpx;'>0.00</text>
+                  </view>
+                  <view class="flex-grow-0" style='color:#999;font-size:28rpx;'>x{{gift.giftProductNum}}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <block wx:if="{{fixedPriceInfo.productList && fixedPriceInfo.productList.length}}">
+        <view class='unit'>
+          <view class='sentence flex-row flex-y-center'>
+            <view class='tag flex-grow-0'>N元购</view>
+            <view class='sentence-name flex-grow-1'>{{fixedPriceInfo.fixedPriceSentence}}</view>
+            <view style='color:#eb0c36;font-size:26rpx;' class='flex-grow-0'>去逛逛</view>
+            <view style='color:#eb0c36;font-size:40rpx;' class='fi fi-angle-right'></view>
+          </view>
+          <view class='item flex-row' wx:for="{{fixedPriceInfo.productList}}" wx:for-item="item">
+            <view style='{{item.txtStyle}}' class='goods-item flex-row flex-y-center' bindtouchstart="touchS" bindtouchmove="touchM" bindtouchend="touchE" data-index="{{index}}" data-util='fixedPriceInfo'>
+              <view class='flex-grow-0 flex-y-center' data-index="{{index}}" data-util='fixedPriceInfo' bindtap='cartCheckOne'>
+                <view wx:if="{{item.cartInfo.status==0}}" class='fi fi-radio' style='font-size: 80rpx;'></view>
+                <view wx:if="{{item.cartInfo.status==1}}" style='color:#eb0c36;font-size: 80rpx;' class='fi fi-radio-on'></view>
+              </view>
+              <navigator class='flex-row flex-y-center flex-grow-1' hover-class='none' url='/pages/goods/goods?id={{item.id}}'>
+                <image class='image flex-grow-0' mode="aspectFill" src="{{item.mainImg}}"></image>
+                <view class='flex-grow-1 flex-col' style='margin-left:24rpx;'>
+                  <view class='name mb-10'>{{item.productName}}</view>
+                  <!-- <block wx:if="{{show_cart_edit}}">
+                    <view class='flex-row flex-y-center mb-10' style='background: #f0f0f0;padding:0 10rpx;' data-index="{{index}}" data-util='fixedPriceInfo' bindtap='showAttrPicker'>
+                      <view class='property flex-grow-1'>{{item.property}}</view>
+                      <view class='fi fi-angle-down flex-grow-0' style='color:#999;font-size: 40rpx;'></view>
+                    </view>
+                  </block> -->
+                  <!-- <block wx:else> -->
+                  <view class='flex-row flex-y-center mb-10'>
+                    <view class='property'>
+                      <text class='attr' wx:for="{{item.selectAttrMapList}}" wx:for-item="attr">{{attr.attrValue}}</text>
+                    </view>
+                  </view>
+                  <!-- </block> -->
+                  <view class='isReduction' wx:if="{{item.isReduction}}">比加入时降{{item.reductionRange}}元</view>
+                  <view class='flex-grow-1' style='color:#eb0c36'>
+                    <text style='font-size:24rpx;'>￥</text>
+                    <text style='font-size:36rpx;'>{{item.mallPrice}}</text>
+                  </view>
+                </view>
+              </navigator>
+              <view class="flex-row number-input-box">
+                <view bindtap="numberSub" data-index="{{index}}" data-util='marketInfo' class="flex-grow-0 flex-x-center flex-y-center number-btn number-sub {{item.cartInfo.itemCount<=1?'disabled':''}}">-
+                </view>
+                <view class="flex-grow-0">
+                  <input bindblur="numberBlur" data-cart-id="{{item.cartInfo.id}}" class="flex-grow-1 number-input" type="number" value="{{item.cartInfo.itemCount}}"></input>
+                </view>
+                <view bindtap="numberAdd" data-index="{{index}}" data-util='marketInfo' class="flex-grow-0 flex-x-center flex-y-center number-btn number-add">+
+                </view>
+              </view>
+            </view>
+            <view class='dele flex-x-center flex-y-center' data-cart-id="{{item.cartInfo.id}}" data-good-id='{{item.id}}' bindtap='cartDeleteOne'>删除</view>
+          </view>
+        </view>
+      </block>
+
+      <block wx:if="{{disableProductList && disableProductList.length}}">
+        <view class='unit'>
+          <view class='sentence flex-row flex-y-center'>
+            <view class='flex-grow-1' style='font-size:28rpx;'>失效商品</view>
+            <view style='color:#999;font-size:24rpx;border: 1rpx solid #e6e6e6;border-radius:5rpx;padding:10rpx 20rpx;' class='flex-grow-0' bindtap='cleanDisable'>清空失效宝贝</view>
+          </view>
+          <view class='item' wx:for="{{disableProductList}}" wx:for-item="item">
+            <view class='good-is-exis'></view>
+            <view class='goods-item flex-row flex-y-center' style='background:#f0f0f0 !important;'>
+              <view class='flex-grow-0 flex-y-center' style='padding: 0 10rpx;'>
+                <view style='color:#999;font-size:26rpx;border:1rpx solid #e6e6e6;border-radius:5rpx;padding:0 5rpx;background:#f1edee'>失效</view>
+              </view>
+              <image class='image flex-grow-0' mode="aspectFill" src="{{item.mainImg}}"></image>
+              <view class='flex-grow-1 flex-col' style='margin-left:24rpx;'>
+                <view class='name mb-10' style='color:#999 !important;'>{{item.productName}}</view>
+                <view class='flex-row flex-y-center mb-20'>
+                  <view class='property'>
+                    <text class='attr' wx:for="{{item.selectAttrMapList}}" wx:for-item="attr">{{attr.attrValue}}</text>
+                  </view>
+                </view>
+                <view style='color:#666;font-size:30rpx;'>商品已失效</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+    </view>
+  </view>
+</view>

@@ -1,0 +1,137 @@
+<!--pages/order/order.wxml-->
+<view class='flex-row tab-bar'>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='0'>
+    <view class='navigator {{status==0?"active":""}}'>
+      <text>全部</text>
+    </view>
+  </view>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='1'>
+    <view class='navigator {{status==1?"active":""}}'>
+      <text>待付款</text>
+    </view>
+  </view>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='2'>
+    <view class='navigator {{status==2?"active":""}}'>
+      <text>待发货</text>
+    </view>
+  </view>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='3'>
+    <view class='navigator {{status==3?"active":""}}'>
+      <text>待收货</text>
+    </view>
+  </view>
+  <view class='flex-grow-1' bindtap='tapTab' data-status='4'>
+    <view class='navigator {{status==4?"active":""}}'>
+      <text>已完成</text>
+    </view>
+  </view>
+</view>
+<scroll-view class='order-list {{showCancle?"no-scroll":""}}' scrollY scroll-top="{{scrollTop}}" enable-back-to-top bindscrolltolower="tolower">
+  <view class='flex-col flex-x-center flex-y-center' style='color:#999' wx:if="{{show_no_data_tip}}">
+    <view class='fi fi-order-null' style='font-size:320rpx;'></view>
+    <view style='font-size:32rpx;margin-top:-40rpx;'>暂无相关订单</view>
+  </view>
+
+  <view class='order-item' wx:for="{{list}}">
+    <view>
+      <navigator class="flex-row order-info flex-y-center" url='/pages/order_detail/order_detail?id={{item.id}}'>
+        <view class='flex-grow-0' style='background:#eb0c36;font-size:24rpx;padding:0 5rpx;color:#fff;border-radius:5rpx;margin-right:10rpx;'>订</view>
+        <view class="flex-grow-1">订单号:{{item.orderCode}}</view>
+        <view class="flex-grow-0" style='color:#eb0c36'>{{item.orderStatusTitle}}</view>
+      </navigator>
+      <view class='goods-list'>
+        <view class='goods-item flex-row' wx:for="{{item.orderLineList}}" wx:for-item="goods">
+          <view class='flex-grow-0' style="overflow: visible" bindtap='navGoodsDetail' data-id='{{goods.subProductId}}' data-goods-type='{{item.orderType}}'>
+            <image class="goods-pic" mode="aspectFill" src="{{goods.full_path+goods.productImg}}"></image>
+          </view>
+          <view class='flex-grow-1 flex-col'>
+            <view class='flex-gorw-1'>
+              <view class='goods-name' bindtap='navGoodsDetail' data-id='{{goods.subProductId}}' data-goods-type='{{item.orderType}}'>{{goods.productName}}</view>
+              <view class='attr-list mb-10'>{{goods.property}}</view>
+            </view>
+            <view class="flex-grow-0 flex-row">
+              <view class="flex-grow-1">{{goods.packPrice}}</view>
+              <view class="flex-grow-0 num flex-y-bottom">x{{goods.packQty || 1}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class='gift-list'>
+        <view class='gift-item flex-row' wx:if="{{gift.giftType==1}}" wx:for="{{item.orderGiftList}}" wx:for-item="gift">
+          <view class='flex-grow-0' style="overflow: visible">
+            <image class="gift-pic" mode="aspectFill" src="{{gift.imgPath}}"></image>
+          </view>
+          <view class='flex-grow-1 flex-col'>
+            <view class='flex-gorw-1'>
+              <view class='gift-name'>
+                <text class='tag'>赠品</text>
+                <text>{{gift.giftName}}</text>
+              </view>
+            </view>
+            <view class="flex-grow-0 flex-row">
+              <view class="flex-grow-0" style='font-size:26rpx;color:#999'>x{{goods.packQty || 1}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='totle-price'>
+      <block wx:if="{{item.orderType=='5'}}">
+        <view wx:if="{{item.depositStatus==0}}">共{{item.productItemCount || 0}}件商品，应付定金：￥{{item.deposit}}</view>
+        <view wx:elif="{{item.depositStatus==1&&item.balancePaymentStatus==0}}">共{{item.productItemCount || 0}}件商品，应付尾款：￥{{item.balancePayment}}</view>
+        <view wx:elif="{{item.depositStatus==1&&item.balancePaymentStatus==1}}">共{{item.productItemCount || 0}}件商品，实付款：￥{{item.sumAmout}}</view>
+      </block>
+      <block wx:elif="{{item.orderType=='6'}}">
+        <view>共{{item.productItemCount || 0}}件商品，合计：{{item.sumAmout}}积分（含运费￥{{item.shipping}}）</view>
+      </block>
+      <block wx:else>
+        <view wx:if="{{item.payStatus==0}}">共{{item.productItemCount || 0}}件商品，应付款：￥{{item.sumAmout}}</view>
+        <view wx:if="{{item.payStatus==1}}">共{{item.productItemCount || 0}}件商品，实付款：￥{{item.sumAmout}}</view>
+      </block>
+    </view>
+    <block wx:if="{{item.orderStatus!=-1&&item.orderStatus<6}}">
+      <block wx:if="{{item.orderType=='5'}}">
+        <view class='btnGroups flex-row' wx:if="{{item.depositStatus==0}}">
+          <view class='btn cancle' bindtap='showReason' data-id='{{item.id}}'>取消订单</view>
+          <navigator class='btn submit' hover-class='none' url='/pages/wx_pay/wx_pay?id={{item.id}}'>立即支付</navigator>
+        </view>
+        <view class='btnGroups flex-row' wx:elif="{{item.depositStatus==1&&item.balancePaymentStatus==0}}">
+          <view class='btn cancle' bindtap='showReason' data-id='{{item.id}}'>取消订单</view>
+          <navigator class='btn submit' hover-class='none' url='/pages/wx_pay/wx_pay?id={{item.id}}'>立即支付</navigator>
+        </view>
+      </block>
+      <block wx:else>
+        <view class='btnGroups flex-row' wx:if="{{item.payStatus==0}}">
+          <view class='btn cancle' bindtap='showReason' data-id='{{item.id}}'>取消订单</view>
+          <navigator class='btn submit' hover-class='none' url='/pages/wx_pay/wx_pay?id={{item.id}}'>立即支付</navigator>
+        </view>
+      </block>
+    </block>
+    <blcok wx:if="{{item.orderStatus==6}}">
+      <view class='btnGroups flex-row'>
+        <navigator class='btn check' hover-class='none' url='/pages/logistics/logistics?id={{item.id}}&logsType=1'>查看物流</navigator>
+        <view class='btn submit' bindtap='confirmReceipt' data-id='{{item.id}}' data-index='{{index}}'>确认收货</view>
+      </view>
+    </blcok>
+    <blcok wx:if="{{item.orderStatus==8}}">
+      <view class='btnGroups flex-row' wx:if="{{item.isAllDiscuss&&item.isAllDiscuss=='1'}}">
+        <navigator class='btn cancle' hover-class='none' url='/pages/evaluate_detail/evaluate_detail?id={{item.discussId}}'>查看评价</navigator>
+      </view>
+      <view class='btnGroups flex-row' wx:else>
+        <navigator class='btn submit' hover-class='none' url='/pages/evaluate/evaluate?id={{item.id}}'>去评价</navigator>
+      </view>
+    </blcok>
+
+  </view>
+  <include src="../../commons/loading/loading.wxml" />
+</scroll-view>
+
+
+<view class='picker' wx:if="{{showCancle}}">
+  <view class='content-box'>
+    <view class='flex-col reason-list'>
+      <view class='reason-item' bindtap='cancle' data-reason='{{item}}' wx:for="{{['不想买了','信息填写错误','重复下单/误下单','卖家缺货','其他原因']}}">{{item}}</view>
+    </view>
+    <view class='button' bindtap='cancleReason'>取消</view>
+  </view>
+</view>

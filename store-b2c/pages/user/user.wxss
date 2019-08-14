@@ -1,0 +1,126 @@
+/* pages/user/user.wxss */
+
+.user-info {
+  height: 348rpx;
+  color: #fff;
+  position: relative;
+}
+
+.user-info .fi-setting {
+  font-size:  60rpx;
+  color: #fff;
+  position: absolute;
+  top: 10rpx;
+  right: 24rpx;
+  z-index: 10;
+}
+
+.user-info .user-info-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.user-info .avatar {
+  width: 130rpx;
+  height: 130rpx;
+  border-radius: 99999rpx;
+  border: 5rpx solid #fff;
+  margin: 0 24rpx;
+}
+
+.user-info .user-name {
+  font-weight: bold;
+}
+
+.user-info .my-address {
+  background: #ff4544;
+  color: #fff;
+  border-radius: 999rpx 0 0 999rpx;
+  padding-right: 24rpx;
+}
+
+.user-info .my-address image {
+  width: 44rpx;
+  height: 44rpx;
+  margin: 16rpx;
+}
+
+.user-info .user-level {
+    margin-top: 16rpx;
+    position: relative;
+}
+
+.user-info .level-name {
+    height: 50rpx;
+    border-radius:25rpx;
+    font-size: 8pt;
+    color: #fff;
+    padding: 0 15rpx;
+    border: 1rpx solid #fff;
+}
+
+.userinfo-name,.userinfo-addr {
+    height: 248rpx;
+}
+
+.user-info .my-address {
+    background: rgba(255, 255, 255, .9);
+    color: #eb0c36;
+    border-radius: 999rpx 0 0 999rpx;
+    padding: 10rpx 24rpx;
+    font-size: 26rpx;
+}
+
+.unit {
+  background: #fff;
+  border-radius: 20rpx;
+}
+
+.unit .option-item {
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  position: relative;
+}
+
+.unit .option-item .option-content {
+  border-bottom: 1rpx solid #eee;
+  padding: 24rpx 0;
+}
+
+.unit .option-item .option-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 15rpx;
+}
+
+
+.unit .nav-item {
+  text-align: center;
+  display: block;
+  font-size: 9pt;
+  padding: 24rpx 0;
+  position: relative;
+}
+
+.unit .nav-item .num-icon {
+    position: absolute;
+    top: 10rpx;
+    left: 50%;
+    margin-left: 12rpx;
+    display: inline-block;
+    background: #fff;
+    color: #eb0c36;
+    border: 1rpx solid #eb0c36;
+    border-radius: 999rpx;
+    height: 40rpx;
+    min-width: 40rpx;
+    font-size: 24rpx;
+}
+
+.unit .nav-item .fi {
+    font-size: 60rpx;
+}

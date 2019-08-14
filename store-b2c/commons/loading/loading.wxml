@@ -1,0 +1,4 @@
+<view wx:if="{{is_loading}}" class="loading flex-col flex-x-center flex-y-center">
+  <image src='/images/loading.gif'></image>
+  <text>正在加载</text>
+</view>

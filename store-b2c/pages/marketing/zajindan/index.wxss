@@ -1,0 +1,317 @@
+/* pages/marketing/zajindan/index.wxss */
+page {
+  background: #570714;
+}
+
+.top-img {
+  position: relative;
+  width: 100%;
+  height: 300rpx;
+}
+
+.top-img image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tip {
+  position: relative;
+  color: #fff;
+}
+
+.tip .desc {
+  width: 100%;
+  font-size: 30rpx;
+}
+
+.lotto-center {  
+  position: relative;
+  padding-top: 50rpx;
+}
+
+.lotto-center .eggGroups {
+  width: 534rpx;
+  margin: 0 auto;
+  height: 160rpx;
+}
+
+.lotto-center .eggGroups .egg-item {
+  position: relative;
+  width: 178rpx;
+  height: 160rpx;
+}
+
+.lotto-center .eggGroups .egg {
+  position: absolute;
+  left: 30rpx;
+  top: 0;
+  width: 118rpx;
+  height: 160rpx;
+}
+
+.lotto-center .eggGroups .egg.egg-default {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lotto-center .eggGroups .egg.egg-default.on {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.lotto-center .eggGroups .egg.egg-on {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.lotto-center .eggGroups .egg.egg-on.on {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.lotto-center .eggGroups .egg-ribbons {
+  position: absolute;
+  top: -15rpx;
+  left: 30rpx;
+  width: 118rpx;
+  height: 45rpx;
+  z-index: 10;
+  animation: ribbons 0.3s;
+}
+
+.lotto-center .eggGroups .egg-hammer {
+  position: absolute;
+  top: -60rpx;
+  left: 120rpx;
+  opacity: 0;
+  visibility: visible;
+  width: 100rpx;
+  height: 111rpx;
+  z-index: 10;
+  transition: all 1s;
+  -moz-transition:all 1s;
+  -webkit-transition:all 1s;
+  -o-transition:all 1s;
+}
+
+.lotto-center .eggGroups .egg-hammer.hiting-1 {
+  opacity:1;
+  visibility:visible;
+  left:100rpx;
+  top:-30rpx;
+}
+.lotto-center .eggGroups .egg-hammer.rotateing {
+  transform:rotate(60deg);
+  left:160rpx;
+  top: -60rpx;
+  opacity:1;
+  visibility:visible;
+}
+.lotto-center .eggGroups .egg-hammer.hiting-2 {
+  transform:rotate(0deg);
+  opacity:1;
+  visibility:visible;
+  left:100rpx;
+  top:-30rpx;
+  transition:all 0.1s;
+  -moz-transition:all 0.1s;
+  -webkit-transition:all 0.1s;
+  -o-transition:all 0.1s;
+}
+
+
+@keyframes ribbons {
+  0% {transform: translateY(33px);width: 0;height: 0;}
+}
+
+/* @keyframes hammer {
+  0% {opacity: 0;}
+  15% {opacity: 1;top: -40rpx;right: -20rpx;}
+  30% {opacity: 1;top:-10rpx;right: 0;}
+  45% {opacity: 1;transform: rotate(30deg);top: -25rpx;right: -15rpx;}
+  60% {opacity: 1;transform: rotate(60deg);top: -70rpx;right: -50rpx;}
+  60.5% {opacity: 1;transform: rotate(0);top:-10rpx;right: 0;}
+  100% {opacity: 0;top: -50rpx;right: -30rpx;}
+} */
+
+.winMemberList {
+  width: 90%;
+  padding: 20rpx;
+  margin: 0 auto 50rpx;
+  background: #fcc270;
+  margin-top: 30rpx;
+  box-shadow: 0 5rpx 15rpx 0 #d07537;
+}
+
+.win-header {
+  position: relative;
+  margin-bottom: 20rpx;
+  margin-left: -30rpx;
+  width: 178rpx;
+  height: 60rpx;
+}
+
+.win-header .img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.win-container {
+  border: 1rpx solid #9c1013;
+}
+
+.win-container .swi-header {
+  width: 100%;
+  background: #f5b355;
+  font-size: 26rpx;
+  font-weight: bold;
+  height: 60rpx;
+  color: #ff0c36;
+}
+
+.win-container .swiper {
+  width: 100%;
+  height: 300rpx;
+  position: relative;
+}
+
+.win-container .swiper .swi-item {
+  width: 100%;
+  height: 60rpx;
+  font-size: 26rpx;
+  color: #ff0c36;
+}
+
+.win-container .swiper .swi-item.l1 {
+  background: #f5b355;
+}
+
+.win-container .swi {
+  text-align: center;
+  height: 60rpx;
+  line-height: 60rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.win-container .swi.name {
+  width: 30%;
+}
+
+.win-container .swi.reword {
+  width: 40%;
+}
+
+.win-container .swi.date {
+  width: 30%;
+}
+
+.rule {
+  width: 100%;
+  margin: 50rpx auto;
+  font-size: 24rpx;
+  padding: 0 40rpx;
+}
+
+/* 弹出窗 */
+.showRule .alertContainer {
+  top: 15%;
+  border-radius: 20rpx;
+  background: #fff;
+}
+.showRule .alertContainer .alert-main .alertMainer {
+  padding: 0;
+}
+.showRule .title {
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #333;
+}
+.showRule .desc {
+  height: 400rpx;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.showRule .close .button{
+  text-align: center;
+  font-size: 36rpx;
+  border: none;
+  background: #fff;
+  color: #eb0c36;
+}
+
+.showResult .alertContainer {
+  top: 20%;
+}
+
+.showResult .resultContainer {
+  width: 468rpx;
+  height: 395rpx;
+  margin: 0 auto;
+  position: relative;
+  z-index: 0;
+}
+
+.showResult .resultContainer .prize-bg-alert {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.showResult .resultContainer .title-tip {
+  position: absolute;
+  top: 10rpx;
+  width: 250rpx;
+  height: 40rpx;
+}
+
+.showResult .resultContainer .win-info {
+  width: 280rpx;
+  height: 200rpx;
+  overflow: hidden;
+  position: relative;
+  margin-top: 80rpx;
+
+}
+
+.showResult .resultContainer .win-info > view {
+  font-size: 26rpx;
+}
+
+.showResult .resultContainer .win-info .icon-img {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 10rpx;
+  border-radius: 10rpx;
+  background: #fff;
+}
+
+.showResult .resultContainer .win-btn {
+  position: relative;
+  margin-top: 10rpx;
+  width: 170rpx;
+  height: 57rpx;
+}
+
+.showResult .resultContainer .win-btn .btn-img-bg {
+  position: absolute;
+  top: 3rpx;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}

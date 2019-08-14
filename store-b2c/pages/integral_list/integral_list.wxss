@@ -1,0 +1,139 @@
+/* pages/integral_list/integral_list.wxss */
+.top-banner {
+  position: relative;
+  color: #fff;
+  height: 210rpx;
+  padding: 0 24rpx;
+}
+
+.top-banner .back-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.top-banner .integral-info,  .top-banner .sign{
+  height: 160rpx;
+}
+
+.integral-info .icon {
+  position: relative;
+  width: 128rpx;
+  height: 128rpx;
+}
+
+.integral-info .icon .hexagon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.integral-info .icon .fi {
+  font-size: 80rpx;
+}
+
+.integral-info .btn {
+  background: #fff;
+  color: #ff0036;
+  font-size: 35rpx;
+  padding: 10rpx 30rpx;
+  border-radius: 99999rpx;
+}
+
+.interaction {
+  position: relative;
+  height: 160rpx;
+  z-index: 0;
+}
+
+.interaction .interaction-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.integral {
+  position: relative;
+}
+
+.integral .top-title {
+  background: #f5f5f5;
+  padding: 24rpx;
+}
+
+.integral .top-title .date{
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.integral .item {
+  padding: 24rpx;
+  background: #fff;
+}
+
+.sign-container {
+  width: 620rpx;
+  height: 480rpx;
+  margin-top: 200rpx;
+  position: relative;
+  z-index: 0;
+}
+
+.sign-container .img {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sign-container .tips {
+  position: absolute;
+  top: 200rpx;
+  color: #fff;
+  font-size: 44rpx;
+  letter-spacing: 5rpx;
+}
+
+.sign-container .btnGroups {
+  width: 460rpx;
+  position: absolute;
+  bottom: 50rpx;
+}
+
+.sign-container .btnGroups .btn {
+  width: 210rpx;
+  border-radius: 10rpx;
+  padding: 20rpx 0;
+  text-align: center;
+  font-size: 36rpx; 
+}
+
+.sign-container .btnGroups .btn.cancle {
+  border: 1rpx solid #fff;
+  color: #fff;
+}
+
+.sign-container .btnGroups .btn.confirm {
+  background: #fff;
+  color: #ff4300;
+}
+
+.close {
+  margin-top: 20rpx;
+}
+
+.close .fi {
+  font-size: 120rpx;
+  color: #fff;
+}
